@@ -104,9 +104,8 @@ describe("scoreTrail — now / tomorrow / day-after", () => {
       omBoth({ [stamp(NOW + 20 * HOUR_MS)]: 1.0 }),
       NOW,
     )!;
-    const [now, tomorrow, dayAfter] = [0, 1, 2].map(
-      (o) => score.days.find((d) => d.offset === o)!,
-    );
+    const dayAt = (o: number) => score.days.find((d) => d.offset === o)!;
+    const [now, tomorrow, dayAfter] = [dayAt(0), dayAt(1), dayAt(2)] as const;
     expect(now.level).toBe("dry");
     expect(tomorrow.level).toBe("muddy");
     expect(dayAfter.wetness).toBeLessThan(tomorrow.wetness);

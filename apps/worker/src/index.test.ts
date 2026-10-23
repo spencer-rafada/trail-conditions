@@ -13,13 +13,7 @@ function fakeEnv(row: { json: string } | null): Env {
 }
 
 const call = (env: Env, path: string, init?: RequestInit) =>
-  worker.fetch!(
-    new Request(`http://localhost${path}`, init) as Parameters<
-      NonNullable<typeof worker.fetch>
-    >[0],
-    env,
-    {} as ExecutionContext,
-  );
+  worker.fetch(new Request(`http://localhost${path}`, init), env);
 
 describe("GET /api/scores", () => {
   it("serves the scores_latest JSON with 5-minute cache headers", async () => {
