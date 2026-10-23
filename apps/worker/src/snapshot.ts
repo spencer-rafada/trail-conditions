@@ -27,6 +27,7 @@ import type { OmHour } from "./open-meteo";
 export interface TrailRow {
   id: string;
   name: string | null;
+  county: string | null;
   tau_base_h: number;
   tau_mult: number;
   reports_used: number;
@@ -46,6 +47,9 @@ export interface ScoredDay {
 export interface TrailScore {
   id: string;
   name: string;
+  /** Optional: entries scored before this field existed survive mergeSnapshot
+   *  without it, so consumers must tolerate its absence. */
+  county?: string;
   days: ScoredDay[];
   scored_utc: string;
 }
@@ -214,6 +218,7 @@ export function scoreTrail(
   return {
     id: trail.id,
     name: trail.name ?? trail.id,
+    ...(trail.county !== null && { county: trail.county }),
     days,
     scored_utc: new Date(nowMs).toISOString(),
   };

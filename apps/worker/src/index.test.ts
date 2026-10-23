@@ -32,6 +32,17 @@ describe("GET /api/scores", () => {
   });
 });
 
+describe("GET /api/trails/:id with malformed percent-encoding", () => {
+  it("returns the handler's 404 JSON instead of an uncaught URIError", async () => {
+    // Both survive URL parsing and match the route regex, but fail decodeURIComponent.
+    for (const path of ["/api/trails/%", "/api/trails/%zz"]) {
+      const res = await call(fakeEnv(null), path);
+      expect(res.status).toBe(404);
+      expect(await res.json()).toEqual({ error: "not found" });
+    }
+  });
+});
+
 describe("POST /api/admin/scores auth", () => {
   it("rejects a missing or wrong secret with 401 and no recompute", async () => {
     const env = fakeEnv(null); // any DB use beyond the stub would throw

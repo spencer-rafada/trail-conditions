@@ -36,6 +36,29 @@ pnpm exec wrangler d1 migrations apply trail-conditions --local
 pnpm exec wrangler d1 execute trail-conditions --local --file .wrangler/seed.sql
 ```
 
+## Local dev against real data
+
+The web dev server proxies `/api/*` to a locally running `wrangler dev`
+(default target `http://localhost:8787`; override with
+`API_PROXY_TARGET=http://localhost:<port>` when starting vite).
+
+1. Migrate and seed the local D1 (block above).
+2. `cd apps/worker && cp .dev.vars.example .dev.vars` and set a local `ADMIN_SECRET`.
+3. `pnpm --filter @trail-conditions/worker dev`
+4. Populate the snapshot — one admin recompute per chunk covers all 18 chunks
+   (each run makes live Stage IV / Open-Meteo fetches):
+
+   ```
+   for i in $(seq 0 17); do
+     curl -s -X POST -H "x-admin-secret: $ADMIN_SECRET" \
+       "http://localhost:8787/api/admin/scores?chunk=$i"
+   done
+   ```
+
+   Before the first run, `/api/scores` returns the empty snapshot
+   `{"updated_utc":null,"trails":{}}` and the home page shows its empty state.
+5. `pnpm --filter @trail-conditions/web dev` and open the printed URL.
+
 ## Data credits
 
 Open-Meteo (CC-BY 4.0) · Iowa Environmental Mesonet · USDA NRCS · © OpenStreetMap contributors
