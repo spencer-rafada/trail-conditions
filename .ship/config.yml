@@ -1,0 +1,63 @@
+# ship config for this repo. Reference: the ship plugin's references/config.md
+# Validate with: node "<plugin>/scripts/ship.mjs" config check
+
+project: trail-conditions
+base: main
+
+tickets:
+  source: conversation
+
+specs:
+  dir: docs/projects # the build plan: docs/projects/trail-conditions/spec.md
+
+setup:
+  install: pnpm install --frozen-lockfile
+
+checks: # the builder makes these pass, in this order
+  typecheck: pnpm typecheck
+  test: pnpm test
+  build: pnpm build
+
+dev:
+  command: pnpm exec vite --port $PORT --strictPort
+  cwd: apps/web
+  ready: "Local:"
+  ports: 3200-3299
+
+database:
+  kind: none # D1 runs inside wrangler's local runtime; no host port
+
+qa:
+  base_url: http://localhost:$PORT
+  # upload: unset — QA media attaches to the PR (gh 2.102 >= 2.99)
+
+risk: # these always wait for you, even when every check passes
+  paths:
+    - apps/worker/migrations/**
+    - apps/worker/wrangler.toml
+  max_lines: 500
+
+lenses: # review lenses beyond baseline, brought in by changed paths
+  security:
+    - apps/worker/src/**
+  data:
+    - apps/worker/migrations/**
+    - packages/model/**
+    - data/**
+  ux:
+    - apps/web/src/**
+
+ux: # design/UX skills the UX reviewer and QA apply to changed screens
+  skills:
+    - design-skills:design-critique
+    - design-skills:ux-writing
+    - design-skills:accessibility-audit
+
+budget: # when spent, ship stops and hands the PR to you
+  review_rounds: 3
+  qa_runs: 3
+
+merge:
+  method: squash
+  required_checks: [test] # the "test" job in .github/workflows/ci.yml
+  shadow: false # true: the gate only records what it would do, and you merge everything

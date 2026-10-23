@@ -1,0 +1,13 @@
+# Cloudflare Worker: /api/* routes + cron triggers.
+# D1 binding and crons land with M3; deploys are manual, never from a ship run.
+name = "trail-conditions-worker"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "trail-conditions"
+# database_id = ""
+
+# [triggers]
+# crons = ["*/10 * * * *", "0 9 * * *"]
