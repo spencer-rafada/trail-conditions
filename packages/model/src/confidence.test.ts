@@ -34,6 +34,15 @@ describe("confidence", () => {
     expect(capped.factors).toContainEqual({ id: "riders_agree", delta: 40 });
   });
 
+  it("takes §6.3-weighted (fractional) report counts as-is (M5 decision 5)", () => {
+    // A lone half-weight (24–48 h old) agreeing report: +10, not +20.
+    const half = confidence(input({ agreeingReports: 0.5 }));
+    expect(half.factors).toContainEqual({ id: "riders_agree", delta: 10 });
+    // A half-weight disagreeing report: −10.
+    const halfDisagree = confidence(input({ disagreeingReports: 0.5 }));
+    expect(halfDisagree.factors).toContainEqual({ id: "rider_disagrees", delta: -10 });
+  });
+
   it("subtracts 20 per disagreeing report", () => {
     const one = confidence(input({ disagreeingReports: 1 }));
     expect(one.score).toBe(40);

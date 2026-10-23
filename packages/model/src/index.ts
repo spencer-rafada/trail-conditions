@@ -10,7 +10,20 @@ export {
   FREEZE_NOTE,
   LEVEL_SEVERITY,
   CONFIDENCE,
+  REPORTS,
 } from "./config";
+export {
+  aggregateReports,
+  deviceLimitExceeded,
+  ipLimitExceeded,
+  rainResetsReport,
+  reportAgrees,
+  reportWeight,
+  type ActiveReport,
+  type RainHourSample,
+  type ReportAggregate,
+  type ReportVerdict,
+} from "./reports";
 export { tauBase, tauTrail, type SoilProfile } from "./tau";
 export { tauEff, walkWetness, type HourSample } from "./wetness";
 export {
