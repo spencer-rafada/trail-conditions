@@ -17,6 +17,7 @@ const NOW = Date.UTC(2026, 9, 23, 15, 0);
 const TRAIL: TrailRow = {
   id: "demo-trail",
   name: "Demo Trail",
+  county: "Salt Lake County",
   tau_base_h: 24,
   tau_mult: 1,
   reports_used: 0,
@@ -134,6 +135,14 @@ describe("scoreTrail — now / tomorrow / day-after", () => {
     const omOnlyFirst = new Map([["demo-trail#trailhead", omHours()]]);
     expect(scoreTrail(TRAIL, POINTS, new Map(), omOnlyFirst, NOW)).toBeNull();
   });
+
+  it("carries the trail's county into the score, and omits it when NULL", () => {
+    const scored = scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW)!;
+    expect(scored.county).toBe("Salt Lake County");
+
+    const noCounty = scoreTrail({ ...TRAIL, county: null }, POINTS, new Map(), omBoth(), NOW)!;
+    expect("county" in noCounty).toBe(false);
+  });
 });
 
 describe("mergeSnapshot — the single scores_latest row", () => {
@@ -151,6 +160,17 @@ describe("mergeSnapshot — the single scores_latest row", () => {
     expect(Object.keys(merged.trails).sort()).toEqual(["demo-trail", "other-trail"]);
     expect(merged.trails["other-trail"]).toEqual(other);
     expect(merged.updated_utc).toBe(new Date(NOW).toISOString());
+  });
+
+  it("keeps pre-county entries as-is when newer scores carry county", () => {
+    // An old snapshot entry scored before the county field existed.
+    const legacy: TrailScore = { ...scored, id: "legacy-trail", name: "Legacy" };
+    expect("county" in legacy).toBe(false);
+    const existing = mergeSnapshot(EMPTY_SNAPSHOT, [legacy], NOW - HOUR_MS);
+    const withCounty: TrailScore = { ...scored, county: "Utah County" };
+    const merged = mergeSnapshot(existing, [withCounty], NOW);
+    expect(merged.trails["legacy-trail"]).toEqual(legacy);
+    expect(merged.trails["demo-trail"]!.county).toBe("Utah County");
   });
 
   it("produces the full snapshot shape for a scored trail", () => {
