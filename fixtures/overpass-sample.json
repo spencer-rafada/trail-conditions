@@ -1,0 +1,81 @@
+{
+  "version": 0.6,
+  "generator": "hand-trimmed Overpass sample for scripts/discover-trails.test.ts (not a live response)",
+  "elements": [
+    {
+      "type": "relation",
+      "id": 1744,
+      "tags": { "boundary": "administrative", "admin_level": "6", "name": "Salt Lake County" }
+    },
+    {
+      "type": "relation",
+      "id": 9001,
+      "tags": { "type": "route", "route": "mtb", "name": "Corner Canyon Trails" },
+      "members": [
+        {
+          "type": "way",
+          "ref": 101,
+          "role": "",
+          "geometry": [
+            { "lat": 40.482, "lon": -111.877 },
+            { "lat": 40.484, "lon": -111.874 }
+          ]
+        },
+        {
+          "type": "way",
+          "ref": 102,
+          "role": "",
+          "geometry": [
+            { "lat": 40.484, "lon": -111.874 },
+            { "lat": 40.487, "lon": -111.87 }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 101,
+      "tags": { "highway": "path", "name": "Ghost Falls", "bicycle": "designated" },
+      "geometry": [
+        { "lat": 40.482, "lon": -111.877 },
+        { "lat": 40.484, "lon": -111.874 }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 103,
+      "tags": { "highway": "path", "name": "Rush, Lower", "mtb:scale": "1" },
+      "geometry": [
+        { "lat": 40.47, "lon": -111.88 },
+        { "lat": 40.472, "lon": -111.878 }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 104,
+      "tags": { "highway": "path", "name": "Rush, Lower", "bicycle": "yes" },
+      "geometry": [
+        { "lat": 40.472, "lon": -111.878 },
+        { "lat": 40.474, "lon": -111.876 }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 105,
+      "tags": { "highway": "path", "name": "Pipeline Trail", "bicycle": "yes" },
+      "geometry": [
+        { "lat": 40.69, "lon": -111.72 },
+        { "lat": 40.693, "lon": -111.715 }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 106,
+      "tags": { "highway": "path", "bicycle": "yes" },
+      "geometry": [
+        { "lat": 40.6, "lon": -111.8 },
+        { "lat": 40.601, "lon": -111.799 }
+      ]
+    }
+  ]
+}
