@@ -13,7 +13,7 @@
 // and records the miss in the receipt. The backtest and tests never import
 // this file; they read only the committed fixtures.
 
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { CASES, POINTS, type BacktestPoint } from "./backtest-cases";
@@ -118,10 +118,7 @@ async function main(): Promise<void> {
     throw new Error(`elevation fetch failed (HTTP ${elevationStatus}); aborting`);
   }
   const elevations: number[] = JSON.parse(
-    await (await import("node:fs/promises")).readFile(
-      path.join(FIXTURE_DIR, "elevation.json"),
-      "utf8",
-    ),
+    await readFile(path.join(FIXTURE_DIR, "elevation.json"), "utf8"),
   ).elevation;
 
   // 2. Per point: SDA soil, Stage IV per day, Open-Meteo hourly window.
