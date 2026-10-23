@@ -31,8 +31,14 @@ export function useAppLocation(): AppLocation {
 }
 
 export function navigate(to: string, opts: { replace?: boolean } = {}): void {
-  if (opts.replace) window.history.replaceState(null, "", to);
-  else window.history.pushState(null, "", to);
+  if (opts.replace) {
+    window.history.replaceState(null, "", to);
+  } else {
+    window.history.pushState(null, "", to);
+    // pushState is scroll-preserving by spec (scrollRestoration only covers
+    // history traversal), so a new page starts at the top explicitly.
+    window.scrollTo(0, 0);
+  }
   window.dispatchEvent(new Event(NAVIGATE_EVENT));
 }
 
