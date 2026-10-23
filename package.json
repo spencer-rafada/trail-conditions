@@ -9,6 +9,7 @@
     "backtest": "tsx scripts/backtest.ts"
   },
   "devDependencies": {
+    "@trail-conditions/model": "workspace:*",
     "@types/node": "^26.6.5",
     "tsx": "^4.23.15",
     "typescript": "^5.7.2",

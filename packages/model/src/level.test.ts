@@ -12,7 +12,7 @@ function input(overrides: Partial<PointConditionInput> = {}): PointConditionInpu
     wetness: 0.1,
     tempF: 60,
     snowfall48hIn: 0,
-    snowDepthMeters: 0,
+    snowDepth: 0,
     ...overrides,
   };
 }
@@ -30,8 +30,8 @@ describe("pointCondition", () => {
   });
 
   it("overrides to snow when snow depth is above zero", () => {
-    expect(pointCondition(input({ snowDepthMeters: 0.01 })).level).toBe("snow");
-    expect(pointCondition(input({ snowDepthMeters: 0 })).level).toBe("prime");
+    expect(pointCondition(input({ snowDepth: 0.01 })).level).toBe("snow");
+    expect(pointCondition(input({ snowDepth: 0 })).level).toBe("prime");
   });
 
   it("adds the freeze note when temp < 32 °F and w >= 0.15", () => {

@@ -25,7 +25,7 @@ export interface PointConditionInput {
   /** Total snowfall over the last OVERRIDES.snowfallWindowHours, inches. */
   snowfall48hIn: number;
   /** Snow depth at the point at the report hour; > 0 triggers Snow. */
-  snowDepthMeters: number;
+  snowDepth: number;
 }
 
 export interface PointCondition {
@@ -35,7 +35,7 @@ export interface PointCondition {
 
 export function pointCondition(input: PointConditionInput): PointCondition {
   const snow =
-    input.snowfall48hIn >= OVERRIDES.snowfallMinIn || input.snowDepthMeters > 0;
+    input.snowfall48hIn >= OVERRIDES.snowfallMinIn || input.snowDepth > 0;
   const level: ConditionLevel = snow ? "snow" : levelFromWetness(input.wetness);
 
   const frozen =
