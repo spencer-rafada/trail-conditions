@@ -1,0 +1,6562 @@
+{
+  "generated_utc": "2026-10-23T17:11:33.327Z",
+  "source": "data/trail-candidates.csv",
+  "trails": [
+    {
+      "id": "upper-albion-meadows-trail",
+      "system": "Upper Albion Meadows Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/10124687;way/10125079;way/10125221;way/10125462;way/10125659;way/10126153;way/10128936;way/10143781;way/10159975;way/10226599;way/45296368;way/69687765;+464 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.71155,
+          "lon": -111.79736,
+          "elev_m": 1514,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "264:462",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.5641,
+          "lon": -111.6316,
+          "elev_m": 3112,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "267:458",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "bonneville-shoreline-trail-draper-section",
+      "system": "Bonneville Shoreline Trail - Draper Section",
+      "county": "Salt Lake County",
+      "osm_refs": "way/133334868;way/133334958;way/220689781;way/220689801;way/283437300;way/283437309;way/284022150;way/284022151;way/284022157;way/284022161;way/284022165;way/356330481;+155 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.49448,
+          "lon": -111.85612,
+          "elev_m": 1475,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "262:457",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.51169,
+          "lon": -111.82306,
+          "elev_m": 2010,
+          "soil": {
+            "sandPct": 65.9,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:457",
+          "tau_base_h": 14.399999999999999
+        }
+      ]
+    },
+    {
+      "id": "bobsled-trail",
+      "system": "Bobsled Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/33908771;way/33909893;way/34039953;way/34039958;way/34040563;way/34040680;way/35421941;way/35421944;way/35421945;way/41346604;way/61855896;way/134466717;+109 more",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.78432,
+          "lon": -111.89283,
+          "elev_m": 1360,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": "D"
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "262:464",
+          "tau_base_h": 28.799999999999997
+        },
+        {
+          "label": "Top",
+          "lat": 40.82836,
+          "lon": -111.86646,
+          "elev_m": 1824,
+          "soil": {
+            "sandPct": 39.2,
+            "clayPct": 23.5,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 25,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:466",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "yellow-fork-trail",
+      "system": "Yellow Fork Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/10125184;way/10125515;way/10195273;way/33111759;way/219171668;way/219171721;way/219171722;way/232267262;way/232267263;way/444837513;way/444837514;way/444837518;+90 more",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.51039,
+          "lon": -112.08727,
+          "elev_m": 1655,
+          "soil": {
+            "sandPct": 43,
+            "clayPct": 17.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 35,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "258:458",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.47023,
+          "lon": -112.16796,
+          "elev_m": 2546,
+          "soil": {
+            "sandPct": 30.4,
+            "clayPct": 14,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 35,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "256:457",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "centennial-loop-trail",
+      "system": "Centennial Loop Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/176106047;way/176106050;way/176106052;way/176106053;way/176106058;way/176106067;way/176106069;way/176106072;way/176106092;way/176106107;way/176106109;way/176106116;+38 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.56918,
+          "lon": -111.88023,
+          "elev_m": 1358,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "262:459",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.56821,
+          "lon": -111.80815,
+          "elev_m": 1547,
+          "soil": {
+            "sandPct": 95.5,
+            "clayPct": 3,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Excessively drained",
+          "soil_found": true,
+          "cell_id": "263:459",
+          "tau_base_h": 9.600000000000001
+        }
+      ]
+    },
+    {
+      "id": "donner-reed-party-and-mormon-pioneer-trail",
+      "system": "Donner Reed Party and Mormon Pioneer Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/10088171;way/10124614;way/10125241;way/10125374;way/10125597;way/10138314;way/37721788;way/37745698;way/37746124;way/37778774;way/298429483;way/338879603;+38 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.75416,
+          "lon": -111.6944,
+          "elev_m": 1729,
+          "soil": {
+            "sandPct": 39.2,
+            "clayPct": 23.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "266:463",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.87298,
+          "lon": -111.76196,
+          "elev_m": 2705,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "265:466",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "skill-zone-down-ramps",
+      "system": "Skill Zone - Down Ramps",
+      "county": "Salt Lake County",
+      "osm_refs": "way/1118494766;way/1118494768;way/1118496400;way/1428323379;way/1428323380;way/1428323381;way/1428323384;way/1428323385;way/1428327245;way/1428327246;way/1428327247;way/1428327248;+33 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.64125,
+          "lon": -112.04067,
+          "elev_m": 1498,
+          "soil": {
+            "sandPct": 9.5,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "259:461",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.63958,
+          "lon": -112.04343,
+          "elev_m": 1523,
+          "soil": {
+            "sandPct": 43,
+            "clayPct": 17.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 28,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "259:461",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "juniper-canyon-trail",
+      "system": "Juniper Canyon Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/109340484;way/124297657;way/249238539;way/371282468;way/371292588;way/371837381;way/444836596;way/542462178;way/582364948;way/585985454;way/606507151;way/625835126;+32 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.48451,
+          "lon": -111.99475,
+          "elev_m": 1493,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "259:457",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.46382,
+          "lon": -112.02769,
+          "elev_m": 1859,
+          "soil": {
+            "sandPct": 38,
+            "clayPct": 26,
+            "fragGt10Pct": 7,
+            "frag3to10Pct": 29,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "259:456",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "bonneville-shoreline-trail",
+      "system": "Bonneville Shoreline Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "relation/1792238;way/133331279;way/1062366949;way/1062366948;way/220689779;way/1062353513;way/220689778;way/1062366958;way/1463510270;way/1062366957;way/1463510269;way/1062366956;+17 more",
+      "tau_base_h": 18,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.48949,
+          "lon": -111.87379,
+          "elev_m": 1451,
+          "soil": {
+            "sandPct": 67,
+            "clayPct": 9,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "262:457",
+          "tau_base_h": 9.600000000000001
+        },
+        {
+          "label": "Top",
+          "lat": 40.48701,
+          "lon": -111.823,
+          "elev_m": 1765,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 15,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:456",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "little-cottonwood-creek-trail",
+      "system": "Little Cottonwood Creek Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/362501686;way/368469959;way/368777873;way/518596517;way/564167691;way/564167692;way/564167694;way/564172695;way/643619049;way/973189389;way/973189390;way/973189392;+6 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.57335,
+          "lon": -111.77579,
+          "elev_m": 1660,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "264:459",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.56925,
+          "lon": -111.7058,
+          "elev_m": 2130,
+          "soil": {
+            "sandPct": 44.3,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:458",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-555-112-000",
+      "system": "Unnamed cluster @ 40.555,-112.000",
+      "county": "Salt Lake County",
+      "osm_refs": "way/220795864;way/241506510;way/241506511;way/477739140;way/527897441;way/1200012780;way/1200012781;way/1248953630;way/1248953633;way/1248953635;way/1248965898;way/1248965902;+3 more",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.54672,
+          "lon": -111.99168,
+          "elev_m": 1448,
+          "soil": {
+            "sandPct": 29.1,
+            "clayPct": 17.5,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 8,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "260:458",
+          "tau_base_h": 28.799999999999997
+        },
+        {
+          "label": "Top",
+          "lat": 40.55063,
+          "lon": -111.99773,
+          "elev_m": 1470,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "259:459",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-635-111-861",
+      "system": "Unnamed cluster @ 40.635,-111.861",
+      "county": "Salt Lake County",
+      "osm_refs": "way/224196582;way/259974485;way/259974486;way/259974489;way/329744896;way/701386380;way/701386386;way/880457038;way/880457043;way/880457044;way/880457046;way/880457052;+2 more",
+      "tau_base_h": 9.600000000000001,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.63721,
+          "lon": -111.86163,
+          "elev_m": 1334,
+          "soil": {
+            "sandPct": 95.5,
+            "clayPct": 3,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "262:461",
+          "tau_base_h": 9.600000000000001
+        },
+        {
+          "label": "Top",
+          "lat": 40.63232,
+          "lon": -111.86052,
+          "elev_m": 1344,
+          "soil": {
+            "sandPct": 95.5,
+            "clayPct": 3,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "262:460",
+          "tau_base_h": 9.600000000000001
+        }
+      ]
+    },
+    {
+      "id": "heughs-canyon-trail",
+      "system": "Heughs Canyon Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/538356165;way/538356179;way/854397228;way/854397229;way/1014465848;way/1139097484;way/1281859563;way/1547726332;way/1547736439;way/1547736440;way/1547736441;way/1547736442",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.65185,
+          "lon": -111.80604,
+          "elev_m": 1474,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "264:461",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.64522,
+          "lon": -111.78013,
+          "elev_m": 1832,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "264:461",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-740-111-920",
+      "system": "Unnamed cluster @ 40.740,-111.920",
+      "county": "Salt Lake County",
+      "osm_refs": "way/258554599;way/1187939561;way/1187939564;way/1187939565;way/1264360712;way/1264360713;way/1264360714;way/1348054300;way/1349022505",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.74177,
+          "lon": -111.9179,
+          "elev_m": 1287,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": "D"
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "262:463",
+          "tau_base_h": 28.799999999999997
+        },
+        {
+          "label": "Top",
+          "lat": 40.7358,
+          "lon": -111.92434,
+          "elev_m": 1290,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": "D"
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "262:463",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "bonneville-shoreline-trail-ferguson-canyon-section",
+      "system": "Bonneville Shoreline Trail - Ferguson Canyon Section",
+      "county": "Salt Lake County",
+      "osm_refs": "way/361159994;way/992063357;way/992063358;way/992063359;way/1014465851;way/1183562723;way/1378192724",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.62211,
+          "lon": -111.76875,
+          "elev_m": 1582,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "264:460",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.61652,
+          "lon": -111.77883,
+          "elev_m": 1632,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "264:460",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "terraces-boardwalk",
+      "system": "Terraces Boardwalk",
+      "county": "Salt Lake County",
+      "osm_refs": "way/368926737;way/1079499720;way/1158042049;way/1158042050;way/1197554737;way/1557960231;way/1557960232",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.69937,
+          "lon": -111.72124,
+          "elev_m": 1826,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "265:462",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.71571,
+          "lon": -111.71375,
+          "elev_m": 2478,
+          "soil": {
+            "sandPct": 39.5,
+            "clayPct": 23,
+            "fragGt10Pct": 10,
+            "frag3to10Pct": 38,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "266:462",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "ann-s-trail",
+      "system": "Ann's Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "relation/2219612;way/165764624;way/1111936740;way/1111936739;way/977475390;way/977475389;way/770655052",
+      "tau_base_h": 18,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.48805,
+          "lon": -111.84634,
+          "elev_m": 1679,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 15,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "262:457",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.48674,
+          "lon": -111.82304,
+          "elev_m": 1769,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 15,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:456",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-764-111-849",
+      "system": "Unnamed cluster @ 40.764,-111.849",
+      "county": "Salt Lake County",
+      "osm_refs": "way/138533792;way/139630948;way/139634227;way/153127236;way/1311096496;way/1311096497",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.7629,
+          "lon": -111.84913,
+          "elev_m": 1421,
+          "soil": {
+            "sandPct": 9.5,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:464",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.76344,
+          "lon": -111.84567,
+          "elev_m": 1439,
+          "soil": {
+            "sandPct": 9.5,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:464",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "clarks-trail",
+      "system": "Clarks Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "relation/1792170;way/978029579;way/978029580;way/133332899;way/394110688",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.49269,
+          "lon": -111.83694,
+          "elev_m": 1580,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 15,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "262:457",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.48805,
+          "lon": -111.8209,
+          "elev_m": 1781,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:456",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-635-112-061",
+      "system": "Unnamed cluster @ 40.635,-112.061",
+      "county": "Salt Lake County",
+      "osm_refs": "way/1508568369;way/1508568378;way/1508568380;way/1508568382",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.63798,
+          "lon": -112.06439,
+          "elev_m": 1562,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "258:461",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.63066,
+          "lon": -112.05746,
+          "elev_m": 1581,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "259:461",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "mineral-fork-trail",
+      "system": "Mineral Fork Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/10126405;way/362188738;way/815727262",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.63454,
+          "lon": -111.7001,
+          "elev_m": 2070,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "266:460",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.60078,
+          "lon": -111.67309,
+          "elev_m": 3105,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": "D"
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "266:459",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "neffs-canyon-trail",
+      "system": "Neffs Canyon Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/1014465847;way/1031325439;way/1182374348",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.67718,
+          "lon": -111.776,
+          "elev_m": 1709,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 33,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "264:461",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.67389,
+          "lon": -111.75347,
+          "elev_m": 2030,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:461",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-522-111-957",
+      "system": "Unnamed cluster @ 40.522,-111.957",
+      "county": "Salt Lake County",
+      "osm_refs": "way/277166410;way/277166411;way/277166414",
+      "tau_base_h": 57.599999999999994,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.52289,
+          "lon": -111.95668,
+          "elev_m": 1375,
+          "soil": {
+            "sandPct": 20,
+            "clayPct": 31,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Moderately well drained",
+          "soil_found": true,
+          "cell_id": "260:458",
+          "tau_base_h": 57.599999999999994
+        },
+        {
+          "label": "Top",
+          "lat": 40.52177,
+          "lon": -111.95686,
+          "elev_m": 1376,
+          "soil": {
+            "sandPct": 20,
+            "clayPct": 31,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Moderately well drained",
+          "soil_found": true,
+          "cell_id": "260:458",
+          "tau_base_h": 57.599999999999994
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-733-111-962",
+      "system": "Unnamed cluster @ 40.733,-111.962",
+      "county": "Salt Lake County",
+      "osm_refs": "way/1085413937;way/1085416099;way/1086062971",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.73227,
+          "lon": -111.96236,
+          "elev_m": 1290,
+          "soil": {
+            "sandPct": 14,
+            "clayPct": 13,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "261:463",
+          "tau_base_h": 28.799999999999997
+        },
+        {
+          "label": "Top",
+          "lat": 40.73166,
+          "lon": -111.96207,
+          "elev_m": 1293,
+          "soil": {
+            "sandPct": 14,
+            "clayPct": 13,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "261:463",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "welby-jacob-canal-trail",
+      "system": "Welby Jacob Canal Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/1383373713;way/1383373716;way/1558857322",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.5334,
+          "lon": -111.99301,
+          "elev_m": 1428,
+          "soil": {
+            "sandPct": 24.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Moderately well drained",
+          "soil_found": true,
+          "cell_id": "259:458",
+          "tau_base_h": 28.799999999999997
+        },
+        {
+          "label": "Top",
+          "lat": 40.53061,
+          "lon": -111.99301,
+          "elev_m": 1430,
+          "soil": {
+            "sandPct": 24.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Moderately well drained",
+          "soil_found": true,
+          "cell_id": "259:458",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "old-mine-road-trail",
+      "system": "Old Mine Road Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/456626847;way/589121949",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.80325,
+          "lon": -111.7216,
+          "elev_m": 1929,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 35,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "266:465",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.80985,
+          "lon": -111.73277,
+          "elev_m": 2083,
+          "soil": {
+            "sandPct": 42.7,
+            "clayPct": 19,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "266:465",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-502-111-969",
+      "system": "Unnamed cluster @ 40.502,-111.969",
+      "county": "Salt Lake County",
+      "osm_refs": "way/462831548;way/465054669",
+      "tau_base_h": 57.599999999999994,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.50244,
+          "lon": -111.96796,
+          "elev_m": 1387,
+          "soil": {
+            "sandPct": 20,
+            "clayPct": 31,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Moderately well drained",
+          "soil_found": true,
+          "cell_id": "260:457",
+          "tau_base_h": 57.599999999999994
+        },
+        {
+          "label": "Top",
+          "lat": 40.5012,
+          "lon": -111.97125,
+          "elev_m": 1392,
+          "soil": {
+            "sandPct": 9.5,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "260:457",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "alexander-basin-trail",
+      "system": "Alexander Basin Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/1175928316",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.69244,
+          "lon": -111.67005,
+          "elev_m": 2165,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "266:462",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.69159,
+          "lon": -111.67002,
+          "elev_m": 2181,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "266:462",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "crestwood-park-trail",
+      "system": "Crestwood Park Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/1076971200",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.61587,
+          "lon": -111.84533,
+          "elev_m": 1377,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "263:460",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.61455,
+          "lon": -111.83849,
+          "elev_m": 1389,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "263:460",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "deaf-smith-trail",
+      "system": "Deaf Smith Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/929054228",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.59451,
+          "lon": -111.79167,
+          "elev_m": 1592,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "264:459",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.5888,
+          "lon": -111.77509,
+          "elev_m": 1883,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": "D"
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "264:459",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "jordan-river-parkway-trail",
+      "system": "Jordan River Parkway Trail",
+      "county": "Salt Lake County",
+      "osm_refs": "way/702157570",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.45258,
+          "lon": -111.93215,
+          "elev_m": 1391,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "260:456",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.45282,
+          "lon": -111.93243,
+          "elev_m": 1393,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "260:456",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "porter-rockwell-trail-connector",
+      "system": "Porter Rockwell Trail Connector",
+      "county": "Salt Lake County",
+      "osm_refs": "way/959854095",
+      "tau_base_h": 9.600000000000001,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.47886,
+          "lon": -111.89924,
+          "elev_m": 1433,
+          "soil": {
+            "sandPct": 83.5,
+            "clayPct": 5.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Excessively drained",
+          "soil_found": true,
+          "cell_id": "261:456",
+          "tau_base_h": 9.600000000000001
+        },
+        {
+          "label": "Top",
+          "lat": 40.47894,
+          "lon": -111.89928,
+          "elev_m": 1436,
+          "soil": {
+            "sandPct": 83.5,
+            "clayPct": 5.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Excessively drained",
+          "soil_found": true,
+          "cell_id": "261:456",
+          "tau_base_h": 9.600000000000001
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-527-111-970",
+      "system": "Unnamed cluster @ 40.527,-111.970",
+      "county": "Salt Lake County",
+      "osm_refs": "way/467556808",
+      "tau_base_h": 57.599999999999994,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.52891,
+          "lon": -111.97092,
+          "elev_m": 1391,
+          "soil": {
+            "sandPct": 20,
+            "clayPct": 31,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Moderately well drained",
+          "soil_found": true,
+          "cell_id": "260:458",
+          "tau_base_h": 57.599999999999994
+        },
+        {
+          "label": "Top",
+          "lat": 40.52313,
+          "lon": -111.96852,
+          "elev_m": 1392,
+          "soil": {
+            "sandPct": 20,
+            "clayPct": 31,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Moderately well drained",
+          "soil_found": true,
+          "cell_id": "260:458",
+          "tau_base_h": 57.599999999999994
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-666-111-981",
+      "system": "Unnamed cluster @ 40.666,-111.981",
+      "county": "Salt Lake County",
+      "osm_refs": "way/1570770157",
+      "tau_base_h": 48,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.66743,
+          "lon": -111.98043,
+          "elev_m": 1351,
+          "soil": {
+            "sandPct": 6.9,
+            "clayPct": 31,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "260:462",
+          "tau_base_h": 48
+        },
+        {
+          "label": "Top",
+          "lat": 40.66271,
+          "lon": -111.98109,
+          "elev_m": 1361,
+          "soil": {
+            "sandPct": 6.9,
+            "clayPct": 31,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "260:461",
+          "tau_base_h": 48
+        }
+      ]
+    },
+    {
+      "id": "bonneville-shoreline-trail-utah",
+      "system": "Bonneville Shoreline Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10187634;way/10188602;way/10188954;way/10189036;way/10190112;way/10190433;way/10191071;way/10191893;way/10192259;way/10193781;way/10196973;way/10201599;+330 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.38021,
+          "lon": -111.72351,
+          "elev_m": 1544,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 15,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "264:453",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.57777,
+          "lon": -111.59848,
+          "elev_m": 3185,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "267:458",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "juniper-trail",
+      "system": "Juniper Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10187880;way/10195708;way/10204543;way/10215731;way/81369455;way/247339393;way/368616308;way/371843387;way/582443449;way/582443686;way/582447055;way/582449480;+195 more",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.35529,
+          "lon": -111.97295,
+          "elev_m": 1513,
+          "soil": {
+            "sandPct": 41.4,
+            "clayPct": 21.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 10,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "259:453",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.31675,
+          "lon": -111.96665,
+          "elev_m": 1792,
+          "soil": {
+            "sandPct": 41.4,
+            "clayPct": 21.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 10,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "259:452",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "rodeo-down-trail",
+      "system": "Rodeo Down Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10213490;way/10220712;way/32615726;way/33418099;way/33418100;way/33418101;way/33418102;way/33418108;way/33418110;way/33418114;way/33418121;way/33418123;+163 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.46573,
+          "lon": -111.7554,
+          "elev_m": 1585,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 15,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "264:456",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.4704,
+          "lon": -111.8537,
+          "elev_m": 1938,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "262:456",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "bonneville-shoreline-trail-utah-2",
+      "system": "Bonneville Shoreline Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10192122;way/10193276;way/10196386;way/10201284;way/10203227;way/10203816;way/10204885;way/10210634;way/10215351;way/10217043;way/10218005;way/10219774;+112 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.22957,
+          "lon": -111.6325,
+          "elev_m": 1412,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "266:449",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.2443,
+          "lon": -111.56,
+          "elev_m": 3243,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "267:449",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "blackhawk-trail",
+      "system": "Blackhawk Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10191904;way/10199971;way/10201961;way/10205663;way/10212149;way/10212794;way/10220836;way/10230646;way/10243021;way/172593193;way/172593194;way/172593196;+95 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.98927,
+          "lon": -111.70003,
+          "elev_m": 1605,
+          "soil": {
+            "sandPct": 22.4,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "264:443",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 39.96758,
+          "lon": -111.64392,
+          "elev_m": 2914,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "265:442",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "little-may-trail",
+      "system": "Little May Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10191500;way/10207422;way/10212863;way/10214921;way/10215507;way/57884146;way/1319894139;way/1382704508;way/1382704510;way/1382704511;way/1382704512;way/1382704513;+41 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.96024,
+          "lon": -111.77605,
+          "elev_m": 1593,
+          "soil": {
+            "sandPct": 41.6,
+            "clayPct": 21,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 20,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "262:443",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 39.94382,
+          "lon": -111.76008,
+          "elev_m": 1842,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "262:442",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "lookout-point-trail",
+      "system": "Lookout Point Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10195823;way/10209449;way/10210735;way/10211359;way/10213456;way/172608673;way/172608676;way/172608679;way/221620013;way/566460182;way/566460195;way/761391973;+13 more",
+      "tau_base_h": 18,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.07039,
+          "lon": -111.58506,
+          "elev_m": 1473,
+          "soil": {
+            "sandPct": 66.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Moderately well drained",
+          "soil_found": true,
+          "cell_id": "266:445",
+          "tau_base_h": 12
+        },
+        {
+          "label": "Top",
+          "lat": 40.06775,
+          "lon": -111.60356,
+          "elev_m": 1669,
+          "soil": {
+            "sandPct": 22.4,
+            "clayPct": 22.5,
+            "fragGt10Pct": 25,
+            "frag3to10Pct": 8,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "266:445",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "mineral-basin-road",
+      "system": "Mineral Basin Road",
+      "county": "Utah County",
+      "osm_refs": "way/10203583;way/10212001;way/10221196;way/10226599;way/557342084;way/659263342;way/949878013;way/978281030;way/978281031;way/994105796;way/1060198218;way/1079248021;+6 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.53364,
+          "lon": -111.59406,
+          "elev_m": 2340,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "267:457",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.56035,
+          "lon": -111.64503,
+          "elev_m": 3332,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "266:458",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "fifth-water-trail",
+      "system": "Fifth Water Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10189243;way/10216806;way/10220198;way/23701538;way/83580184;way/111469740;way/159705745;way/159705749;way/159705756;way/159705761;way/159705767;way/1115756929;+3 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.08214,
+          "lon": -111.34894,
+          "elev_m": 1706,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "271:445",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.0616,
+          "lon": -111.24367,
+          "elev_m": 2562,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:444",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "left-fork-maple-canyon-trail",
+      "system": "Left Fork Maple Canyon Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10202119;way/10203213;way/10243291;way/151563239;way/151563581;way/368656520;way/1040096223;way/1131302275;way/1131302276;way/1241158421;way/1464006672",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.1315,
+          "lon": -111.54809,
+          "elev_m": 1537,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "267:446",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.08856,
+          "lon": -111.52804,
+          "elev_m": 3088,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "267:445",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "provo-river-parkway",
+      "system": "Provo River Parkway",
+      "county": "Utah County",
+      "osm_refs": "way/461455459;way/461455767;way/464119041;way/464123685;way/739606643;way/739606644;way/739606645;way/739606646;way/868171105;way/1470432052",
+      "tau_base_h": 9.600000000000001,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.29358,
+          "lon": -111.66648,
+          "elev_m": 1443,
+          "soil": {
+            "sandPct": 67.4,
+            "clayPct": 13,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:451",
+          "tau_base_h": 9.600000000000001
+        },
+        {
+          "label": "Top",
+          "lat": 40.30049,
+          "lon": -111.65682,
+          "elev_m": 1454,
+          "soil": {
+            "sandPct": 67.4,
+            "clayPct": 13,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:451",
+          "tau_base_h": 9.600000000000001
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-297-111-747",
+      "system": "Unnamed cluster @ 40.297,-111.747",
+      "county": "Utah County",
+      "osm_refs": "way/35759956;way/35762408;way/1205642571;way/1205642572;way/1205642573;way/1205642574;way/1205642575;way/1205642576;way/1205642577",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.29751,
+          "lon": -111.74721,
+          "elev_m": 1379,
+          "soil": {
+            "sandPct": 44.3,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C/D"
+          },
+          "drainage": "Poorly drained",
+          "soil_found": true,
+          "cell_id": "264:451",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.29326,
+          "lon": -111.74287,
+          "elev_m": 1381,
+          "soil": {
+            "sandPct": 11.4,
+            "clayPct": 20,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Poorly drained",
+          "soil_found": true,
+          "cell_id": "264:451",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "diamond-youth-forest-discovery-trail",
+      "system": "Diamond Youth Forest Discovery Trail",
+      "county": "Utah County",
+      "osm_refs": "way/1093260713;way/1131821859;way/1131821862;way/1131821863;way/1330774989;way/1450939346;way/1450939347",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.06843,
+          "lon": -111.43419,
+          "elev_m": 1579,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "269:445",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.07902,
+          "lon": -111.40588,
+          "elev_m": 1609,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:445",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "fire-up-trail",
+      "system": "Fire Up Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10205334;way/1376585474;way/1376585479;way/1376585480;way/1376585481;way/1376585482",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.29608,
+          "lon": -112.12408,
+          "elev_m": 1583,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "256:452",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.29827,
+          "lon": -112.12783,
+          "elev_m": 1649,
+          "soil": {
+            "sandPct": 41.4,
+            "clayPct": 21.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 10,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "256:452",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "sheep-creek-connector-trail",
+      "system": "Sheep Creek Connector Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10190851;way/10195282;way/1241976215;way/1241976218;way/1241976219;way/1453241613",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.99404,
+          "lon": -111.32909,
+          "elev_m": 1896,
+          "soil": {
+            "sandPct": 43,
+            "clayPct": 18,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:442",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.01996,
+          "lon": -111.30804,
+          "elev_m": 2360,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "272:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-238-111-710",
+      "system": "Unnamed cluster @ 40.238,-111.710",
+      "county": "Utah County",
+      "osm_refs": "way/1124293556;way/1414011216;way/1414011217;way/1474029146;way/1474029147",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.23859,
+          "lon": -111.71099,
+          "elev_m": 1372,
+          "soil": {
+            "sandPct": 7.2,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C/D"
+          },
+          "drainage": "Poorly drained",
+          "soil_found": true,
+          "cell_id": "264:450",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.23773,
+          "lon": -111.70786,
+          "elev_m": 1374,
+          "soil": {
+            "sandPct": 69.6,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Poorly drained",
+          "soil_found": true,
+          "cell_id": "264:450",
+          "tau_base_h": 12
+        }
+      ]
+    },
+    {
+      "id": "moon-ridge-trail",
+      "system": "Moon Ridge Trail",
+      "county": "Utah County",
+      "osm_refs": "way/444837514;way/444837515;way/1222325511;way/1304477354",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.46684,
+          "lon": -112.12263,
+          "elev_m": 2083,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 28,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "257:457",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.47036,
+          "lon": -112.14347,
+          "elev_m": 2358,
+          "soil": {
+            "sandPct": 30.4,
+            "clayPct": 14,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 35,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "256:457",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "murdock-canal-trail",
+      "system": "Murdock Canal Trail",
+      "county": "Utah County",
+      "osm_refs": "way/286969080;way/368935198;way/566795973;way/566795976",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.4271,
+          "lon": -111.82255,
+          "elev_m": 1442,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.42597,
+          "lon": -111.82061,
+          "elev_m": 1469,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": "D"
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "263:455",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-155-111-671",
+      "system": "Unnamed cluster @ 40.155,-111.671",
+      "county": "Utah County",
+      "osm_refs": "way/1316464301;way/1316464312;way/1316464313;way/1316464314",
+      "tau_base_h": 57.599999999999994,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.15838,
+          "lon": -111.66474,
+          "elev_m": 1374,
+          "soil": {
+            "sandPct": 44.3,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Moderately well drained",
+          "soil_found": true,
+          "cell_id": "265:447",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.1515,
+          "lon": -111.67372,
+          "elev_m": 1377,
+          "soil": {
+            "sandPct": 7.2,
+            "clayPct": 45,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "265:447",
+          "tau_base_h": 57.599999999999994
+        }
+      ]
+    },
+    {
+      "id": "dry-canyon-cutoff-1-trail",
+      "system": "Dry Canyon Cutoff #1 Trail",
+      "county": "Utah County",
+      "osm_refs": "way/1040134598;way/1040134602;way/1242298162",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.2092,
+          "lon": -111.37417,
+          "elev_m": 1950,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "271:448",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.22894,
+          "lon": -111.38419,
+          "elev_m": 2224,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "271:449",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "dry-canyon-cutoff-2-trail",
+      "system": "Dry Canyon Cutoff #2 Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10188468;way/10195935;way/1040134597",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.21253,
+          "lon": -111.41245,
+          "elev_m": 1828,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:448",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.23826,
+          "lon": -111.36286,
+          "elev_m": 2269,
+          "soil": {
+            "sandPct": 40,
+            "clayPct": 24,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:449",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "faded-old-road",
+      "system": "Faded Old Road",
+      "county": "Utah County",
+      "osm_refs": "way/10209207;way/1382656543;way/1382656544",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.86811,
+          "lon": -111.61624,
+          "elev_m": 2139,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "265:440",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 39.8844,
+          "lon": -111.61933,
+          "elev_m": 2387,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "265:440",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "thorpe-flats",
+      "system": "Thorpe Flats",
+      "county": "Utah County",
+      "osm_refs": "way/342867623;way/669252775;way/669252776",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.20909,
+          "lon": -112.131,
+          "elev_m": 1573,
+          "soil": {
+            "sandPct": 66.8,
+            "clayPct": 14,
+            "fragGt10Pct": 18,
+            "frag3to10Pct": 8,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "256:450",
+          "tau_base_h": 9
+        },
+        {
+          "label": "Top",
+          "lat": 40.22522,
+          "lon": -112.15909,
+          "elev_m": 1668,
+          "soil": {
+            "sandPct": 41.4,
+            "clayPct": 21.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 10,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "255:450",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "windy-pass-south-trail",
+      "system": "Windy Pass South Trail",
+      "county": "Utah County",
+      "osm_refs": "way/1057494138;way/1057494149;way/1240884827",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.2229,
+          "lon": -111.48,
+          "elev_m": 1716,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "269:449",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.2419,
+          "lon": -111.52083,
+          "elev_m": 2365,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "268:449",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "black-canyon-trail",
+      "system": "Black Canyon Trail",
+      "county": "Utah County",
+      "osm_refs": "way/609639469;way/1383083293",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.89977,
+          "lon": -111.72633,
+          "elev_m": 2164,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "263:441",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 39.8464,
+          "lon": -111.71772,
+          "elev_m": 2855,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "263:439",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "dry-canyon-trail",
+      "system": "Dry Canyon Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10207937;way/10216232",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.20047,
+          "lon": -111.41783,
+          "elev_m": 1752,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:448",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.27323,
+          "lon": -111.37251,
+          "elev_m": 2367,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "271:450",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "fourth-water-trail",
+      "system": "Fourth Water Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10195164;way/1064502278",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.09021,
+          "lon": -111.27945,
+          "elev_m": 2159,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "272:445",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.09792,
+          "lon": -111.24506,
+          "elev_m": 2420,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:445",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "left-fork-days-canyon-trail",
+      "system": "Left Fork Days Canyon Trail",
+      "county": "Utah County",
+      "osm_refs": "way/952521096;way/1323260409",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.1696,
+          "lon": -111.47525,
+          "elev_m": 1599,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "269:447",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.17007,
+          "lon": -111.44098,
+          "elev_m": 2084,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "269:447",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "monks-hollow-connector-trail",
+      "system": "Monks Hollow Connector Trail",
+      "county": "Utah County",
+      "osm_refs": "way/365005739;way/365197202",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.98615,
+          "lon": -111.36268,
+          "elev_m": 1722,
+          "soil": {
+            "sandPct": 43,
+            "clayPct": 18,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "270:442",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.02687,
+          "lon": -111.37134,
+          "elev_m": 2545,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "murdock-canal-trail-utah",
+      "system": "Murdock Canal Trail",
+      "county": "Utah County",
+      "osm_refs": "way/566795964;way/1021795221",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.41989,
+          "lon": -111.81168,
+          "elev_m": 1469,
+          "soil": {
+            "sandPct": 44,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.41987,
+          "lon": -111.81153,
+          "elev_m": 1470,
+          "soil": {
+            "sandPct": 44,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "263:455",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "murdock-canal-trail-connector",
+      "system": "Murdock Canal Trail Connector",
+      "county": "Utah County",
+      "osm_refs": "way/565575946;way/1560529658",
+      "tau_base_h": 9.600000000000001,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.44866,
+          "lon": -111.89735,
+          "elev_m": 1457,
+          "soil": {
+            "sandPct": 69.6,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "261:456",
+          "tau_base_h": 9.600000000000001
+        },
+        {
+          "label": "Top",
+          "lat": 40.44886,
+          "lon": -111.89603,
+          "elev_m": 1469,
+          "soil": {
+            "sandPct": 66.9,
+            "clayPct": 10,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "261:456",
+          "tau_base_h": 9
+        }
+      ]
+    },
+    {
+      "id": "400-south",
+      "system": "400 South",
+      "county": "Utah County",
+      "osm_refs": "way/1567833417",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.10444,
+          "lon": -111.64118,
+          "elev_m": 1434,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:446",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.10448,
+          "lon": -111.64125,
+          "elev_m": 1434,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:446",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "bear-canyon-trail",
+      "system": "Bear Canyon Trail",
+      "county": "Utah County",
+      "osm_refs": "way/609639442",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.78727,
+          "lon": -111.72969,
+          "elev_m": 2016,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "262:438",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 39.81827,
+          "lon": -111.6975,
+          "elev_m": 2574,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "263:439",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "bear-trap-ridge-trail",
+      "system": "Bear Trap Ridge Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10212269",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.86049,
+          "lon": -111.67924,
+          "elev_m": 2569,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "264:440",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 39.86598,
+          "lon": -111.68541,
+          "elev_m": 2712,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "264:440",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "butterfield-peaks-road",
+      "system": "Butterfield Peaks Road",
+      "county": "Utah County",
+      "osm_refs": "way/10195273",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.45092,
+          "lon": -112.10275,
+          "elev_m": 1877,
+          "soil": {
+            "sandPct": 43,
+            "clayPct": 17.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 28,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "257:456",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.46682,
+          "lon": -112.17298,
+          "elev_m": 2851,
+          "soil": {
+            "sandPct": 41.4,
+            "clayPct": 21.5,
+            "fragGt10Pct": 40,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "256:457",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "center-gwt",
+      "system": "Center GWT",
+      "county": "Utah County",
+      "osm_refs": "way/10201723",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.16458,
+          "lon": -111.27583,
+          "elev_m": 2141,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C/D"
+          },
+          "drainage": "Very poorly drained",
+          "soil_found": true,
+          "cell_id": "273:447",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.19179,
+          "lon": -111.2757,
+          "elev_m": 2526,
+          "soil": {
+            "sandPct": 55,
+            "clayPct": 18,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:447",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "city-canyon-road",
+      "system": "City Canyon Road",
+      "county": "Utah County",
+      "osm_refs": "way/10125515",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.45168,
+          "lon": -112.11894,
+          "elev_m": 2025,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 8,
+            "frag3to10Pct": 40,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "257:456",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.47261,
+          "lon": -112.15126,
+          "elev_m": 2331,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 28,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "256:457",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "cottonwood-second-water-trail",
+      "system": "Cottonwood Second Water Trail",
+      "county": "Utah County",
+      "osm_refs": "way/1242002542",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.05534,
+          "lon": -111.29717,
+          "elev_m": 2088,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "272:444",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.0553,
+          "lon": -111.29698,
+          "elev_m": 2089,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "272:444",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "gwt-strawberry-ridge",
+      "system": "GWT Strawberry Ridge",
+      "county": "Utah County",
+      "osm_refs": "way/10191473",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.14461,
+          "lon": -111.22583,
+          "elev_m": 2565,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:446",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.19404,
+          "lon": -111.24711,
+          "elev_m": 2789,
+          "soil": {
+            "sandPct": 41,
+            "clayPct": 22,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 7,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:447",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "indian-creek-to-left-fork-white-river-trail",
+      "system": "Indian Creek to Left Fork White River Trail",
+      "county": "Utah County",
+      "osm_refs": "way/1242581986",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.95544,
+          "lon": -111.15836,
+          "elev_m": 2085,
+          "soil": {
+            "sandPct": 43,
+            "clayPct": 18,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:441",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 39.96392,
+          "lon": -111.11802,
+          "elev_m": 2426,
+          "soil": {
+            "sandPct": 40,
+            "clayPct": 17,
+            "fragGt10Pct": 4,
+            "frag3to10Pct": 21,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "275:441",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "indian-creek-to-willow-creek-ridge-trail",
+      "system": "Indian Creek to Willow Creek Ridge Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10203786",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.95145,
+          "lon": -111.19251,
+          "elev_m": 2014,
+          "soil": {
+            "sandPct": 43,
+            "clayPct": 18,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:441",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 39.99073,
+          "lon": -111.16303,
+          "elev_m": 2702,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:442",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "jocks-canyon-trail",
+      "system": "Jocks Canyon Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10213698",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.05539,
+          "lon": -111.33047,
+          "elev_m": 1916,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "271:444",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.02376,
+          "lon": -111.32794,
+          "elev_m": 2275,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "271:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "jordan-river-trail",
+      "system": "Jordan River Trail",
+      "county": "Utah County",
+      "osm_refs": "way/231225584",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.43796,
+          "lon": -111.91448,
+          "elev_m": 1369,
+          "soil": {
+            "sandPct": 14.2,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "261:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.43814,
+          "lon": -111.91491,
+          "elev_m": 1372,
+          "soil": {
+            "sandPct": 43,
+            "clayPct": 19,
+            "fragGt10Pct": 13,
+            "frag3to10Pct": 33,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "261:455",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "kirkman-hollow-trail",
+      "system": "Kirkman Hollow Trail",
+      "county": "Utah County",
+      "osm_refs": "way/952521101",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.19062,
+          "lon": -111.44157,
+          "elev_m": 1699,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "269:448",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.1672,
+          "lon": -111.42284,
+          "elev_m": 2233,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:447",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "knoll-hollow-trail",
+      "system": "Knoll Hollow Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10198451",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.00847,
+          "lon": -111.34671,
+          "elev_m": 1906,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "271:443",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 39.99911,
+          "lon": -111.36011,
+          "elev_m": 1988,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "271:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "lateral-canal-road",
+      "system": "Lateral Canal Road",
+      "county": "Utah County",
+      "osm_refs": "way/10218641",
+      "tau_base_h": 18,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.09956,
+          "lon": -111.80291,
+          "elev_m": 1439,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 15,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "262:446",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.05543,
+          "lon": -111.80336,
+          "elev_m": 1449,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 15,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "262:445",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "little-valley-sheep-canyon-trail",
+      "system": "Little Valley - Sheep Canyon Trail",
+      "county": "Utah County",
+      "osm_refs": "way/746824100",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.26122,
+          "lon": -111.40868,
+          "elev_m": 1999,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:450",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.28888,
+          "lon": -111.41424,
+          "elev_m": 2318,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:450",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "long-hollow-trail",
+      "system": "Long Hollow Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10190900",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.00811,
+          "lon": -111.40865,
+          "elev_m": 1812,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:443",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.02934,
+          "lon": -111.40261,
+          "elev_m": 2223,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "mapleton-sawmill-hollow-trail",
+      "system": "Mapleton-Sawmill Hollow Trail",
+      "county": "Utah County",
+      "osm_refs": "way/1040770316",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.14115,
+          "lon": -111.34131,
+          "elev_m": 1891,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:446",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.16215,
+          "lon": -111.37183,
+          "elev_m": 2324,
+          "soil": {
+            "sandPct": 45,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 13,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:447",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "monks-hollow-trail",
+      "system": "Monks Hollow Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10211540",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.07431,
+          "lon": -111.39126,
+          "elev_m": 1630,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:445",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.06022,
+          "lon": -111.38084,
+          "elev_m": 1900,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "270:444",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "murdock-canal-trail-utah-2",
+      "system": "Murdock Canal Trail",
+      "county": "Utah County",
+      "osm_refs": "way/460046373",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.42978,
+          "lon": -111.90088,
+          "elev_m": 1391,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "261:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.42954,
+          "lon": -111.90125,
+          "elev_m": 1393,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "261:455",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "page-fork-trail",
+      "system": "Page Fork Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10211161",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.84485,
+          "lon": -111.61004,
+          "elev_m": 1948,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 40,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:439",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 39.79348,
+          "lon": -111.62507,
+          "elev_m": 2570,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:438",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "provo-river-parkway-utah",
+      "system": "Provo River Parkway",
+      "county": "Utah County",
+      "osm_refs": "way/216231339",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.35596,
+          "lon": -111.57632,
+          "elev_m": 1583,
+          "soil": {
+            "sandPct": 44.3,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "267:452",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.37508,
+          "lon": -111.55548,
+          "elev_m": 1596,
+          "soil": {
+            "sandPct": 44.3,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "268:453",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "right-fork-salt-creek-trail",
+      "system": "Right Fork Salt Creek Trail",
+      "county": "Utah County",
+      "osm_refs": "way/10220647",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.80836,
+          "lon": -111.72845,
+          "elev_m": 2172,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "262:438",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 39.83612,
+          "lon": -111.71505,
+          "elev_m": 2684,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "263:439",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "sixth-water-divide-trail",
+      "system": "Sixth Water Divide Trail",
+      "county": "Utah County",
+      "osm_refs": "way/366409660",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.14683,
+          "lon": -111.25459,
+          "elev_m": 2437,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:446",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.15028,
+          "lon": -111.23437,
+          "elev_m": 2492,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:446",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "tie-fork-great-western-trail",
+      "system": "Tie Fork Great Western Trail",
+      "county": "Utah County",
+      "osm_refs": "way/364968373",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.00209,
+          "lon": -111.2187,
+          "elev_m": 2073,
+          "soil": {
+            "sandPct": 40,
+            "clayPct": 17,
+            "fragGt10Pct": 4,
+            "frag3to10Pct": 21,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:442",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.03823,
+          "lon": -111.22353,
+          "elev_m": 2581,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-174-112-079",
+      "system": "Unnamed cluster @ 40.174,-112.079",
+      "county": "Utah County",
+      "osm_refs": "way/342868109",
+      "tau_base_h": 12,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.17485,
+          "lon": -112.07305,
+          "elev_m": 1480,
+          "soil": {
+            "sandPct": 68.8,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "257:449",
+          "tau_base_h": 12
+        },
+        {
+          "label": "Top",
+          "lat": 40.17386,
+          "lon": -112.09499,
+          "elev_m": 1482,
+          "soil": {
+            "sandPct": 68.8,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "256:449",
+          "tau_base_h": 12
+        }
+      ]
+    },
+    {
+      "id": "unnamed-cluster-40-250-111-975",
+      "system": "Unnamed cluster @ 40.250,-111.975",
+      "county": "Utah County",
+      "osm_refs": "way/1065757486",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.25176,
+          "lon": -111.97853,
+          "elev_m": 1569,
+          "soil": {
+            "sandPct": 41.4,
+            "clayPct": 21.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 10,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "259:451",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.24772,
+          "lon": -111.97241,
+          "elev_m": 1718,
+          "soil": {
+            "sandPct": 41.4,
+            "clayPct": 21.5,
+            "fragGt10Pct": 20,
+            "frag3to10Pct": 10,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "259:451",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "windy-pass-north-trail",
+      "system": "Windy Pass North Trail",
+      "county": "Utah County",
+      "osm_refs": "way/1057497139",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.28209,
+          "lon": -111.51032,
+          "elev_m": 2676,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "268:450",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.28403,
+          "lon": -111.51067,
+          "elev_m": 2720,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "268:450",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "woodland-hills-switchback-trail",
+      "system": "Woodland Hills Switchback Trail",
+      "county": "Utah County",
+      "osm_refs": "way/1429406628",
+      "tau_base_h": 18,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.00224,
+          "lon": -111.64802,
+          "elev_m": 1879,
+          "soil": {
+            "sandPct": 66.9,
+            "clayPct": 10,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 15,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:443",
+          "tau_base_h": 9
+        },
+        {
+          "label": "Top",
+          "lat": 39.99407,
+          "lon": -111.65001,
+          "elev_m": 2166,
+          "soil": {
+            "sandPct": 41.6,
+            "clayPct": 21,
+            "fragGt10Pct": 23,
+            "frag3to10Pct": 8,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "265:443",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "bonanza-loop-trail",
+      "system": "Bonanza Loop Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/10160014;way/10160015;way/10192529;way/10192796;way/10192954;way/10193121;way/10212610;way/36744565;way/155736643;way/223935570;way/225758902;way/226933857;+216 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.53353,
+          "lon": -111.45222,
+          "elev_m": 1714,
+          "soil": {
+            "sandPct": 22.4,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "270:457",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.57777,
+          "lon": -111.59848,
+          "elev_m": 3185,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "267:458",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "chop-d-coyote-trail",
+      "system": "Chop'd Coyote Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/10192673;way/194255863;way/368444453;way/368444980;way/518347575;way/518347577;way/518347584;way/1104967453;way/1104967455;way/1104967456;way/1104967457;way/1104967458;+68 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.55739,
+          "lon": -111.42674,
+          "elev_m": 1743,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Poorly drained",
+          "soil_found": true,
+          "cell_id": "271:457",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.57797,
+          "lon": -111.40189,
+          "elev_m": 2257,
+          "soil": {
+            "sandPct": 43,
+            "clayPct": 17.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:458",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "soldier-hollow-trail-south",
+      "system": "Soldier Hollow Trail (South)",
+      "county": "Wasatch County",
+      "osm_refs": "way/10191966;way/10192039;way/10193251;way/10194202;way/231447148;way/292362351;way/448214123;way/699698894;way/1058738930;way/1058738932;way/1062376543;way/1064202854;+61 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.48087,
+          "lon": -111.48647,
+          "elev_m": 1657,
+          "soil": {
+            "sandPct": 42.1,
+            "clayPct": 20,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B/D"
+          },
+          "drainage": "Poorly drained",
+          "soil_found": true,
+          "cell_id": "269:456",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.48093,
+          "lon": -111.53117,
+          "elev_m": 2169,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 13,
+            "frag3to10Pct": 45,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "269:456",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "jordanelle-perimeter-trail",
+      "system": "Jordanelle Perimeter Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1015369383;way/1015689768;way/1015689771;way/1104695427;way/1104695428;way/1104695438;way/1104695443;way/1104709839;way/1104709840;way/1104709841;way/1104709842;way/1104709843;+20 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.63021,
+          "lon": -111.41132,
+          "elev_m": 1882,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:459",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.63087,
+          "lon": -111.36244,
+          "elev_m": 2146,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 23,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "272:459",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "big-dipper",
+      "system": "Big Dipper",
+      "county": "Wasatch County",
+      "osm_refs": "way/1015369440;way/1015369445;way/1015369447;way/1015369482;way/1015369483;way/1015369484;way/1015369485;way/1015369486;way/1015369487;way/1015369488;way/1015369489;way/1015369490;+9 more",
+      "tau_base_h": 21.599999999999998,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.6575,
+          "lon": -111.41494,
+          "elev_m": 1917,
+          "soil": {
+            "sandPct": 59.6,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 38,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:460",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.66038,
+          "lon": -111.4357,
+          "elev_m": 2235,
+          "soil": {
+            "sandPct": 55.1,
+            "clayPct": 27.5,
+            "fragGt10Pct": 8,
+            "frag3to10Pct": 40,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:460",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "download-ring-mine-trail",
+      "system": "Download Ring Mine Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/10192509;way/1104977932;way/1419706009;way/1419706011;way/1443552698;way/1468553107;way/1468553110;way/1468558591;way/1468558596;way/1468558597;way/1468558598;way/1468558600;+5 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.59223,
+          "lon": -111.28626,
+          "elev_m": 1975,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:458",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.56152,
+          "lon": -111.27616,
+          "elev_m": 2292,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:457",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "birds-eye-atv-trail",
+      "system": "Birds Eye ATV Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/360434849;way/360434850;way/360434852;way/360435670;way/712415957;way/712415959;way/712415960;way/712415964;way/712415972;way/1091534588;way/1091534599;way/1091534625;+2 more",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.63449,
+          "lon": -110.91454,
+          "elev_m": 2822,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "281:458",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.6695,
+          "lon": -110.92375,
+          "elev_m": 3073,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "281:459",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "euclid-upper-loop",
+      "system": "Euclid Upper Loop",
+      "county": "Wasatch County",
+      "osm_refs": "way/1105275873;way/1105275875;way/1105275876;way/1105275877;way/1105275878;way/1105275879;way/1105275880;way/1105275881",
+      "tau_base_h": 18,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.45977,
+          "lon": -111.46615,
+          "elev_m": 1662,
+          "soil": {
+            "sandPct": 68.8,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "270:455",
+          "tau_base_h": 12
+        },
+        {
+          "label": "Top",
+          "lat": 40.45607,
+          "lon": -111.46481,
+          "elev_m": 1803,
+          "soil": {
+            "sandPct": 41.6,
+            "clayPct": 21,
+            "fragGt10Pct": 8,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "270:455",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "cast-trail",
+      "system": "Cast Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1443537349;way/1443537357;way/1443537358;way/1443537360;way/1443540265;way/1443543452;way/1443543456",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.4899,
+          "lon": -111.32049,
+          "elev_m": 1898,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "273:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.48101,
+          "lon": -111.31797,
+          "elev_m": 2036,
+          "soil": {
+            "sandPct": 22.4,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:455",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "foreman-hollow-trail",
+      "system": "Foreman Hollow Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/10192676;way/10192920;way/1007111706;way/1007115302;way/1007115303;way/1007115304;way/1242984081",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.32029,
+          "lon": -111.26367,
+          "elev_m": 2325,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:451",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.32082,
+          "lon": -111.27743,
+          "elev_m": 2549,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:451",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "big-pole",
+      "system": "Big Pole",
+      "county": "Wasatch County",
+      "osm_refs": "way/1104977933;way/1104977934;way/1104977935;way/1104977936;way/1104977937;way/1443544237",
+      "tau_base_h": 18,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.5062,
+          "lon": -111.31428,
+          "elev_m": 1961,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:456",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.50944,
+          "lon": -111.30339,
+          "elev_m": 2153,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:456",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "soapstone-basin-atv-trail",
+      "system": "Soapstone Basin ATV Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/39560941;way/364791536;way/364791627;way/1303923583;way/1303923584;way/1303923585",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.52793,
+          "lon": -111.02634,
+          "elev_m": 2764,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "279:456",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.52362,
+          "lon": -111.00142,
+          "elev_m": 3029,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "279:456",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "strawberry-visitor-center-boardwalk-trail",
+      "system": "Strawberry Visitor Center Boardwalk Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1146758799;way/1146758800;way/1146758801;way/1243920281;way/1339992621;way/1339992622",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.23752,
+          "lon": -111.18505,
+          "elev_m": 2319,
+          "soil": {
+            "sandPct": 38,
+            "clayPct": 26,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "275:448",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.23782,
+          "lon": -111.18679,
+          "elev_m": 2320,
+          "soil": {
+            "sandPct": 38,
+            "clayPct": 26,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "275:448",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "trail-hollow-trail",
+      "system": "Trail Hollow Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/364793248;way/974162130;way/1244654646;way/1244654647;way/1244654648;way/1244654650",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.44776,
+          "lon": -111.02687,
+          "elev_m": 2446,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "279:454",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.4758,
+          "lon": -111.02623,
+          "elev_m": 2997,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "279:454",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "little-south-fork-trail",
+      "system": "Little South Fork Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1133004422;way/1133004423;way/1133006707;way/1133006708;way/1244605196",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.53273,
+          "lon": -111.151,
+          "elev_m": 2227,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "276:456",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.45474,
+          "lon": -111.15556,
+          "elev_m": 2955,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "276:454",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "iron-mine-creek-north-spur-trail",
+      "system": "Iron Mine Creek North Spur Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/364809234;way/846600952;way/846603629;way/1303923579",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.55528,
+          "lon": -111.10656,
+          "elev_m": 2257,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "277:457",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.53651,
+          "lon": -111.06167,
+          "elev_m": 2779,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "278:456",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "provo-river-parkway-wasatch",
+      "system": "Provo River Parkway",
+      "county": "Wasatch County",
+      "osm_refs": "way/175383950;way/216231339;way/1414677361;way/1414684458",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.35595,
+          "lon": -111.57588,
+          "elev_m": 1584,
+          "soil": {
+            "sandPct": 44.3,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "267:452",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.39267,
+          "lon": -111.5406,
+          "elev_m": 1625,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "268:453",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "granite-school-trail",
+      "system": "Granite School Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/843191614;way/1244654640;way/1244654641",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.48659,
+          "lon": -111.08429,
+          "elev_m": 2666,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "277:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.46416,
+          "lon": -111.09088,
+          "elev_m": 2974,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "277:454",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "mill-hollow-trail",
+      "system": "Mill Hollow Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1244654634;way/1244654636;way/1244654637",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.48972,
+          "lon": -111.10537,
+          "elev_m": 2698,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "277:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.48377,
+          "lon": -111.10003,
+          "elev_m": 2865,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "277:455",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "soapstone-ponds-trail",
+      "system": "Soapstone Ponds Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/806448213;way/1038609655;way/1222263224",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.58793,
+          "lon": -111.12124,
+          "elev_m": 2241,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "277:458",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.57963,
+          "lon": -111.05267,
+          "elev_m": 2368,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "278:457",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "strawberry-narrows-trail",
+      "system": "Strawberry Narrows Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/10192939;way/510016163;way/1146735610",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.12331,
+          "lon": -111.12038,
+          "elev_m": 2318,
+          "soil": {
+            "sandPct": 38,
+            "clayPct": 25,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "276:445",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.12408,
+          "lon": -111.10201,
+          "elev_m": 2359,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "276:445",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "center-gwt-wasatch",
+      "system": "Center GWT",
+      "county": "Wasatch County",
+      "osm_refs": "way/10192346;way/364968373",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.00209,
+          "lon": -111.2187,
+          "elev_m": 2073,
+          "soil": {
+            "sandPct": 40,
+            "clayPct": 17,
+            "fragGt10Pct": 4,
+            "frag3to10Pct": 21,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:442",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.03785,
+          "lon": -111.22354,
+          "elev_m": 2580,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "co-op-creek-trail",
+      "system": "Co-op Creek Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/358331213;way/361321758",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.29667,
+          "lon": -111.17262,
+          "elev_m": 2452,
+          "soil": {
+            "sandPct": 38,
+            "clayPct": 26,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "275:450",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.29723,
+          "lon": -111.14103,
+          "elev_m": 2907,
+          "soil": {
+            "sandPct": 41.6,
+            "clayPct": 21,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 4,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "276:450",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "left-to-right-fork-white-river-trail",
+      "system": "Left to Right Fork White River Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242606614;way/1242606622",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.98147,
+          "lon": -111.07547,
+          "elev_m": 2359,
+          "soil": {
+            "sandPct": 40,
+            "clayPct": 17,
+            "fragGt10Pct": 4,
+            "frag3to10Pct": 21,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "276:441",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 39.99745,
+          "lon": -110.99305,
+          "elev_m": 2774,
+          "soil": {
+            "sandPct": 31,
+            "clayPct": 25,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 2,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "278:442",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "phelps-brook-atv-trail",
+      "system": "Phelps Brook ATV Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/10192772;way/355348541",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.49381,
+          "lon": -110.97161,
+          "elev_m": 2652,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "280:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.51236,
+          "lon": -110.96229,
+          "elev_m": 2931,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "280:455",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "strawberry-bay-shoreline-trail",
+      "system": "Strawberry Bay Shoreline Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/565144635;way/1146758794",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.19888,
+          "lon": -111.17719,
+          "elev_m": 2319,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": "D"
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "275:447",
+          "tau_base_h": 28.799999999999997
+        },
+        {
+          "label": "Top",
+          "lat": 40.18556,
+          "lon": -111.16058,
+          "elev_m": 2327,
+          "soil": {
+            "sandPct": 68,
+            "clayPct": 18,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "275:447",
+          "tau_base_h": 12
+        }
+      ]
+    },
+    {
+      "id": "brighton-ridge-run",
+      "system": "Brighton Ridge Run",
+      "county": "Wasatch County",
+      "osm_refs": "way/971010622",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.58475,
+          "lon": -111.56699,
+          "elev_m": 3062,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": "D"
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "268:458",
+          "tau_base_h": 28.799999999999997
+        },
+        {
+          "label": "Top",
+          "lat": 40.58304,
+          "lon": -111.56964,
+          "elev_m": 3098,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": "D"
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "268:458",
+          "tau_base_h": 28.799999999999997
+        }
+      ]
+    },
+    {
+      "id": "brighton-ridge-run-wasatch",
+      "system": "Brighton Ridge Run",
+      "county": "Wasatch County",
+      "osm_refs": "way/1072084914",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.58114,
+          "lon": -111.58467,
+          "elev_m": 3088,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "268:458",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.58124,
+          "lon": -111.58503,
+          "elev_m": 3095,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "268:458",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "buffalo-canyon-trail",
+      "system": "Buffalo Canyon Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242544721",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.03387,
+          "lon": -111.11504,
+          "elev_m": 2506,
+          "soil": {
+            "sandPct": 39,
+            "clayPct": 24,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "276:443",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.04086,
+          "lon": -111.1483,
+          "elev_m": 2604,
+          "soil": {
+            "sandPct": 41,
+            "clayPct": 22,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 6,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "275:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "center-canyon-trail",
+      "system": "Center Canyon Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242984073",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.37391,
+          "lon": -111.2687,
+          "elev_m": 2215,
+          "soil": {
+            "sandPct": 44.3,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "273:452",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.40072,
+          "lon": -111.24413,
+          "elev_m": 2890,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:453",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "clegg-canyon-trail",
+      "system": "Clegg Canyon Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/10193666",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.38726,
+          "lon": -111.30193,
+          "elev_m": 2028,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:453",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.40409,
+          "lon": -111.25274,
+          "elev_m": 2773,
+          "soil": {
+            "sandPct": 39.2,
+            "clayPct": 23.5,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:453",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "coal-mine-hollow-trail",
+      "system": "Coal Mine Hollow Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1244128075",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.35179,
+          "lon": -111.04671,
+          "elev_m": 2409,
+          "soil": {
+            "sandPct": 41.6,
+            "clayPct": 21,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 4,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "278:451",
+          "tau_base_h": 28.799999999999997
+        },
+        {
+          "label": "Top",
+          "lat": 40.36122,
+          "lon": -110.99814,
+          "elev_m": 2810,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "279:451",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "confluence-atv-trail",
+      "system": "Confluence ATV Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1091534600",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.63237,
+          "lon": -110.95195,
+          "elev_m": 2715,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "281:458",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.62855,
+          "lon": -110.94435,
+          "elev_m": 2832,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "281:458",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "cow-hollow-trail",
+      "system": "Cow Hollow Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242908656",
+      "tau_base_h": 12,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.09059,
+          "lon": -110.82902,
+          "elev_m": 2044,
+          "soil": {
+            "sandPct": 61,
+            "clayPct": 21,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C/D"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "282:444",
+          "tau_base_h": 12
+        },
+        {
+          "label": "Top",
+          "lat": 40.05859,
+          "lon": -110.93581,
+          "elev_m": 2978,
+          "soil": {
+            "sandPct": 65,
+            "clayPct": 16,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "279:443",
+          "tau_base_h": 12
+        }
+      ]
+    },
+    {
+      "id": "cummings-flat-trail",
+      "system": "Cummings Flat Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242984072",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.37536,
+          "lon": -111.2928,
+          "elev_m": 2065,
+          "soil": {
+            "sandPct": 44.3,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "273:452",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.3814,
+          "lon": -111.28955,
+          "elev_m": 2197,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:452",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "currant-creek-trail",
+      "system": "Currant Creek Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1243319365",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.33107,
+          "lon": -111.06056,
+          "elev_m": 2371,
+          "soil": {
+            "sandPct": 65.9,
+            "clayPct": 15,
+            "fragGt10Pct": 6,
+            "frag3to10Pct": 37,
+            "hydrologicGroup": "A"
+          },
+          "drainage": "Somewhat excessively drained",
+          "soil_found": true,
+          "cell_id": "278:451",
+          "tau_base_h": 7.2
+        },
+        {
+          "label": "Top",
+          "lat": 40.3263,
+          "lon": -111.06194,
+          "elev_m": 2515,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "278:451",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "dry-canyon-trail-wasatch",
+      "system": "Dry Canyon Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242984070",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.40287,
+          "lon": -111.3084,
+          "elev_m": 1981,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "273:453",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.41539,
+          "lon": -111.27597,
+          "elev_m": 2630,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:453",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "dry-hollow-atv-trail",
+      "system": "Dry Hollow ATV Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/10191815",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.51164,
+          "lon": -111.02868,
+          "elev_m": 2692,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "279:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.50447,
+          "lon": -111.00405,
+          "elev_m": 2867,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "279:455",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "fifth-water-trail-wasatch",
+      "system": "Fifth Water Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/10216806",
+      "tau_base_h": 28.799999999999997,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.12084,
+          "lon": -111.2478,
+          "elev_m": 2264,
+          "soil": {
+            "sandPct": 40,
+            "clayPct": 24,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:446",
+          "tau_base_h": 28.799999999999997
+        },
+        {
+          "label": "Top",
+          "lat": 40.13746,
+          "lon": -111.22372,
+          "elev_m": 2526,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "274:446",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "french-hollow-trail",
+      "system": "French Hollow Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1146792869",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.06413,
+          "lon": -111.07493,
+          "elev_m": 2449,
+          "soil": {
+            "sandPct": 39,
+            "clayPct": 24,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "276:444",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.04873,
+          "lon": -111.03903,
+          "elev_m": 2973,
+          "soil": {
+            "sandPct": 41,
+            "clayPct": 22,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 6,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "277:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "little-rabbit-long-ridge-loop-trail",
+      "system": "Little Rabbit Long Ridge Loop Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242908651",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.01471,
+          "lon": -110.97343,
+          "elev_m": 2627,
+          "soil": {
+            "sandPct": 31,
+            "clayPct": 25,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 2,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "278:442",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.01377,
+          "lon": -110.97297,
+          "elev_m": 2635,
+          "soil": {
+            "sandPct": 31,
+            "clayPct": 25,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 2,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "278:442",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "long-ridge-spur-south",
+      "system": "Long Ridge Spur South",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242961742",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.98101,
+          "lon": -110.96545,
+          "elev_m": 2672,
+          "soil": {
+            "sandPct": 31,
+            "clayPct": 25,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 2,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "278:441",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 39.98444,
+          "lon": -110.96865,
+          "elev_m": 2697,
+          "soil": {
+            "sandPct": 31,
+            "clayPct": 25,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 2,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "278:441",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "middle-fork-white-river-trail",
+      "system": "Middle Fork White River Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242606619",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.98082,
+          "lon": -111.07535,
+          "elev_m": 2351,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C/D"
+          },
+          "drainage": "Very poorly drained",
+          "soil_found": true,
+          "cell_id": "276:441",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 39.98144,
+          "lon": -111.07495,
+          "elev_m": 2361,
+          "soil": {
+            "sandPct": 40,
+            "clayPct": 17,
+            "fragGt10Pct": 4,
+            "frag3to10Pct": 21,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "276:441",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "middle-fork-white-river-trail-wasatch",
+      "system": "Middle Fork White River Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242664440",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.01984,
+          "lon": -111.0414,
+          "elev_m": 2540,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "277:442",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.01592,
+          "lon": -111.04564,
+          "elev_m": 2587,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "277:442",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "north-east-park-drive",
+      "system": "North East Park Drive",
+      "county": "Wasatch County",
+      "osm_refs": "way/10192563",
+      "tau_base_h": 18,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.64829,
+          "lon": -111.45054,
+          "elev_m": 2051,
+          "soil": {
+            "sandPct": 59.6,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 38,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:460",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 40.65563,
+          "lon": -111.44658,
+          "elev_m": 2094,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:460",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "right-fork-white-river-trail",
+      "system": "Right Fork White River Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242606618",
+      "tau_base_h": 18,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 39.98156,
+          "lon": -111.04909,
+          "elev_m": 2531,
+          "soil": {
+            "sandPct": 46,
+            "clayPct": 16,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 23,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "277:441",
+          "tau_base_h": 18
+        },
+        {
+          "label": "Top",
+          "lat": 39.97002,
+          "lon": -111.04497,
+          "elev_m": 2642,
+          "soil": {
+            "sandPct": 46,
+            "clayPct": 16,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 23,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "277:441",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "rock-spring-trail",
+      "system": "Rock Spring Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/330797239",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.01788,
+          "lon": -111.12011,
+          "elev_m": 2524,
+          "soil": {
+            "sandPct": 39,
+            "clayPct": 24,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "275:443",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 39.98669,
+          "lon": -111.15353,
+          "elev_m": 2710,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "275:442",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "rocky-top-trail",
+      "system": "Rocky Top Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1104695434",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.60203,
+          "lon": -111.32885,
+          "elev_m": 1900,
+          "soil": {
+            "sandPct": 44.3,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 0,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Somewhat poorly drained",
+          "soil_found": true,
+          "cell_id": "273:458",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.61525,
+          "lon": -111.31292,
+          "elev_m": 2125,
+          "soil": {
+            "sandPct": 55.1,
+            "clayPct": 27.5,
+            "fragGt10Pct": 8,
+            "frag3to10Pct": 40,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "273:459",
+          "tau_base_h": 21.599999999999998
+        }
+      ]
+    },
+    {
+      "id": "south-canyon",
+      "system": "South Canyon",
+      "county": "Wasatch County",
+      "osm_refs": "way/998453289",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.71938,
+          "lon": -111.46305,
+          "elev_m": 2001,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:462",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.68279,
+          "lon": -111.44174,
+          "elev_m": 2103,
+          "soil": {
+            "sandPct": 39.8,
+            "clayPct": 22.5,
+            "fragGt10Pct": 3,
+            "frag3to10Pct": 20,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "271:461",
+          "tau_base_h": 18
+        }
+      ]
+    },
+    {
+      "id": "south-fork-to-packard-canyon-trail",
+      "system": "South Fork to Packard Canyon Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/608001899",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.32408,
+          "lon": -111.52333,
+          "elev_m": 1909,
+          "soil": {
+            "sandPct": 68.8,
+            "clayPct": 15,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "B"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "268:451",
+          "tau_base_h": 12
+        },
+        {
+          "label": "Top",
+          "lat": 40.28678,
+          "lon": -111.50203,
+          "elev_m": 2831,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "269:450",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "strawberry-narrows-trail-wasatch",
+      "system": "Strawberry Narrows Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1146735612",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.11663,
+          "lon": -111.14836,
+          "elev_m": 2338,
+          "soil": {
+            "sandPct": 40,
+            "clayPct": 23,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "275:445",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.11655,
+          "lon": -111.1492,
+          "elev_m": 2341,
+          "soil": {
+            "sandPct": 40,
+            "clayPct": 23,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 5,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "275:445",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "thornton-hollow-trail",
+      "system": "Thornton Hollow Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242298148",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.35441,
+          "lon": -111.31575,
+          "elev_m": 2525,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "272:452",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.3589,
+          "lon": -111.32139,
+          "elev_m": 2556,
+          "soil": {
+            "sandPct": 44.8,
+            "clayPct": 14,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 3,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "272:452",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "whiskey-springs-trail",
+      "system": "Whiskey Springs Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242984069",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.41142,
+          "lon": -111.32159,
+          "elev_m": 1946,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "273:453",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.4108,
+          "lon": -111.32116,
+          "elev_m": 1956,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "273:453",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "willow-creek-south-trail",
+      "system": "Willow Creek South Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1242544720",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.08604,
+          "lon": -111.04114,
+          "elev_m": 2378,
+          "soil": {
+            "sandPct": 39,
+            "clayPct": 24,
+            "fragGt10Pct": 5,
+            "frag3to10Pct": 30,
+            "hydrologicGroup": "D"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "277:444",
+          "tau_base_h": 21.599999999999998
+        },
+        {
+          "label": "Top",
+          "lat": 40.02068,
+          "lon": -111.14003,
+          "elev_m": 2595,
+          "soil": {
+            "sandPct": 41,
+            "clayPct": 22,
+            "fragGt10Pct": 0,
+            "frag3to10Pct": 6,
+            "hydrologicGroup": "C"
+          },
+          "drainage": "Well drained",
+          "soil_found": true,
+          "cell_id": "275:443",
+          "tau_base_h": 24
+        }
+      ]
+    },
+    {
+      "id": "willow-hollow-ridge-trail",
+      "system": "Willow Hollow Ridge Trail",
+      "county": "Wasatch County",
+      "osm_refs": "way/1133004424",
+      "tau_base_h": 24,
+      "tau_mult": 1,
+      "points": [
+        {
+          "label": "Trailhead",
+          "lat": 40.50619,
+          "lon": -111.14651,
+          "elev_m": 2579,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "276:455",
+          "tau_base_h": 24
+        },
+        {
+          "label": "Top",
+          "lat": 40.50026,
+          "lon": -111.12251,
+          "elev_m": 2891,
+          "soil": {
+            "sandPct": null,
+            "clayPct": null,
+            "fragGt10Pct": null,
+            "frag3to10Pct": null,
+            "hydrologicGroup": null
+          },
+          "drainage": null,
+          "soil_found": true,
+          "cell_id": "277:455",
+          "tau_base_h": 24
+        }
+      ]
+    }
+  ]
+}
