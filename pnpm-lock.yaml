@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@trail-conditions/model':
+        specifier: workspace:*
+        version: link:packages/model
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5
