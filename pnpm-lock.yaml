@@ -26,6 +26,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@trail-conditions/model':
+        specifier: workspace:*
+        version: link:../../packages/model
       react:
         specifier: ^19.0.0
         version: 19.3.1
