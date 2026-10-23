@@ -102,6 +102,22 @@ describe("level colors and labels (AC: level color per card)", () => {
   it("labels all five levels with the spec's names", () => {
     expect(LEVELS.map(levelLabel)).toEqual(["Dry", "Prime", "Soft", "Muddy", "Snow"]);
   });
+
+  // The chips render white text (~12.5–16px, not large text), so every level
+  // background must hit WCAG AA 4.5:1 against white.
+  it("keeps white chip text at AA contrast (>= 4.5:1) on every level color", () => {
+    const luminance = (hex: string): number => {
+      const [r, g, b] = [1, 3, 5]
+        .map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+        .map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+      return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
+    };
+    for (const level of LEVELS) {
+      // white is the lighter color, so the ratio is (Lwhite + 0.05) / (Lbg + 0.05)
+      const ratio = (1 + 0.05) / (luminance(levelColor(level)) + 0.05);
+      expect(ratio, `white on ${level} ${levelColor(level)}`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
 });
 
 describe("isRideable (AC: 'Rideable now' filter)", () => {

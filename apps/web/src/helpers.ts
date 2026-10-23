@@ -45,12 +45,15 @@ export function updatedAgo(iso: string, nowMs: number): string {
   return `${Math.floor(hours / 24)} d ago`;
 }
 
+// Chips render white text at ~12.5–16px, so every background must keep
+// WCAG AA 4.5:1 against white (ratios below computed with WCAG relative
+// luminance; the unit test re-derives them).
 const LEVEL_COLORS: Record<ConditionLevel, string> = {
-  dry: "#a07c3e",
-  prime: "#2e7d32",
-  soft: "#e07b26",
-  muddy: "#b3261e",
-  snow: "#2b6cb0",
+  dry: "#8a6a2f", // tan/brown, white 5.02:1
+  prime: "#2e7d32", // white 5.13:1
+  soft: "#b35a00", // orange, white 4.80:1
+  muddy: "#b3261e", // white 6.54:1
+  snow: "#2b6cb0", // white 5.42:1
 };
 
 const LEVEL_LABELS: Record<ConditionLevel, string> = {
