@@ -31,7 +31,9 @@ export const CONFIG = {
   MAX_SAMPLE_POINTS_PER_SYSTEM: 30, // elevation candidates per system (min/max picked from these)
   ELEVATION_BATCH_SIZE: 100, // Open-Meteo elevation API max locations per call
   ELEVATION_DELAY_MS: 12_000, // Open-Meteo counts each location; 100 per 12 s stays under 600/min
-  ELEVATION_RATE_LIMIT_WAIT_MS: 65_000, // wait on HTTP 429 before retrying a batch
+  // Escalating waits on HTTP 429 before retrying a batch: Open-Meteo also has an
+  // hourly cap, which a one-minute wait cannot clear (observed in the 2026-10-23 runs).
+  ELEVATION_RATE_LIMIT_WAITS_MS: [65_000, 300_000, 900_000],
   MIN_UNNAMED_CLUSTER_WAYS: 3, // all-unnamed clusters smaller than this are dropped as noise
   MAX_OSM_REFS_PER_ROW: 12, // keep the osm_refs CSV cell readable
 } as const;
@@ -493,12 +495,13 @@ async function fetchElevationBatch(batch: LatLon[]): Promise<number[]> {
   const url =
     `${CONFIG.ELEVATION_URL}?latitude=${batch.map((p) => p.lat.toFixed(5)).join(",")}` +
     `&longitude=${batch.map((p) => p.lon.toFixed(5)).join(",")}`;
-  const attempts = CONFIG.RETRY_DELAYS_MS.length + 1;
+  const attempts = CONFIG.ELEVATION_RATE_LIMIT_WAITS_MS.length + 1;
   for (let attempt = 0; attempt < attempts; attempt++) {
     const res = await fetch(url, { headers: { "User-Agent": CONFIG.USER_AGENT } });
     if (res.status === 429 && attempt < attempts - 1) {
-      console.warn("Open-Meteo HTTP 429; waiting out the rate-limit window…");
-      await sleep(CONFIG.ELEVATION_RATE_LIMIT_WAIT_MS);
+      const wait = CONFIG.ELEVATION_RATE_LIMIT_WAITS_MS[attempt] as number;
+      console.warn(`Open-Meteo HTTP 429; waiting ${Math.round(wait / 1000)} s for the rate-limit window…`);
+      await sleep(wait);
       continue;
     }
     if (!res.ok) throw new Error(`Open-Meteo elevation HTTP ${res.status}`);
@@ -512,14 +515,29 @@ async function fetchElevationBatch(batch: LatLon[]): Promise<number[]> {
 }
 
 async function fetchElevations(points: LatLon[]): Promise<number[]> {
-  const out: number[] = [];
-  const batches = chunk(points, CONFIG.ELEVATION_BATCH_SIZE);
+  // Query each distinct coordinate once (relation members share way endpoints);
+  // Open-Meteo counts every location in a batch against its rate limits.
+  const keyOf = (p: LatLon) => `${p.lat.toFixed(5)},${p.lon.toFixed(5)}`;
+  const indexByKey = new Map<string, number>();
+  const unique: LatLon[] = [];
+  for (const p of points) {
+    const key = keyOf(p);
+    if (!indexByKey.has(key)) {
+      indexByKey.set(key, unique.length);
+      unique.push(p);
+    }
+  }
+  if (unique.length < points.length) {
+    console.log(`   (${points.length} points → ${unique.length} distinct coordinates)`);
+  }
+  const uniqueElevations: number[] = [];
+  const batches = chunk(unique, CONFIG.ELEVATION_BATCH_SIZE);
   for (let i = 0; i < batches.length; i++) {
-    out.push(...(await fetchElevationBatch(batches[i] as LatLon[])));
+    uniqueElevations.push(...(await fetchElevationBatch(batches[i] as LatLon[])));
     if ((i + 1) % 10 === 0) console.log(`   …${i + 1}/${batches.length} elevation batches`);
     if (i < batches.length - 1) await sleep(CONFIG.ELEVATION_DELAY_MS);
   }
-  return out;
+  return points.map((p) => uniqueElevations[indexByKey.get(keyOf(p)) as number] as number);
 }
 
 function osmRefs(system: System): string {
