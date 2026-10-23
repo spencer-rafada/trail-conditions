@@ -1,0 +1,3 @@
+# Copy to .dev.vars (gitignored) for local wrangler dev.
+# ADMIN_SECRET guards POST /api/admin/scores (x-admin-secret header).
+ADMIN_SECRET=change-me

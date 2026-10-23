@@ -28,6 +28,12 @@ pnpm backtest                                # offline spec §4.4 backtest from 
 pnpm --filter @trail-conditions/web dev      # web dev server
 pnpm --filter @trail-conditions/worker dev   # wrangler dev
 pnpm discover-trails   # hand-run only (Overpass + Open-Meteo): writes data/trail-candidates.csv
+
+# local D1 (wrangler commands run inside apps/worker; never pass --remote)
+pnpm tsx scripts/seed-d1.ts                  # writes apps/worker/.wrangler/seed.sql from data/trails.json
+cd apps/worker
+pnpm exec wrangler d1 migrations apply trail-conditions --local
+pnpm exec wrangler d1 execute trail-conditions --local --file .wrangler/seed.sql
 ```
 
 ## Data credits

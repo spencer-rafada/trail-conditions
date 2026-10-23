@@ -1,13 +1,17 @@
 # Cloudflare Worker: /api/* routes + cron triggers.
-# D1 binding and crons land with M3; deploys are manual, never from a ship run.
+# Deploys are manual, never from a ship run. The database_id below is a
+# placeholder for local development (wrangler dev / miniflare keep D1 state
+# under .wrangler/state); the real id is filled in at manual deploy time.
 name = "trail-conditions-worker"
 main = "src/index.ts"
 compatibility_date = "2026-10-01"
 
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "trail-conditions"
-# database_id = ""
+[[d1_databases]]
+binding = "DB"
+database_name = "trail-conditions"
+database_id = "00000000-0000-0000-0000-000000000000" # local-only placeholder
 
-# [triggers]
-# crons = ["*/10 * * * *", "0 9 * * *"]
+[triggers]
+# Score job: one chunk of Stage IV cells per run (spec §7.2/§7.3 cron 1).
+# The nightly tune cron (§7.3 cron 2) lands with M6.
+crons = ["*/10 * * * *"]
