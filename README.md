@@ -24,6 +24,7 @@ pnpm install
 pnpm typecheck
 pnpm test
 pnpm build
+pnpm backtest                                # offline spec §4.4 backtest from fixtures/
 pnpm --filter @trail-conditions/web dev      # web dev server
 pnpm --filter @trail-conditions/worker dev   # wrangler dev
 pnpm discover-trails   # hand-run only (Overpass + Open-Meteo): writes data/trail-candidates.csv
