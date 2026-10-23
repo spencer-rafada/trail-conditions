@@ -8,12 +8,13 @@
 //    the factors, §6.1 names the verdicts; this is the mapping).
 // 2. reportsConflict (−15) means riders contradicting each other: both
 //    "wetter" and "drier" present among the still-counting reports.
-// 3. Rain-reset: a single hour with rain > REPORTS.rainResetMinIn after the
-//    report (the same one-hour event definition as §5's since-rain factors).
+// 3+5a. Rain-reset: a single hour with rain > CONFIDENCE.rainEventMinIn after
+//    the report (the same one-hour event definition as §5's since-rain
+//    factors and the trail page's last-rain row — one tunable, strict >).
 // 5. Agree/disagree factors apply per report at §6.3 weight: full <= 24 h,
 //    half 24–48 h, zero after 48 h or once rain resets the report.
 
-import { REPORTS } from "./config";
+import { CONFIDENCE, REPORTS } from "./config";
 
 export type ReportVerdict = "yes" | "wetter" | "drier";
 
@@ -57,14 +58,14 @@ export function reportWeight(createdMs: number, nowMs: number): number {
 }
 
 /** §6.3 "new rain resets reports": true when any hour ending after the
- *  report carries rain > REPORTS.rainResetMinIn (decision 3: the single-hour
- *  event definition, shared with §5's since-rain factors). */
+ *  report carries rain > CONFIDENCE.rainEventMinIn (decisions 3 + 5a: the
+ *  single-hour event definition shared with §5's since-rain factors). */
 export function rainResetsReport(
   createdMs: number,
   rain: readonly RainHourSample[],
 ): boolean {
   return rain.some(
-    (hour) => hour.endMs > createdMs && hour.precipIn > REPORTS.rainResetMinIn,
+    (hour) => hour.endMs > createdMs && hour.precipIn > CONFIDENCE.rainEventMinIn,
   );
 }
 

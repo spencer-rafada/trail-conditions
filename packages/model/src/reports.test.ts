@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { REPORTS } from "./config";
+import { CONFIDENCE, REPORTS } from "./config";
 import {
   aggregateReports,
   deviceLimitExceeded,
@@ -49,8 +49,11 @@ describe("rainResetsReport — §6.3 'new rain resets reports' (decision 3)", ()
     expect(rainResetsReport(report, [rain(2, 0.05), rain(3, 0.08)])).toBe(false);
   });
 
-  it("exactly the threshold does not reset (spec says '> 0.1 in')", () => {
-    expect(rainResetsReport(report, [rain(2, REPORTS.rainResetMinIn)])).toBe(false);
+  it("exactly the threshold does not reset (spec says '> 0.1 in'; decision 5a pins the shared CONFIDENCE.rainEventMinIn)", () => {
+    expect(rainResetsReport(report, [rain(2, CONFIDENCE.rainEventMinIn)])).toBe(false);
+    expect(rainResetsReport(report, [rain(2, CONFIDENCE.rainEventMinIn + 0.01)])).toBe(
+      true,
+    );
   });
 
   it("no rain at all never resets", () => {

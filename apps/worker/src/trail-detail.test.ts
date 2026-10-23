@@ -20,9 +20,11 @@ describe("lastRainEvent", () => {
     ).toBeNull();
   });
 
-  it("counts exactly CONFIDENCE.rainEventMinIn (0.1 in) as rain", () => {
-    const row: RainEventRow = { ts_utc: "2026-10-23T11:00:00Z", precip_in: 0.1 };
-    expect(lastRainEvent([row])).toEqual(row);
+  it("does not count exactly CONFIDENCE.rainEventMinIn (spec §6.3: '> 0.1 in', decision 5a)", () => {
+    const at = { ts_utc: "2026-10-23T11:00:00Z", precip_in: 0.1 };
+    expect(lastRainEvent([at])).toBeNull();
+    const above: RainEventRow = { ts_utc: "2026-10-23T11:00:00Z", precip_in: 0.11 };
+    expect(lastRainEvent([at, above])).toEqual(above);
   });
 
   it("picks the most recent qualifying hour across cells, not the heaviest", () => {
