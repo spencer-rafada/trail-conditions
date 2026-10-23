@@ -2,15 +2,21 @@
   "name": "trail-conditions",
   "private": true,
   "scripts": {
-    "typecheck": "pnpm -r typecheck",
+    "typecheck": "tsc -p scripts && pnpm -r typecheck",
     "test": "vitest run",
-    "build": "pnpm --filter @trail-conditions/web build"
+    "build": "pnpm --filter @trail-conditions/web build",
+    "discover-trails": "tsx scripts/discover-trails.ts"
   },
   "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
     "typescript": "^5.7.2",
     "vitest": "^3.0.0"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "workerd"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "workerd"
+    ]
   }
 }
