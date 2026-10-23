@@ -118,10 +118,16 @@ export function ReportModal({
     };
   }, []);
 
-  // Single-focus: take focus on open, trap Tab, close on Escape.
+  // Single-focus: take focus once on open. Mount-only — if this ran on every
+  // effect re-run it would steal focus back from the Close button after a
+  // success (the parent re-renders when its post-submit refetch resolves).
+  useEffect(() => {
+    dialogRef.current?.focus();
+  }, []);
+
+  // Trap Tab inside the dialog, close on Escape.
   useEffect(() => {
     const dialog = dialogRef.current;
-    dialog?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();

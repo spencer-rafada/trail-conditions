@@ -2,7 +2,7 @@
 // soil, drying speed, worst section), reports since the last rain, and the
 // "Is this right?" button, which opens the §6.1 report modal (M5).
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { WETNESS } from "@trail-conditions/model";
 import { ApiError, fetchTrail, type TrailDetail } from "../api";
 import { ReportModal } from "../components/ReportModal";
@@ -36,10 +36,13 @@ export function Trail({ id }: { id: string }) {
     setReporting(true);
   };
 
-  const closeReport = () => {
+  // Stable identity: the modal's keydown effect depends on onClose, so a
+  // fresh function every render would re-run it on each re-render (e.g. the
+  // post-submit refetch resolving).
+  const closeReport = useCallback(() => {
     setReporting(false);
     openerRef.current?.focus();
-  };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
