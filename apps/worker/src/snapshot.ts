@@ -9,16 +9,20 @@
 // the confidence band + factors for the "why" popover), and timestamps.
 
 import {
+  aggregateReports,
   confidence,
   pointCondition,
   walkWetness,
   CONFIDENCE,
   OVERRIDES,
+  REPORTS,
   WETNESS,
   worstPoint,
+  type ActiveReport,
   type Confidence,
   type ConditionLevel,
   type NamedPointCondition,
+  type RainHourSample,
 } from "@trail-conditions/model";
 import { HOUR_MS, stamp } from "./time";
 import type { PointRow } from "./chunking";
@@ -155,15 +159,35 @@ export function hoursSinceRain(
   return null;
 }
 
+/** Merged rain hours (Stage IV wins, Open-Meteo fills) over a report's
+ *  possible lifetime, as plain samples for the model's rain-reset check. */
+function reportRainSamples(
+  nowHourMs: number,
+  rain: ReadonlyMap<string, number> | undefined,
+  om: ReadonlyMap<string, OmHour> | undefined,
+): RainHourSample[] {
+  const samples: RainHourSample[] = [];
+  for (let i = 0; i <= REPORTS.expiryAgeHours; i++) {
+    const endMs = nowHourMs - i * HOUR_MS;
+    const hourEnd = stamp(endMs);
+    const precipIn = rain?.get(hourEnd) ?? om?.get(hourEnd)?.precipIn ?? 0;
+    if (precipIn > 0) samples.push({ endMs, precipIn });
+  }
+  return samples;
+}
+
 /** Score one trail for now / tomorrow / day-after. Returns null when the
  *  forecast data for any point is missing, so a failed fetch never
- *  overwrites a good previous score. */
+ *  overwrites a good previous score. `reports` are this trail's rows from
+ *  the last 48 h; §6.3 weighting (age, rain-reset against the worst point's
+ *  cell rain) happens in the model's aggregateReports. */
 export function scoreTrail(
   trail: TrailRow,
   points: readonly PointRow[],
   rainByCell: RainByCell,
   omByPoint: OmByPoint,
   nowMs: number,
+  reports: readonly ActiveReport[],
 ): TrailScore | null {
   const nowHourMs = Math.floor(nowMs / HOUR_MS) * HOUR_MS;
   const tau = trail.tau_base_h * trail.tau_mult;
@@ -186,10 +210,19 @@ export function scoreTrail(
 
     const worst = worstPoint(perPoint.map((p) => p.condition));
     const worstEntry = perPoint.find((p) => p.condition === worst) ?? perPoint[0]!;
+    const reportAgg = aggregateReports(
+      reports,
+      reportRainSamples(
+        nowHourMs,
+        rainByCell.get(worstEntry.point.cell_id),
+        omByPoint.get(worstEntry.point.id),
+      ),
+      nowMs,
+    );
     const conf = confidence({
-      agreeingReports: 0, // rider reports land with M5
-      disagreeingReports: 0,
-      reportsConflict: false,
+      agreeingReports: reportAgg.agreeingReports,
+      disagreeingReports: reportAgg.disagreeingReports,
+      reportsConflict: reportAgg.reportsConflict,
       sourceDivergenceIn: sourceDivergenceIn(
         nowHourMs,
         rainByCell.get(worstEntry.point.cell_id),
