@@ -30,7 +30,8 @@ export const CONFIG = {
   CLUSTER_RADIUS_M: 800, // loose ways join a cluster when endpoints are this close
   MAX_SAMPLE_POINTS_PER_SYSTEM: 30, // elevation candidates per system (min/max picked from these)
   ELEVATION_BATCH_SIZE: 100, // Open-Meteo elevation API max locations per call
-  ELEVATION_DELAY_MS: 200, // pause between elevation calls
+  ELEVATION_DELAY_MS: 12_000, // Open-Meteo counts each location; 100 per 12 s stays under 600/min
+  ELEVATION_RATE_LIMIT_WAIT_MS: 65_000, // wait on HTTP 429 before retrying a batch
   MIN_UNNAMED_CLUSTER_WAYS: 3, // all-unnamed clusters smaller than this are dropped as noise
   MAX_OSM_REFS_PER_ROW: 12, // keep the osm_refs CSV cell readable
 } as const;
@@ -437,8 +438,9 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 async function fetchOverpass(query: string): Promise<{ elements: OverpassElement[] }> {
   const attempts = CONFIG.RETRY_DELAYS_MS.length + 1;
   for (let attempt = 0; attempt < attempts; attempt++) {
+    let res: Response | undefined;
     try {
-      const res = await fetch(CONFIG.OVERPASS_URL, {
+      res = await fetch(CONFIG.OVERPASS_URL, {
         method: "POST",
         headers: {
           "User-Agent": CONFIG.USER_AGENT,
@@ -446,35 +448,52 @@ async function fetchOverpass(query: string): Promise<{ elements: OverpassElement
         },
         body: "data=" + encodeURIComponent(query),
       });
-      if (res.ok) return (await res.json()) as { elements: OverpassElement[] };
-      const retryable = res.status === 429 || res.status === 504;
-      if (!retryable || attempt === attempts - 1) {
-        throw new Error(`Overpass HTTP ${res.status}: ${(await res.text()).slice(0, 300)}`);
-      }
-      console.warn(`Overpass HTTP ${res.status}; backing off…`);
     } catch (err) {
       if (attempt === attempts - 1) throw err;
       console.warn(`Overpass request failed (${String(err)}); backing off…`);
+      await sleep(CONFIG.RETRY_DELAYS_MS[attempt] as number);
+      continue;
     }
+    if (res.ok) return (await res.json()) as { elements: OverpassElement[] };
+    const retryable = res.status === 429 || res.status === 502 || res.status === 504;
+    if (!retryable || attempt === attempts - 1) {
+      throw new Error(`Overpass HTTP ${res.status}: ${(await res.text()).slice(0, 300)}`);
+    }
+    console.warn(`Overpass HTTP ${res.status}; backing off…`);
     await sleep(CONFIG.RETRY_DELAYS_MS[attempt] as number);
+  }
+  throw new Error("unreachable");
+}
+
+async function fetchElevationBatch(batch: LatLon[]): Promise<number[]> {
+  const url =
+    `${CONFIG.ELEVATION_URL}?latitude=${batch.map((p) => p.lat.toFixed(5)).join(",")}` +
+    `&longitude=${batch.map((p) => p.lon.toFixed(5)).join(",")}`;
+  const attempts = CONFIG.RETRY_DELAYS_MS.length + 1;
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    const res = await fetch(url, { headers: { "User-Agent": CONFIG.USER_AGENT } });
+    if (res.status === 429 && attempt < attempts - 1) {
+      console.warn("Open-Meteo HTTP 429; waiting out the rate-limit window…");
+      await sleep(CONFIG.ELEVATION_RATE_LIMIT_WAIT_MS);
+      continue;
+    }
+    if (!res.ok) throw new Error(`Open-Meteo elevation HTTP ${res.status}`);
+    const data = (await res.json()) as { elevation: number[] };
+    if (!Array.isArray(data.elevation) || data.elevation.length !== batch.length) {
+      throw new Error(`Open-Meteo elevation returned ${data.elevation?.length} values for ${batch.length} points`);
+    }
+    return data.elevation;
   }
   throw new Error("unreachable");
 }
 
 async function fetchElevations(points: LatLon[]): Promise<number[]> {
   const out: number[] = [];
-  for (const batch of chunk(points, CONFIG.ELEVATION_BATCH_SIZE)) {
-    const url =
-      `${CONFIG.ELEVATION_URL}?latitude=${batch.map((p) => p.lat.toFixed(5)).join(",")}` +
-      `&longitude=${batch.map((p) => p.lon.toFixed(5)).join(",")}`;
-    const res = await fetch(url, { headers: { "User-Agent": CONFIG.USER_AGENT } });
-    if (!res.ok) throw new Error(`Open-Meteo elevation HTTP ${res.status}`);
-    const data = (await res.json()) as { elevation: number[] };
-    if (!Array.isArray(data.elevation) || data.elevation.length !== batch.length) {
-      throw new Error(`Open-Meteo elevation returned ${data.elevation?.length} values for ${batch.length} points`);
-    }
-    out.push(...data.elevation);
-    await sleep(CONFIG.ELEVATION_DELAY_MS);
+  const batches = chunk(points, CONFIG.ELEVATION_BATCH_SIZE);
+  for (let i = 0; i < batches.length; i++) {
+    out.push(...(await fetchElevationBatch(batches[i] as LatLon[])));
+    if ((i + 1) % 10 === 0) console.log(`   …${i + 1}/${batches.length} elevation batches`);
+    if (i < batches.length - 1) await sleep(CONFIG.ELEVATION_DELAY_MS);
   }
   return out;
 }
