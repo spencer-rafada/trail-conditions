@@ -254,6 +254,121 @@ h2 {
   opacity: 0.55;
 }
 
+/* --- report modal --- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 38, 32, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  z-index: 10;
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 16px 16px;
+  outline: none;
+}
+
+.modal h2 {
+  margin: 0 0 4px;
+  font-size: 1.15rem;
+}
+
+.modal-hint {
+  margin: 0 0 12px;
+  color: var(--subtle);
+  font-size: 0.88rem;
+}
+
+.tag-set {
+  border: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-set legend {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 6px;
+  color: var(--subtle);
+  font-size: 0.82rem;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.86rem;
+  background: var(--bg);
+}
+
+.tag-chip input {
+  accent-color: var(--ink);
+  margin: 0;
+}
+
+.tag-chip:has(input:checked) {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.verdicts {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.verdicts button {
+  flex: 1;
+  padding: 12px 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+}
+
+.verdicts button:disabled {
+  opacity: 0.55;
+}
+
+.turnstile-slot {
+  min-height: 0;
+  margin-bottom: 8px;
+}
+
+.modal-error {
+  margin: 0 0 12px;
+  color: #b3261e;
+  font-size: 0.9rem;
+}
+
+.modal-cancel {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  background: none;
+  color: var(--subtle);
+  font: inherit;
+}
+
 /* --- shared states + footer --- */
 
 .status-screen {
