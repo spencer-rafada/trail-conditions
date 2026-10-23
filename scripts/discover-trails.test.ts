@@ -2,8 +2,10 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   CSV_HEADER,
+  buildCountyQuery,
   chunk,
   clusterSystems,
+  collectSamples,
   decimatePoints,
   matchSeeds,
   pickExtremes,
@@ -26,8 +28,31 @@ function findSystem(systems: System[], name: string): System {
 describe("clusterSystems", () => {
   const systems = clusterSystems(fixture.elements);
 
-  it("skips the county boundary relation and forms four systems", () => {
-    expect(systems).toHaveLength(4);
+  it("skips the county boundary relation and forms six systems", () => {
+    expect(systems).toHaveLength(6);
+  });
+
+  it("collects member geometry from a relation whose ways arrive only as members (the `out geom` wire shape)", () => {
+    // Relation 9002's member ways 201/202 are not standalone elements; their
+    // geometry rides on the members, with a null entry (clipped node) and a
+    // node member (lat/lon, no geometry array) mixed in, as `out geom` returns.
+    const anns = findSystem(systems, "Ann's Trail");
+    expect(anns.source).toBe("relation");
+    expect([...anns.wayIds].sort()).toEqual([201, 202]);
+    expect(anns.points).toEqual([
+      { lat: 40.52, lon: -111.79 },
+      { lat: 40.522, lon: -111.787 },
+      { lat: 40.522, lon: -111.787 },
+      { lat: 40.525, lon: -111.783 },
+    ]);
+    // member ways never leak into loose clusters
+    expect(systems.filter((s) => s.wayIds.includes(201))).toHaveLength(1);
+  });
+
+  it("still forms a (point-less) system from a relation that came back without members", () => {
+    const bst = findSystem(systems, "Bonneville Shoreline Trail");
+    expect(bst.source).toBe("relation");
+    expect(bst.points).toHaveLength(0);
   });
 
   it("turns a named mtb relation into one system and keeps member ways out of loose clusters", () => {
@@ -162,5 +187,37 @@ describe("matchSeeds", () => {
     const report = matchSeeds("Salt Lake County", systems);
     expect(report.missed).toContain("Wasatch Crest");
     expect(report.matched.length + report.missed.length).toBe(6);
+  });
+});
+
+describe("buildCountyQuery", () => {
+  it("outputs the trail union with `out geom` so relations carry member geometry", () => {
+    // `out tags geom` (tags-only verbosity) returns route=mtb relations with NO
+    // members on live Overpass, so relation systems get zero points.
+    const query = buildCountyQuery("Salt Lake County");
+    const unionOut = query.slice(query.lastIndexOf(");") + 2).trim();
+    expect(unionOut).toBe("out geom;");
+  });
+});
+
+describe("collectSamples", () => {
+  const systems = clusterSystems(fixture.elements).filter((s) => shouldKeepSystem(s));
+  const { samples, skipped } = collectSamples(
+    [{ county: "Salt Lake County", systems }],
+    30,
+  );
+
+  it("samples every kept system that has points", () => {
+    const sampled = samples.map((s) => s.system.name);
+    expect(sampled).toContain("Corner Canyon Trails");
+    expect(sampled).toContain("Ann's Trail");
+    expect(sampled).not.toContain("Bonneville Shoreline Trail");
+    for (const s of samples) expect(s.points.length).toBeGreaterThan(0);
+  });
+
+  it("names a kept system that ends up with zero sample points instead of dropping it silently", () => {
+    expect(skipped).toHaveLength(1);
+    expect(skipped[0]?.system.name).toBe("Bonneville Shoreline Trail");
+    expect(skipped[0]?.county).toBe("Salt Lake County");
   });
 });

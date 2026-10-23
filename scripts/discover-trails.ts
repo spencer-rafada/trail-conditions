@@ -415,6 +415,30 @@ export function matchSeeds(
   return { matched, missed };
 }
 
+/**
+ * Decimates each kept system's points into elevation samples. A kept system
+ * with zero geometry points cannot be sampled; it is returned in `skipped` so
+ * main() can warn with its name instead of dropping it silently.
+ */
+export function collectSamples(
+  perCounty: Array<{ county: County; systems: System[] }>,
+  maxPointsPerSystem: number = CONFIG.MAX_SAMPLE_POINTS_PER_SYSTEM,
+): {
+  samples: Array<{ county: County; system: System; points: LatLon[] }>;
+  skipped: Array<{ county: County; system: System }>;
+} {
+  const samples: Array<{ county: County; system: System; points: LatLon[] }> = [];
+  const skipped: Array<{ county: County; system: System }> = [];
+  for (const { county, systems } of perCounty) {
+    for (const system of systems) {
+      const points = decimatePoints(system.points, maxPointsPerSystem);
+      if (points.length > 0) samples.push({ county, system, points });
+      else skipped.push({ county, system });
+    }
+  }
+  return { samples, skipped };
+}
+
 export function buildCountyQuery(county: County): string {
   return `[out:json][timeout:${CONFIG.OVERPASS_TIMEOUT_S}];
 area["boundary"="administrative"]["admin_level"="6"]["name"="${county}"]->.county;
@@ -426,7 +450,7 @@ out tags;
   way["highway"~"^(path|track)$"]["mtb:scale:imba"](area.county);
   way["highway"~"^(path|track)$"]["bicycle"~"^(designated|yes)$"](area.county);
 );
-out tags geom;`;
+out geom;`;
 }
 
 // ---------------------------------------------------------------------------
@@ -542,12 +566,11 @@ async function main(): Promise<void> {
   }
 
   // Elevation lookup for decimated sample points, batched across all systems.
-  const samples: Array<{ county: County; system: System; points: LatLon[] }> = [];
-  for (const { county, systems } of perCounty) {
-    for (const system of systems) {
-      const points = decimatePoints(system.points, CONFIG.MAX_SAMPLE_POINTS_PER_SYSTEM);
-      if (points.length > 0) samples.push({ county, system, points });
-    }
+  const { samples, skipped } = collectSamples(perCounty);
+  for (const { county, system } of skipped) {
+    console.warn(
+      `WARNING: kept system "${system.name}" (${county}) has zero geometry points — excluded from the CSV (${osmRefs(system)})`,
+    );
   }
   const flat = samples.flatMap((s) => s.points);
   console.log(
