@@ -1,3 +1,14 @@
 # Copy to .dev.vars (gitignored) for local wrangler dev.
 # ADMIN_SECRET guards POST /api/admin/scores (x-admin-secret header).
 ADMIN_SECRET=change-me
+
+# Turnstile siteverify secret for POST /api/reports. This is Cloudflare's
+# published always-pass TEST secret: siteverify accepts any token, so the
+# whole report flow works locally with zero Cloudflare resources. The real
+# key pair is created manually at M7 — never by a ship run.
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+
+# Secret behind the daily rotating IP-hash salt (spec §6.2):
+# ip_hash = sha256(ip + HMAC(secret, UTC date)). Any local value works;
+# the production value is set manually at deploy time.
+REPORT_IP_SALT_SECRET=change-me
