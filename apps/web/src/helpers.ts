@@ -5,6 +5,7 @@ import {
   CONFIDENCE,
   LEVEL_SEVERITY,
   type Confidence,
+  type ConfidenceBand,
   type ConditionLevel,
 } from "@trail-conditions/model";
 import type { ScoredDay, TrailScore } from "./api";
@@ -67,6 +68,13 @@ export function levelColor(level: ConditionLevel): string {
 export function levelLabel(level: ConditionLevel): string {
   return LEVEL_LABELS[level];
 }
+
+/** Display casing for the model's confidence bands. */
+export const BAND_LABELS: Record<ConfidenceBand, string> = {
+  high: "High",
+  medium: "Medium",
+  low: "Low",
+};
 
 /** "Rideable now" = today's level is dry or prime (ticket decision: soft is
  *  marginal, and the disclaimer tells riders to stay off muddy trails). */
