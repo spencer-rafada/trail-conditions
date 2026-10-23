@@ -57,7 +57,15 @@ export default {
     }
     const trailMatch = url.pathname.match(/^\/api\/trails\/([^/]+)$/);
     if (trailMatch && request.method === "GET") {
-      return getTrailDetail(env, decodeURIComponent(trailMatch[1]!), Date.now());
+      let id: string;
+      try {
+        id = decodeURIComponent(trailMatch[1]!);
+      } catch {
+        // Malformed percent-encoding (e.g. /api/trails/%): no trail can have
+        // this id, so answer like any other unknown id instead of throwing.
+        return Response.json({ error: "not found" }, { status: 404 });
+      }
+      return getTrailDetail(env, id, Date.now());
     }
     if (url.pathname === "/api/admin/scores" && request.method === "POST") {
       return postAdminScores(request, env);
