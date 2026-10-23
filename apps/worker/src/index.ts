@@ -2,6 +2,7 @@
 
 import { runScoreJob, type Env } from "./score-job";
 import { EMPTY_SNAPSHOT } from "./snapshot";
+import { getTrailDetail } from "./trail-detail";
 
 /** 5-minute cache (spec §9: /api/scores, cache 5 min). */
 const SCORES_CACHE_CONTROL = "public, max-age=300";
@@ -53,6 +54,18 @@ export default {
     }
     if (url.pathname === "/api/scores" && request.method === "GET") {
       return getScores(env);
+    }
+    const trailMatch = url.pathname.match(/^\/api\/trails\/([^/]+)$/);
+    if (trailMatch && request.method === "GET") {
+      let id: string;
+      try {
+        id = decodeURIComponent(trailMatch[1]!);
+      } catch {
+        // Malformed percent-encoding (e.g. /api/trails/%): no trail can have
+        // this id, so answer like any other unknown id instead of throwing.
+        return Response.json({ error: "not found" }, { status: 404 });
+      }
+      return getTrailDetail(env, id, Date.now());
     }
     if (url.pathname === "/api/admin/scores" && request.method === "POST") {
       return postAdminScores(request, env);

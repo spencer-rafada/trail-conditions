@@ -85,7 +85,7 @@ export async function runScoreJob(
   // 1. Load trails + points and the current snapshot (one batch).
   const [trailsRes, pointsRes, snapshotRes] = await countBatch<Record<string, unknown>>([
     env.DB.prepare(
-      "SELECT id, name, tau_base_h, tau_mult, reports_used FROM trails",
+      "SELECT id, name, county, tau_base_h, tau_mult, reports_used FROM trails",
     ),
     env.DB.prepare(
       "SELECT id, trail_id, label, lat, lon, elev_m, cell_id FROM trail_points",
