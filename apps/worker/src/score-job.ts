@@ -46,6 +46,11 @@ import { WETNESS } from "@trail-conditions/model";
 export interface Env {
   DB: D1Database;
   ADMIN_SECRET: string;
+  /** Turnstile siteverify secret (TEST always-pass key locally; the real
+   *  key is created manually at M7, never by a ship run). */
+  TURNSTILE_SECRET: string;
+  /** Secret behind the daily rotating IP-hash salt (§6.2). */
+  REPORT_IP_SALT_SECRET: string;
 }
 
 export interface SubrequestCounter {

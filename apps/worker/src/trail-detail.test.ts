@@ -101,7 +101,12 @@ function fakeEnv(data: FakeData): Env {
     };
     return stmt;
   };
-  return { ADMIN_SECRET: "x", DB: { prepare } as unknown as D1Database };
+  return {
+    ADMIN_SECRET: "x",
+    TURNSTILE_SECRET: "x",
+    REPORT_IP_SALT_SECRET: "x",
+    DB: { prepare } as unknown as D1Database,
+  };
 }
 
 const DAY: ScoredDay = {
