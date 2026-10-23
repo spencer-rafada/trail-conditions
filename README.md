@@ -26,6 +26,7 @@ pnpm test
 pnpm build
 pnpm --filter @trail-conditions/web dev      # web dev server
 pnpm --filter @trail-conditions/worker dev   # wrangler dev
+pnpm discover-trails   # hand-run only (Overpass + Open-Meteo): writes data/trail-candidates.csv
 ```
 
 ## Data credits
