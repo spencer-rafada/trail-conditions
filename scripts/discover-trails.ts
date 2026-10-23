@@ -5,7 +5,9 @@
  *
  * Queries the Overpass API once per county (Salt Lake, Utah, Wasatch — Utah state) for
  * MTB trails, clusters them into trail systems, looks up elevations for sample points
- * via Open-Meteo's elevation API, and writes data/trail-candidates.csv for human review.
+ * via Open-Meteo's elevation API (refetching from Open Topo Data's USGS NED 10 m
+ * dataset when an Open-Meteo rate limit persists), and writes
+ * data/trail-candidates.csv for human review.
  * It never writes data/trails.json — that file is the human-reviewed list.
  *
  * Pure helpers are exported for tests (scripts/discover-trails.test.ts, which run on
@@ -31,9 +33,12 @@ export const CONFIG = {
   MAX_SAMPLE_POINTS_PER_SYSTEM: 30, // elevation candidates per system (min/max picked from these)
   ELEVATION_BATCH_SIZE: 100, // Open-Meteo elevation API max locations per call
   ELEVATION_DELAY_MS: 12_000, // Open-Meteo counts each location; 100 per 12 s stays under 600/min
-  // Escalating waits on HTTP 429 before retrying a batch: Open-Meteo also has an
-  // hourly cap, which a one-minute wait cannot clear (observed in the 2026-10-23 runs).
-  ELEVATION_RATE_LIMIT_WAITS_MS: [65_000, 300_000, 900_000],
+  // Escalating waits on HTTP 429 before retrying a batch: Open-Meteo also has
+  // hourly/daily caps a one-minute wait cannot clear (observed 2026-10-23). When
+  // the ladder is exhausted, the script refetches everything from Open Topo Data.
+  ELEVATION_RATE_LIMIT_WAITS_MS: [65_000, 300_000],
+  OTD_URL: "https://api.opentopodata.org/v1/ned10m", // fallback: USGS NED 10 m via Open Topo Data
+  OTD_DELAY_MS: 1_100, // Open Topo Data allows 1 call per second
   MIN_UNNAMED_CLUSTER_WAYS: 3, // all-unnamed clusters smaller than this are dropped as noise
   MAX_OSM_REFS_PER_ROW: 12, // keep the osm_refs CSV cell readable
 } as const;
@@ -514,7 +519,46 @@ async function fetchElevationBatch(batch: LatLon[]): Promise<number[]> {
   throw new Error("unreachable");
 }
 
-async function fetchElevations(points: LatLon[]): Promise<number[]> {
+/** Fallback elevation source: Open Topo Data serving the USGS NED 10 m dataset. */
+async function fetchElevationBatchOtd(batch: LatLon[]): Promise<number[]> {
+  const locations = batch.map((p) => `${p.lat.toFixed(5)},${p.lon.toFixed(5)}`).join("|");
+  const attempts = CONFIG.RETRY_DELAYS_MS.length + 1;
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    const res = await fetch(CONFIG.OTD_URL, {
+      method: "POST",
+      headers: { "User-Agent": CONFIG.USER_AGENT, "Content-Type": "application/json" },
+      body: JSON.stringify({ locations }),
+    });
+    if ((res.status === 429 || res.status >= 500) && attempt < attempts - 1) {
+      console.warn(`Open Topo Data HTTP ${res.status}; backing off…`);
+      await sleep(CONFIG.RETRY_DELAYS_MS[attempt] as number);
+      continue;
+    }
+    if (!res.ok) throw new Error(`Open Topo Data HTTP ${res.status}`);
+    const data = (await res.json()) as {
+      status: string;
+      results?: Array<{ elevation: number | null; location: { lat: number; lng: number } }>;
+    };
+    if (data.status !== "OK" || !Array.isArray(data.results) || data.results.length !== batch.length) {
+      throw new Error(
+        `Open Topo Data returned status=${data.status} with ${data.results?.length} results for ${batch.length} points`,
+      );
+    }
+    return data.results.map((r) => {
+      if (r.elevation === null) {
+        throw new Error(`Open Topo Data has no elevation for ${r.location.lat},${r.location.lng}`);
+      }
+      return r.elevation;
+    });
+  }
+  throw new Error("unreachable");
+}
+
+export type ElevationProvider = "Open-Meteo" | "Open Topo Data (USGS NED 10 m)";
+
+async function fetchElevations(
+  points: LatLon[],
+): Promise<{ elevations: number[]; provider: ElevationProvider }> {
   // Query each distinct coordinate once (relation members share way endpoints);
   // Open-Meteo counts every location in a batch against its rate limits.
   const keyOf = (p: LatLon) => `${p.lat.toFixed(5)},${p.lon.toFixed(5)}`;
@@ -530,14 +574,38 @@ async function fetchElevations(points: LatLon[]): Promise<number[]> {
   if (unique.length < points.length) {
     console.log(`   (${points.length} points → ${unique.length} distinct coordinates)`);
   }
-  const uniqueElevations: number[] = [];
   const batches = chunk(unique, CONFIG.ELEVATION_BATCH_SIZE);
+  let provider: ElevationProvider = "Open-Meteo";
+  let uniqueElevations: number[] = [];
   for (let i = 0; i < batches.length; i++) {
-    uniqueElevations.push(...(await fetchElevationBatch(batches[i] as LatLon[])));
+    const batch = batches[i] as LatLon[];
+    if (provider === "Open-Meteo") {
+      try {
+        uniqueElevations.push(...(await fetchElevationBatch(batch)));
+      } catch (err) {
+        if (!String(err).includes("HTTP 429")) throw err;
+        // The wait ladder could not clear the rate limit (hourly/daily cap).
+        // Switch provider and refetch from the start so one DEM serves every row.
+        console.warn(
+          "Open-Meteo rate limit persisted; refetching all batches from Open Topo Data (USGS NED 10 m)…",
+        );
+        provider = "Open Topo Data (USGS NED 10 m)";
+        uniqueElevations = [];
+        i = -1;
+        continue;
+      }
+    } else {
+      uniqueElevations.push(...(await fetchElevationBatchOtd(batch)));
+    }
     if ((i + 1) % 10 === 0) console.log(`   …${i + 1}/${batches.length} elevation batches`);
-    if (i < batches.length - 1) await sleep(CONFIG.ELEVATION_DELAY_MS);
+    if (i < batches.length - 1) {
+      await sleep(provider === "Open-Meteo" ? CONFIG.ELEVATION_DELAY_MS : CONFIG.OTD_DELAY_MS);
+    }
   }
-  return points.map((p) => uniqueElevations[indexByKey.get(keyOf(p)) as number] as number);
+  return {
+    elevations: points.map((p) => uniqueElevations[indexByKey.get(keyOf(p)) as number] as number),
+    provider,
+  };
 }
 
 function osmRefs(system: System): string {
@@ -594,7 +662,7 @@ async function main(): Promise<void> {
   console.log(
     `\nFetching elevations for ${flat.length} sample points in batches of ${CONFIG.ELEVATION_BATCH_SIZE}…`,
   );
-  const elevations = await fetchElevations(flat);
+  const { elevations, provider } = await fetchElevations(flat);
 
   const rows: CandidateRow[] = [];
   let cursor = 0;
@@ -645,7 +713,7 @@ async function main(): Promise<void> {
     for (const label of report.missed) console.log(`    ✗ MISSED: ${label}`);
   }
   console.log(
-    "\nData © OpenStreetMap contributors (ODbL); elevations from Open-Meteo. Review the CSV before promoting anything to data/trails.json.",
+    `\nData © OpenStreetMap contributors (ODbL); elevations from ${provider}. Review the CSV before promoting anything to data/trails.json.`,
   );
 }
 
