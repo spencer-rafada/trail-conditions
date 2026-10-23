@@ -2,7 +2,7 @@
 // soil, drying speed, worst section), reports since the last rain, and the
 // "Is this right?" button, which opens the §6.1 report modal (M5).
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { WETNESS } from "@trail-conditions/model";
 import { ApiError, fetchTrail, type TrailDetail } from "../api";
 import { ReportModal } from "../components/ReportModal";
@@ -26,6 +26,20 @@ const SOIL_COPY = {
 export function Trail({ id }: { id: string }) {
   const [state, setState] = useState<FetchState>({ status: "loading" });
   const [reporting, setReporting] = useState(false);
+  // The element that opened the modal; focus returns to it on close
+  // (ARIA dialog pattern — otherwise Tab lands in the footer).
+  const openerRef = useRef<HTMLElement | null>(null);
+
+  const openReport = () => {
+    openerRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setReporting(true);
+  };
+
+  const closeReport = () => {
+    setReporting(false);
+    openerRef.current?.focus();
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -75,14 +89,10 @@ export function Trail({ id }: { id: string }) {
         <p className="status-screen">No trail with this address.</p>
       )}
       {state.status === "ready" && (
-        <Detail detail={state.detail} onReport={() => setReporting(true)} />
+        <Detail detail={state.detail} onReport={openReport} />
       )}
       {reporting && (
-        <ReportModal
-          trailId={id}
-          onClose={() => setReporting(false)}
-          onSubmitted={refresh}
-        />
+        <ReportModal trailId={id} onClose={closeReport} onSubmitted={refresh} />
       )}
     </main>
   );

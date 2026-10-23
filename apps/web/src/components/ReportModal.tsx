@@ -54,7 +54,12 @@ function loadTurnstile(): Promise<TurnstileApi> {
     );
     script.addEventListener(
       "error",
-      () => reject(new Error("turnstile script failed to load")),
+      () => {
+        // Drop the dead element: its load/error events have fired and never
+        // re-fire, so a reopened modal must append a fresh script to retry.
+        script.remove();
+        reject(new Error("turnstile script failed to load"));
+      },
       { once: true },
     );
     if (!existing) {
@@ -85,6 +90,7 @@ export function ReportModal({
   const [tags, setTags] = useState<string[]>([]);
   const widgetRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   // Mount the Turnstile widget once.
   useEffect(() => {
@@ -128,7 +134,7 @@ export function ReportModal({
       if (focusables.length === 0) return;
       const first = focusables[0]!;
       const last = focusables[focusables.length - 1]!;
-      if (e.shiftKey && document.activeElement === first) {
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
         last.focus();
         e.preventDefault();
       } else if (!e.shiftKey && document.activeElement === last) {
@@ -140,6 +146,12 @@ export function ReportModal({
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
 
+  // On success the verdict buttons unmount; land focus on Close so the trap
+  // keeps containing and the "Thanks" heading (the dialog's label) is read.
+  useEffect(() => {
+    if (phase === "success") closeRef.current?.focus();
+  }, [phase]);
+
   const toggleTag = (tag: string) =>
     setTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
@@ -149,6 +161,9 @@ export function ReportModal({
     if (!token || phase !== "idle") return;
     setPhase("submitting");
     setError(null);
+    // Disabling the tapped verdict button would drop focus to body and let
+    // Tab escape the modal; hold focus on the dialog while submitting.
+    dialogRef.current?.focus();
     try {
       await postReport({
         trailId,
@@ -193,7 +208,12 @@ export function ReportModal({
               The reports count updates now; the confidence marker picks it up
               at the next score update.
             </p>
-            <button type="button" className="report-btn" onClick={onClose}>
+            <button
+              type="button"
+              className="report-btn"
+              ref={closeRef}
+              onClick={onClose}
+            >
               Close
             </button>
           </>
@@ -249,11 +269,15 @@ export function ReportModal({
               </p>
             )}
             {widgetFailed && (
-              <p className="modal-error">
+              <p className="modal-error" role="alert">
                 The human check didn't load. Close this and try again.
               </p>
             )}
-            {error && <p className="modal-error">{error}</p>}
+            {error && (
+              <p className="modal-error" role="alert">
+                {error}
+              </p>
+            )}
             <button type="button" className="modal-cancel" onClick={onClose}>
               Cancel
             </button>
