@@ -69,7 +69,14 @@ export const CONFIG = {
 // ---------------------------------------------------------------------------
 
 export const CSV_HEADER =
-  "system,county,trailhead_lat,trailhead_lon,trailhead_elev_m,top_lat,top_lon,top_elev_m,n_ways,n_relations,osm_refs,notes";
+  "system,county,trailhead_lat,trailhead_lon,trailhead_elev_m,top_lat,top_lon,top_elev_m,n_ways,n_relations,osm_refs,notes,name_source";
+
+/** Where the system's display name came from (written by discover-trails):
+ *  "osm" = a trail element's own name; "area" = the named park/reserve
+ *  containing the ways; "place" = derived from the nearest place node (the
+ *  cluster has no usable OSM trail name). Anything but "osm" is a derived name. */
+export const NAME_SOURCES = ["osm", "area", "place"] as const;
+export type NameSource = (typeof NAME_SOURCES)[number];
 
 export type PointLabel = "Trailhead" | "Top";
 
@@ -86,6 +93,7 @@ export interface Candidate {
   points: [SamplePoint, SamplePoint]; // [Trailhead, Top]
   osm_refs: string;
   notes: string;
+  name_source: NameSource;
   /** Every raw CSV cell except county — the dedupe identity. */
   dedupeKey: string;
   /** 1-based line number in the CSV file, for receipts. */
@@ -117,6 +125,7 @@ export interface Trail {
   system: string;
   county: string;
   osm_refs: string;
+  name_source: NameSource;
   tau_base_h: number; // max (slowest-drying) of its points
   tau_mult: number; // 1.0 until rider reports tune it (spec §6.4)
   points: TrailPoint[];
@@ -187,6 +196,12 @@ export function parseCandidatesCsv(text: string): Candidate[] {
       return value;
     };
     const countyIndex = COLUMNS.indexOf("county");
+    const nameSource = cell("name_source");
+    if (!(NAME_SOURCES as readonly string[]).includes(nameSource)) {
+      throw new Error(
+        `CSV line ${csvLine}: name_source is "${nameSource}", expected one of ${NAME_SOURCES.join("|")}`,
+      );
+    }
     return {
       system: cell("system"),
       county: cell("county"),
@@ -206,6 +221,7 @@ export function parseCandidatesCsv(text: string): Candidate[] {
       ] as [SamplePoint, SamplePoint],
       osm_refs: cell("osm_refs"),
       notes: cell("notes"),
+      name_source: nameSource as NameSource,
       dedupeKey: JSON.stringify(cells.filter((_, j) => j !== countyIndex)),
       csvLine,
     };
@@ -384,6 +400,7 @@ export function buildTrail(
     system: candidate.system,
     county: candidate.county,
     osm_refs: candidate.osm_refs,
+    name_source: candidate.name_source,
     tau_base_h: Math.max(...points.map((p) => p.tau_base_h)),
     tau_mult: 1.0,
     points,
@@ -408,6 +425,9 @@ export function validateTrails(trails: Trail[]): string[] {
     if (!t.system) bad(t.id, "missing system");
     if (!t.county) bad(t.id, "missing county");
     if (!t.osm_refs) bad(t.id, "missing osm_refs");
+    if (!(NAME_SOURCES as readonly string[]).includes(t.name_source)) {
+      bad(t.id, `name_source is "${t.name_source}", expected one of ${NAME_SOURCES.join("|")}`);
+    }
     if (t.tau_mult !== 1.0) bad(t.id, `tau_mult is ${t.tau_mult}, expected 1.0`);
     if (t.points.length !== 2) bad(t.id, `${t.points.length} points, expected 2`);
     const maxTau = Math.max(...t.points.map((p) => p.tau_base_h));
