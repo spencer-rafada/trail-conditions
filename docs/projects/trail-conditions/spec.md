@@ -281,26 +281,31 @@ Add indexes on `reports(trail_id, created_utc)`, `reports(device_id, trail_id, c
 
 ## 10. UI (mobile first)
 
-**Home**
-- Tabs: **Salt Lake · Utah · Wasatch**
-- Trail cards, best conditions first. Each card shows:
+**Home (explore: search first, map and list to go deeper)**
+- **Search** at the top: one box, typed or by voice (mic only where the browser supports it). Searches all three counties. Forgiving: typos, plurals, possessives ("lamberts park"). Also matches the names of trails inside a system (`data/trail-names.json`, from the hand-run `pnpm trail-names`), and the card says which one ("Includes Clark's Trail").
+- **Phone:** the map fills the screen; search and chips float on top; results sit in a bottom sheet (peek / half / full). **Desktop (>= 900 px):** sidebar (search, chips, list) and the map on the right.
+- **Map:** USGS Topo tiles (public domain, no key). One pin per trail at its trailhead, colored **and lettered** by today's level (D · P · S · M · ❄). Tapping a pin highlights its card; on desktop, hovering a card highlights its pin. The map code loads only when the map is shown.
+- **List:** when not searching, the trails in the map area, best conditions first (closest first after Near me). Each card shows:
   - Name and level color (Dry · Prime · Soft · Muddy · Snow)
-  - Confidence: High / Medium / Low
+  - Confidence: High / Medium / Low (plus county when searching, distance after Near me)
   - "✔ 2 riders confirmed today," if any
   - A 3-day strip: Today · Tomorrow · Day after
   - "Updated 12 min ago"
-- Filter: "Rideable now"
+- **Chips:** "Rideable now" (filter), "Near me" (asks for location only when tapped; never sent to the server), and Salt Lake · Utah · Wasatch (move the map to that county; they replace the old tabs, and old `?tab=` links still work).
+- The URL keeps the search, filter, and map view (`?q=`, `?rideable=1`, `?at=lat,lon,zoom`), so back from a trail page restores them.
+- If the snapshot has no pins yet (worker not redeployed), Home falls back to search + list with no map.
 
 **Trail page**
 - Level, confidence, and **why**: last rain (amount and time), soil type, drying speed, worst section
 - Reports since the last rain
 - **"Is this right?"** button → report modal
+- **Where:** a small map with the Trailhead and Top pins, and a **Directions to the trailhead** button (Google Maps link; nothing goes through our server)
 
 **Footer (required)**
-- Credits: Open-Meteo (CC-BY 4.0), Iowa Environmental Mesonet, USDA NRCS, © OpenStreetMap contributors
+- Credits: Open-Meteo (CC-BY 4.0), Iowa Environmental Mesonet, USDA NRCS, © OpenStreetMap contributors, USGS The National Map (map tiles)
 - Disclaimer: "Estimates only. Check land manager closures. Please stay off muddy trails."
 
-Map view: v2 (if you add one, use a free tile source and follow its usage policy).
+Map view: shipped (see Home). Snapshot entries and `/api/trails/:id` carry `points: { label, lat, lon }[]`, Trailhead first, rounded to 5 decimals.
 
 ---
 

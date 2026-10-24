@@ -78,7 +78,7 @@ interface FakeData {
     tau_base_h: number | null;
     tau_mult: number | null;
   } | null;
-  points: (SoilRow & { cell_id: string })[];
+  points: (SoilRow & { cell_id: string; id?: string; label?: string | null; lat?: number; lon?: number })[];
   snapshotJson: string | null;
   rain: RainEventRow[];
   reportCount: number;
@@ -146,7 +146,10 @@ describe("getTrailDetail", () => {
         tau_base_h: 24,
         tau_mult: 1.2,
       },
-      points: [{ sand: 20, clay: 35, cell_id: "264:462" }],
+      points: [
+        { id: "demo-trail#top", label: "Top", lat: 40.61234567, lon: -111.7, sand: 20, clay: 35, cell_id: "264:462" },
+        { id: "demo-trail#trailhead", label: "Trailhead", lat: 40.5, lon: -111.6, sand: null, clay: null, cell_id: "264:462" },
+      ],
       snapshotJson: JSON.stringify({
         updated_utc: new Date(NOW).toISOString(),
         trails: { "demo-trail": SCORED },
@@ -167,6 +170,10 @@ describe("getTrailDetail", () => {
       scored_utc: new Date(NOW).toISOString(),
       last_rain: { ts_utc: "2026-10-23T09:00:00Z", precip_in: 0.3 },
       reports_since_rain: 2,
+      points: [
+        { label: "Trailhead", lat: 40.5, lon: -111.6 },
+        { label: "Top", lat: 40.61235, lon: -111.7 },
+      ],
     });
   });
 
@@ -179,7 +186,7 @@ describe("getTrailDetail", () => {
         tau_base_h: null,
         tau_mult: null,
       },
-      points: [{ sand: null, clay: null, cell_id: "264:462" }],
+      points: [{ id: "demo-trail#p1", label: null, lat: 40.5, lon: -111.6, sand: null, clay: null, cell_id: "264:462" }],
       snapshotJson: null,
       rain: [],
       reportCount: 0,
@@ -198,6 +205,7 @@ describe("getTrailDetail", () => {
       scored_utc: null,
       last_rain: null,
       reports_since_rain: 0,
+      points: [{ label: "demo-trail#p1", lat: 40.5, lon: -111.6 }],
     });
   });
 });

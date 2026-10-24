@@ -18,6 +18,13 @@ export interface ScoredDay {
   confidence: Confidence;
 }
 
+/** One map pin (a trail sample point), Trailhead first. */
+export interface TrailPin {
+  label: string;
+  lat: number;
+  lon: number;
+}
+
 export interface TrailScore {
   id: string;
   name: string;
@@ -25,6 +32,9 @@ export interface TrailScore {
   county?: string;
   days: ScoredDay[];
   scored_utc: string;
+  /** Absent until the worker that sends pins is deployed and has rescored
+   *  the trail; the map hides itself when no trail has pins. */
+  points?: TrailPin[];
 }
 
 export interface Snapshot {
@@ -49,6 +59,8 @@ export interface TrailDetail {
    *  history (the normal dry-spell state). */
   last_rain: { ts_utc: string; precip_in: number } | null;
   reports_since_rain: number;
+  /** Absent from workers deployed before map pins existed. */
+  points?: TrailPin[];
 }
 
 export class ApiError extends Error {

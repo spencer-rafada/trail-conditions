@@ -701,9 +701,9 @@ out geom;`;
 // I/O (only runs when executed directly — never from tests)
 // ---------------------------------------------------------------------------
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function fetchOverpass(query: string): Promise<{ elements: OverpassElement[] }> {
+export async function fetchOverpass(query: string): Promise<{ elements: OverpassElement[] }> {
   const attempts = CONFIG.RETRY_DELAYS_MS.length + 1;
   for (let attempt = 0; attempt < attempts; attempt++) {
     let res: Response | undefined;
