@@ -17,24 +17,24 @@ import {
 
 // Real rows from data/trail-candidates.csv (osm_refs shortened where long).
 const BOBSLED =
-  "Bobsled Trail,Salt Lake County,40.78432,-111.89283,1360,40.82836,-111.86646,1824,121,0,way/33908771,distance cluster of loose ways; 48 distinct names; extremes from 30 sampled points";
+  "Bobsled Trail,Salt Lake County,40.78432,-111.89283,1360,40.82836,-111.86646,1824,121,0,way/33908771,distance cluster of loose ways; 48 distinct names; extremes from 30 sampled points,osm";
 const DONNER_REED =
-  "Donner Reed Party and Mormon Pioneer Trail,Salt Lake County,40.75416,-111.69440,1729,40.87298,-111.76196,2705,50,0,way/10088171,distance cluster of loose ways; 10 distinct names; extremes from 30 sampled points";
+  "Donner Reed Party and Mormon Pioneer Trail,Salt Lake County,40.75416,-111.69440,1729,40.87298,-111.76196,2705,50,0,way/10088171,distance cluster of loose ways; 10 distinct names; extremes from 30 sampled points,osm";
 const MUELLER_PARK =
-  "Mueller Park Trail,Salt Lake County,40.83945,-111.82794,1975,40.85391,-111.75415,2807,4,0,way/639186640;way/1190451194;way/1431582707;way/1432084214,distance cluster of loose ways; 3 distinct names; extremes from 30 sampled points";
+  "Mueller Park Trail,Salt Lake County,40.83945,-111.82794,1975,40.85391,-111.75415,2807,4,0,way/639186640;way/1190451194;way/1431582707;way/1432084214,distance cluster of loose ways; 3 distinct names; extremes from 30 sampled points,osm";
 const GWT_UTAH =
-  "GWT Strawberry Ridge,Utah County,40.14461,-111.22583,2565,40.19404,-111.24711,2789,1,0,way/10191473,distance cluster of loose ways; extremes from 30 sampled points";
+  "GWT Strawberry Ridge,Utah County,40.14461,-111.22583,2565,40.19404,-111.24711,2789,1,0,way/10191473,distance cluster of loose ways; extremes from 30 sampled points,osm";
 const GWT_WASATCH =
-  "GWT Strawberry Ridge,Wasatch County,40.14461,-111.22583,2565,40.19404,-111.24711,2789,1,0,way/10191473,distance cluster of loose ways; extremes from 30 sampled points";
+  "GWT Strawberry Ridge,Wasatch County,40.14461,-111.22583,2565,40.19404,-111.24711,2789,1,0,way/10191473,distance cluster of loose ways; extremes from 30 sampled points,osm";
 const LITTLE_VALLEY_UTAH =
-  "Little Valley - Sheep Canyon Trail,Utah County,40.26122,-111.40868,1999,40.28888,-111.41424,2318,1,0,way/746824100,distance cluster of loose ways; extremes from 30 sampled points";
+  "Little Valley - Sheep Canyon Trail,Utah County,40.26122,-111.40868,1999,40.28888,-111.41424,2318,1,0,way/746824100,distance cluster of loose ways; extremes from 30 sampled points,osm";
 const LITTLE_VALLEY_WASATCH =
-  "Little Valley - Sheep Canyon Trail,Wasatch County,40.26122,-111.40868,1999,40.28888,-111.41424,2318,1,0,way/746824100,distance cluster of loose ways; extremes from 30 sampled points";
+  "Little Valley - Sheep Canyon Trail,Wasatch County,40.26122,-111.40868,1999,40.28888,-111.41424,2318,1,0,way/746824100,distance cluster of loose ways; extremes from 30 sampled points,osm";
 // Same name as GWT_UTAH but different coordinates: a distinct system, not a duplicate.
 const GWT_OTHER_COORDS =
-  "GWT Strawberry Ridge,Utah County,40.20000,-111.30000,2400,40.25000,-111.31000,2600,1,0,way/99999999,distance cluster of loose ways; extremes from 30 sampled points";
+  "GWT Strawberry Ridge,Utah County,40.20000,-111.30000,2400,40.25000,-111.31000,2600,1,0,way/99999999,distance cluster of loose ways; extremes from 30 sampled points,osm";
 const QUOTED_CLUSTER =
-  '"Unnamed cluster @ 40.555,-112.000",Salt Lake County,40.54672,-111.99168,1448,40.55063,-111.99773,1470,15,0,way/220795864,distance cluster of loose ways; extremes from 30 sampled points';
+  '"Unnamed cluster @ 40.555,-112.000",Salt Lake County,40.54672,-111.99168,1448,40.55063,-111.99773,1470,15,0,way/220795864,distance cluster of loose ways; extremes from 30 sampled points,place';
 
 const csvOf = (...rows: string[]) => [CSV_HEADER, ...rows].join("\n") + "\n";
 
@@ -56,6 +56,17 @@ describe("parseCandidatesCsv", () => {
       elev_m: 1824,
     });
     expect(c!.osm_refs).toBe("way/33908771");
+    expect(c!.name_source).toBe("osm");
+  });
+
+  it("reads a derived name_source", () => {
+    const [c] = parseCandidatesCsv(csvOf(QUOTED_CLUSTER));
+    expect(c!.name_source).toBe("place");
+  });
+
+  it("rejects a row with an unknown name_source", () => {
+    const bad = BOBSLED.replace(/,osm$/, ",guesswork");
+    expect(() => parseCandidatesCsv(csvOf(bad))).toThrow(/guesswork/);
   });
 
   it("handles quoted fields containing commas", () => {
@@ -285,6 +296,17 @@ describe("buildTrail", () => {
     expect(trail.tau_base_h).toBe(tauBase(CLAYEY)); // the clayey point is the slower one
   });
 
+  it("carries name_source from the candidate onto the trail", () => {
+    const trail = builtTrail();
+    expect(trail.name_source).toBe("osm");
+    const [derived] = parseCandidatesCsv(csvOf(QUOTED_CLUSTER));
+    const derivedTrail = buildTrail(derived as Candidate, "unnamed", [
+      { soil: SANDY, drainage: null, found: true, cell_id: "267:458" },
+      { soil: SANDY, drainage: null, found: true, cell_id: "267:458" },
+    ]);
+    expect(derivedTrail.name_source).toBe("place");
+  });
+
   it("carries drainage and cell_id onto each point and tau_mult 1.0 on the trail", () => {
     const trail = builtTrail();
     expect(trail.tau_mult).toBe(1.0);
@@ -321,5 +343,11 @@ describe("validateTrails", () => {
     const trail = builtTrail();
     trail.tau_base_h = 1;
     expect(validateTrails([trail]).join("\n")).toMatch(/tau_base_h/);
+  });
+
+  it("reports a trail with a name_source outside osm|area|place", () => {
+    const trail = builtTrail();
+    (trail as { name_source: string }).name_source = "guesswork";
+    expect(validateTrails([trail]).join("\n")).toMatch(/name_source/);
   });
 });

@@ -10,6 +10,7 @@ import {
   matchSeeds,
   pickExtremes,
   shouldKeepSystem,
+  stitchRings,
   toCsv,
   type OverpassElement,
   type System,
@@ -17,6 +18,23 @@ import {
 
 const fixture = JSON.parse(
   readFileSync(new URL("../fixtures/overpass-sample.json", import.meta.url), "utf8"),
+) as { elements: OverpassElement[] };
+
+// Distilled from the live Salt Lake County Overpass response (2026-10-24): the
+// Corner Canyon Regional Park relation (17003123), the nested Corner Canyon
+// nature-reserve way (1238191464), 12 connected trail ways from the real
+// 167-way Draper mega-cluster (5 with midpoints in the park only, 3 in the
+// nested reserve, 4 BST ways outside both), and one place node.
+const draper = JSON.parse(
+  readFileSync(new URL("../fixtures/overpass-draper-sample.json", import.meta.url), "utf8"),
+) as { elements: OverpassElement[] };
+
+// Distilled from the live Utah County Overpass response (2026-10-24): the
+// Mountain Ranch Bike Park way (480216578), the Eagle Mountain place node, and
+// 38 connected ways from the real 207-way Lake Mountain mega-cluster (4 inside
+// the bike park, 34 outside with 34 distinct names).
+const eagle = JSON.parse(
+  readFileSync(new URL("../fixtures/overpass-eagle-sample.json", import.meta.url), "utf8"),
 ) as { elements: OverpassElement[] };
 
 function findSystem(systems: System[], name: string): System {
@@ -79,11 +97,163 @@ describe("clusterSystems", () => {
     expect(pipeline.wayIds).toEqual([105]);
   });
 
-  it("labels an all-unnamed cluster by its location", () => {
+  it("names an all-unnamed cluster after the nearest place node, marked place-derived", () => {
+    const withPlace = [
+      ...fixture.elements,
+      { type: "node", id: 999100, lat: 40.638, lon: -111.91, tags: { place: "locality", name: "Testville" } },
+    ] as OverpassElement[];
+    const unnamed = clusterSystems(withPlace).find((s) => s.wayIds.includes(106));
+    expect(unnamed?.name).toBe("Testville trails");
+    expect(unnamed?.nameSource).toBe("place");
+    expect(unnamed?.names).toEqual([]);
+  });
+
+  it("falls back to coordinates — never the old debug label — when no place node exists", () => {
     const unnamed = systems.find((s) => s.wayIds.includes(106));
     expect(unnamed).toBeDefined();
-    expect(unnamed?.name.startsWith("Unnamed cluster")).toBe(true);
-    expect(unnamed?.names).toEqual([]);
+    expect(unnamed?.name.startsWith("Trails near ")).toBe(true);
+    expect(unnamed?.name).not.toContain("Unnamed cluster");
+  });
+});
+
+describe("named-area splitting (Draper / Corner Canyon fixture)", () => {
+  const systems = clusterSystems(draper.elements);
+
+  it("splits the Corner Canyon park ways out of the Draper chain as an area system", () => {
+    const park = findSystem(systems, "Corner Canyon Regional Park");
+    expect(park.source).toBe("area");
+    expect(park.nameSource).toBe("area");
+    expect([...park.wayIds].sort((a, b) => a - b)).toEqual([
+      283437309, 284022151, 284022157, 284022161, 366961415,
+    ]);
+  });
+
+  it("assigns ways inside the nested smaller reserve to it, not the enclosing park", () => {
+    const reserve = findSystem(systems, "Corner Canyon");
+    expect(reserve.source).toBe("area");
+    expect([...reserve.wayIds].sort((a, b) => a - b)).toEqual([220689801, 283437300, 696249491]);
+  });
+
+  it("keeps the remaining BST ways outside Corner Canyon, named by most common way name", () => {
+    const bst = systems.filter((s) => s.name === "Bonneville Shoreline Trail - Draper Section");
+    expect(bst.length).toBeGreaterThan(0);
+    expect(bst.flatMap((s) => s.wayIds).sort((a, b) => a - b)).toEqual([
+      357084742, 512166855, 1062459230, 1062459231,
+    ]);
+    for (const s of bst) {
+      expect(s.source).toBe("cluster");
+      expect(s.nameSource).toBe("osm");
+    }
+  });
+
+  it("never turns the area polygons or the place node into systems", () => {
+    expect(systems.some((s) => s.relationIds.includes(17003123))).toBe(false);
+    expect(systems.some((s) => s.wayIds.includes(1238191464))).toBe(false);
+    const allWayIds = systems.flatMap((s) => s.wayIds);
+    expect(allWayIds).toHaveLength(12); // exactly the 12 trail ways, each in one system
+    expect(new Set(allWayIds).size).toBe(12);
+  });
+});
+
+describe("network naming (Eagle Mountain / Lake Mountain fixture)", () => {
+  const systems = clusterSystems(eagle.elements);
+
+  it("splits the bike park into its own area system", () => {
+    const bikePark = findSystem(systems, "Mountain Ranch Bike Park");
+    expect(bikePark.source).toBe("area");
+    expect(bikePark.nameSource).toBe("area");
+    expect(bikePark.wayIds).toHaveLength(4);
+  });
+
+  it("names the merged many-name network after the nearest place, not an arbitrary member way", () => {
+    const network = findSystem(systems, "Eagle Mountain trail network");
+    expect(network.source).toBe("cluster");
+    expect(network.nameSource).toBe("place");
+    expect(network.wayIds).toHaveLength(34);
+    // the old rule named this cluster after one arbitrary member
+    expect(systems.some((s) => s.name === "Backspacer Trail")).toBe(false);
+  });
+
+  it("matchSeeds reports the Eagle Mountain seed matched via the derived name", () => {
+    const report = matchSeeds("Utah County", systems);
+    expect(report.matched.map((m) => m.label)).toContain("Eagle Mountain trails");
+  });
+});
+
+describe("named-area guards", () => {
+  const square = (name: string, id: number, d: number) => ({
+    type: "way" as const,
+    id,
+    tags: { leisure: "park", name },
+    geometry: [
+      { lat: 40 - d, lon: -112 - d },
+      { lat: 40 + d, lon: -112 - d },
+      { lat: 40 + d, lon: -112 + d },
+      { lat: 40 - d, lon: -112 + d },
+      { lat: 40 - d, lon: -112 - d },
+    ],
+  });
+  const ways = [0, 1, 2].map((i) => ({
+    type: "way" as const,
+    id: 8000 + i,
+    geometry: [
+      { lat: 40.001 + 0.001 * i, lon: -112.001 },
+      { lat: 40.002 + 0.001 * i, lon: -112.002 },
+    ],
+  }));
+
+  it("ignores areas wider than the span cap (national-forest scale)", () => {
+    const systems = clusterSystems([square("Giant Forest", 7001, 1), ...ways] as OverpassElement[]);
+    expect(systems.some((s) => s.name === "Giant Forest")).toBe(false);
+    expect(systems).toHaveLength(1); // the ways stay one loose cluster
+  });
+
+  it("groups the same ways under an area within the span cap", () => {
+    const systems = clusterSystems([square("Local Park", 7002, 0.01), ...ways] as OverpassElement[]);
+    const park = findSystem(systems, "Local Park");
+    expect(park.source).toBe("area");
+    expect([...park.wayIds].sort((a, b) => a - b)).toEqual([8000, 8001, 8002]);
+  });
+
+  it("returns ways to distance clustering when fewer than AREA_MIN_WAYS fall inside", () => {
+    const systems = clusterSystems(
+      [square("Local Park", 7003, 0.01), ...ways.slice(0, 2)] as OverpassElement[],
+    );
+    expect(systems.some((s) => s.name === "Local Park")).toBe(false);
+    expect(systems).toHaveLength(1);
+  });
+});
+
+describe("stitchRings", () => {
+  it("assembles one ring from unordered, partly reversed segments", () => {
+    const a = [
+      { lat: 0, lon: 0 },
+      { lat: 0, lon: 1 },
+    ];
+    const b = [
+      { lat: 1, lon: 1 },
+      { lat: 0, lon: 1 },
+    ]; // reversed relative to the ring direction
+    const c = [
+      { lat: 1, lon: 1 },
+      { lat: 1, lon: 0 },
+      { lat: 0, lon: 0 },
+    ];
+    const rings = stitchRings([a, b, c]);
+    expect(rings).toHaveLength(1);
+    expect(rings[0]).toHaveLength(5); // 4 corners + the closing repeat of the first
+    expect(rings[0]?.[0]).toEqual(rings[0]?.[rings[0].length - 1]);
+  });
+
+  it("drops segments that never close a ring", () => {
+    expect(
+      stitchRings([
+        [
+          { lat: 0, lon: 0 },
+          { lat: 0, lon: 1 },
+        ],
+      ]),
+    ).toHaveLength(0);
   });
 });
 
@@ -152,20 +322,21 @@ describe("toCsv", () => {
     n_relations: 0,
     osm_refs: "way/103;way/104",
     notes: "distance cluster",
+    name_source: "osm" as const,
   };
 
   it("writes the fixed header first", () => {
     const lines = toCsv([row]).trimEnd().split("\n");
     expect(lines[0]).toBe(CSV_HEADER);
     expect(CSV_HEADER).toBe(
-      "system,county,trailhead_lat,trailhead_lon,trailhead_elev_m,top_lat,top_lon,top_elev_m,n_ways,n_relations,osm_refs,notes",
+      "system,county,trailhead_lat,trailhead_lon,trailhead_elev_m,top_lat,top_lon,top_elev_m,n_ways,n_relations,osm_refs,notes,name_source",
     );
   });
 
   it("escapes quotes and commas, rounds coordinates to 5 decimals and elevations to meters", () => {
     const lines = toCsv([row]).trimEnd().split("\n");
     expect(lines[1]).toBe(
-      '"Say ""Rush"", Lower",Salt Lake County,40.12346,-111.98765,1501,40.20000,-111.30000,2500,2,0,way/103;way/104,distance cluster',
+      '"Say ""Rush"", Lower",Salt Lake County,40.12346,-111.98765,1501,40.20000,-111.30000,2500,2,0,way/103;way/104,distance cluster,osm',
     );
   });
 });
@@ -188,6 +359,14 @@ describe("matchSeeds", () => {
     expect(report.missed).toContain("Wasatch Crest");
     expect(report.matched.length + report.missed.length).toBe(6);
   });
+
+  it("matches Traverse Mountain (Lehi) via the Suncrest-derived network name", () => {
+    // OSM has no element named "Traverse Mountain"/"Traverse Ridge" (2026-10-24
+    // probe); the derived name comes from the Suncrest place node on the ridge.
+    const derived = [{ name: "Suncrest trail network", names: [] }] as unknown as System[];
+    const report = matchSeeds("Utah County", derived);
+    expect(report.matched.map((m) => m.label)).toContain("Traverse Mountain (Lehi)");
+  });
 });
 
 describe("buildCountyQuery", () => {
@@ -197,6 +376,27 @@ describe("buildCountyQuery", () => {
     const query = buildCountyQuery("Salt Lake County");
     const unionOut = query.slice(query.lastIndexOf(");") + 2).trim();
     expect(unionOut).toBe("out geom;");
+  });
+
+  it("is the pinned query: unchanged trail filter plus named areas and place nodes", () => {
+    // The trail-way filter must NOT loosen (540 bare path/track ways would
+    // flood the list); areas and places are fetched for naming/splitting only.
+    expect(buildCountyQuery("Utah County")).toBe(`[out:json][timeout:300];
+area["boundary"="administrative"]["admin_level"="6"]["name"="Utah County"]->.county;
+rel(pivot.county);
+out tags;
+(
+  relation["route"="mtb"](area.county);
+  way["highway"~"^(path|track)$"]["mtb:scale"](area.county);
+  way["highway"~"^(path|track)$"]["mtb:scale:imba"](area.county);
+  way["highway"~"^(path|track)$"]["bicycle"~"^(designated|yes)$"](area.county);
+  way["leisure"~"^(park|nature_reserve)$"]["name"](area.county);
+  relation["leisure"~"^(park|nature_reserve)$"]["name"](area.county);
+  way["boundary"="protected_area"]["name"](area.county);
+  relation["boundary"="protected_area"]["name"](area.county);
+  node["place"]["name"](area.county);
+);
+out geom;`);
   });
 });
 
