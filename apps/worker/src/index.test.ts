@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import worker, { secretsEqual, SCORE_CRON, TUNE_CRON } from "./index";
+import worker, { secretsEqual } from "./index";
+import { SCORE_CRON, TUNE_CRON } from "./crons";
 import type { Env } from "./score-job";
 
 /** Fake env: a D1 stub serving only the scores_latest read. */
