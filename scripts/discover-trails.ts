@@ -4,7 +4,8 @@
  *   pnpm discover-trails
  *
  * Queries the Overpass API once per county (Salt Lake, Utah, Wasatch — Utah state) for
- * MTB trails, clusters them into trail systems, looks up elevations for sample points
+ * MTB trails plus named park/reserve polygons and place nodes (used only to split and
+ * name clusters), clusters the trails into systems, looks up elevations for sample points
  * via Open-Meteo's elevation API (refetching from Open Topo Data's USGS NED 10 m
  * dataset when an Open-Meteo rate limit persists), and writes
  * data/trail-candidates.csv for human review.
@@ -41,6 +42,17 @@ export const CONFIG = {
   OTD_DELAY_MS: 1_100, // Open Topo Data allows 1 call per second
   MIN_UNNAMED_CLUSTER_WAYS: 3, // all-unnamed clusters smaller than this are dropped as noise
   MAX_OSM_REFS_PER_ROW: 12, // keep the osm_refs CSV cell readable
+  // Named areas (leisure=park|nature_reserve, boundary=protected_area) split and
+  // name clusters; they are never systems themselves. The span cap keeps
+  // county-spanning areas (Uinta-Wasatch-Cache NF, BLM districts) from swallowing
+  // whole canyons; state/regional parks stay under it.
+  AREA_MAX_SPAN_M: 30_000, // bbox diagonal above this: the area is ignored
+  AREA_MIN_WAYS: 3, // fewer ways inside an area stay with distance clustering
+  // A loose cluster this big where no single way name covers even this share of
+  // ways is a merged network, not one trail; it is named after the nearest
+  // place node instead of an arbitrary member way.
+  NETWORK_MIN_WAYS: 30,
+  NETWORK_MAX_TOP_NAME_SHARE: 0.1,
 } as const;
 
 export const COUNTIES = ["Salt Lake County", "Utah County", "Wasatch County"] as const;
@@ -63,7 +75,14 @@ export const SEED_SYSTEMS: ReadonlyArray<{ county: County; label: string; keys: 
   },
   { county: "Salt Lake County", label: "Brighton / Solitude resort trails", keys: ["brighton", "solitude"] },
   { county: "Utah County", label: "Lambert Park (Alpine)", keys: ["lambert"] },
-  { county: "Utah County", label: "Traverse Mountain (Lehi)", keys: ["traverse mountain", "traverse ridge"] },
+  {
+    county: "Utah County",
+    label: "Traverse Mountain (Lehi)",
+    // "suncrest": OSM carries no element named "Traverse Mountain"/"Traverse
+    // Ridge" (2026-10-24 Overpass probe — only roads and POIs); the network's
+    // derived name comes from the Suncrest place node on Traverse Ridge.
+    keys: ["traverse mountain", "traverse ridge", "suncrest"],
+  },
   {
     county: "Utah County",
     label: "American Fork Canyon (Tibble Fork, Ridge trails)",
@@ -90,6 +109,7 @@ export const SEED_SYSTEMS: ReadonlyArray<{ county: County; label: string; keys: 
 export type LatLon = { lat: number; lon: number };
 
 export type OverpassElement =
+  | { type: "node"; id: number; lat: number; lon: number; tags?: Record<string, string> }
   | { type: "way"; id: number; tags?: Record<string, string>; geometry?: LatLon[] }
   | {
       type: "relation";
@@ -98,15 +118,31 @@ export type OverpassElement =
       members?: Array<{ type: string; ref: number; role?: string; geometry?: LatLon[] }>;
     };
 
+/** Where a system's display name came from: a trail element name in OSM, the
+ *  named area (park/reserve) containing the ways, or a nearby place node
+ *  (derived — OSM has no trail-element name for the cluster). */
+export type NameSource = "osm" | "area" | "place";
+
 export type System = {
   name: string;
-  source: "relation" | "cluster";
+  source: "relation" | "area" | "cluster";
+  nameSource: NameSource;
   relationIds: number[];
   wayIds: number[];
   names: string[]; // distinct raw relation/way names seen in the system
   points: LatLon[];
   hasMtbTag: boolean; // any way carries mtb:scale or mtb:scale:imba
 };
+
+/** A named park/reserve/protected-area polygon used to split and name clusters. */
+export type NamedArea = {
+  name: string;
+  rings: LatLon[][]; // closed outer rings
+  bboxDeg2: number; // bbox area in square degrees — nesting tie-break (smaller wins)
+  spanM: number; // bbox diagonal in meters
+};
+
+export type Place = { name: string; lat: number; lon: number };
 
 export type CandidateRow = {
   system: string;
@@ -121,6 +157,7 @@ export type CandidateRow = {
   n_relations: number;
   osm_refs: string;
   notes: string;
+  name_source: NameSource;
 };
 
 // ---------------------------------------------------------------------------
@@ -173,23 +210,167 @@ function centroid(points: LatLon[]): LatLon {
   return { lat: lat / n, lon: lon / n };
 }
 
+/** True for named park / nature-reserve / protected-area elements — fetched for
+ *  splitting and naming only, never turned into trail systems. */
+export function isNamedAreaTags(tags: Record<string, string> | undefined): boolean {
+  if (!tags || !tags["name"]) return false;
+  const leisure = tags["leisure"];
+  return leisure === "park" || leisure === "nature_reserve" || tags["boundary"] === "protected_area";
+}
+
+/**
+ * Assembles closed rings from way segments (a multipolygon's outer boundary
+ * arrives as unordered, possibly reversed member ways sharing end nodes).
+ * Segments that never close a ring are dropped.
+ */
+export function stitchRings(segments: LatLon[][]): LatLon[][] {
+  const key = (p: LatLon) => `${p.lat.toFixed(7)},${p.lon.toFixed(7)}`;
+  const pool = segments.filter((s) => s.length >= 2).map((s) => [...s]);
+  const rings: LatLon[][] = [];
+  while (pool.length > 0) {
+    let ring = pool.shift() as LatLon[];
+    let grew = true;
+    while (grew && key(ring[0] as LatLon) !== key(ring[ring.length - 1] as LatLon)) {
+      grew = false;
+      for (let i = 0; i < pool.length; i++) {
+        const seg = pool[i] as LatLon[];
+        const ringEnd = key(ring[ring.length - 1] as LatLon);
+        if (key(seg[0] as LatLon) === ringEnd) {
+          ring = ring.concat(seg.slice(1));
+        } else if (key(seg[seg.length - 1] as LatLon) === ringEnd) {
+          ring = ring.concat([...seg].reverse().slice(1));
+        } else {
+          continue;
+        }
+        pool.splice(i, 1);
+        grew = true;
+        break;
+      }
+    }
+    if (ring.length >= 4 && key(ring[0] as LatLon) === key(ring[ring.length - 1] as LatLon)) {
+      rings.push(ring);
+    }
+  }
+  return rings;
+}
+
+/** Ray-cast point-in-polygon on one closed ring (lat/lon treated as planar —
+ *  fine at park scale). Inner (hole) rings are ignored by the callers. */
+export function pointInRing(p: LatLon, ring: LatLon[]): boolean {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const a = ring[i] as LatLon;
+    const b = ring[j] as LatLon;
+    if (
+      a.lat > p.lat !== b.lat > p.lat &&
+      p.lon < ((b.lon - a.lon) * (p.lat - a.lat)) / (b.lat - a.lat) + a.lon
+    ) {
+      inside = !inside;
+    }
+  }
+  return inside;
+}
+
+/** Builds usable named areas: outer rings stitched, span-capped at `maxSpanM`. */
+export function buildNamedAreas(
+  elements: OverpassElement[],
+  maxSpanM: number = CONFIG.AREA_MAX_SPAN_M,
+): NamedArea[] {
+  const areas: NamedArea[] = [];
+  for (const el of elements) {
+    if (el.type === "node" || !isNamedAreaTags(el.tags)) continue;
+    const segments: LatLon[][] =
+      el.type === "way"
+        ? [(el.geometry ?? []).filter(isLatLon)]
+        : (el.members ?? [])
+            .filter((m) => m.type === "way" && (m.role === "outer" || !m.role) && m.geometry)
+            .map((m) => (m.geometry ?? []).filter(isLatLon));
+    const rings = stitchRings(segments);
+    if (rings.length === 0) continue;
+    let minLat = 90;
+    let maxLat = -90;
+    let minLon = 180;
+    let maxLon = -180;
+    for (const ring of rings) {
+      for (const p of ring) {
+        minLat = Math.min(minLat, p.lat);
+        maxLat = Math.max(maxLat, p.lat);
+        minLon = Math.min(minLon, p.lon);
+        maxLon = Math.max(maxLon, p.lon);
+      }
+    }
+    const spanM = haversineMeters({ lat: minLat, lon: minLon }, { lat: maxLat, lon: maxLon });
+    if (spanM > maxSpanM) continue;
+    areas.push({
+      name: el.tags?.["name"] as string,
+      rings,
+      bboxDeg2: (maxLat - minLat) * (maxLon - minLon),
+      spanM,
+    });
+  }
+  return areas;
+}
+
+/** Place nodes (city/town/suburb/locality…) used to derive cluster names. */
+export function collectPlaces(elements: OverpassElement[]): Place[] {
+  const places: Place[] = [];
+  for (const el of elements) {
+    if (el.type !== "node") continue;
+    const name = el.tags?.["name"];
+    if (!name || !el.tags?.["place"]) continue;
+    places.push({ name, lat: el.lat, lon: el.lon });
+  }
+  return places;
+}
+
+/** The smallest (by bbox) named area containing the point, if any. */
+function smallestContainingArea(areas: NamedArea[], p: LatLon): NamedArea | undefined {
+  let best: NamedArea | undefined;
+  for (const area of areas) {
+    if (!area.rings.some((ring) => pointInRing(p, ring))) continue;
+    if (!best || area.bboxDeg2 < best.bboxDeg2) best = area;
+  }
+  return best;
+}
+
+function nearestPlace(places: Place[], p: LatLon): Place | undefined {
+  let best: Place | undefined;
+  let bestDist = Infinity;
+  for (const place of places) {
+    const d = haversineMeters(p, place);
+    if (d < bestDist || (d === bestDist && best && place.name.localeCompare(best.name) < 0)) {
+      best = place;
+      bestDist = d;
+    }
+  }
+  return best;
+}
+
 /**
  * Groups Overpass elements into trail systems:
  * 1. named `route=mtb` relations become systems (same normalized name → one system);
  * 2. ways that are members of those relations belong to them, not to loose clusters;
- * 3. remaining ways are distance-clustered (union when endpoints are within
- *    `clusterRadiusM`), and each cluster is named by its most common way name.
+ * 3. remaining ways whose midpoint lies inside a named area (park/reserve, span-capped)
+ *    group per area — at least AREA_MIN_WAYS or they return to distance clustering;
+ * 4. the rest are distance-clustered (union when endpoints are within `clusterRadiusM`);
+ *    a cluster is named by its most common way name, except that a merged network
+ *    (≥ NETWORK_MIN_WAYS, top name share < NETWORK_MAX_TOP_NAME_SHARE) and an
+ *    all-unnamed cluster take a name derived from the nearest place node.
+ * Named-area polygons and place nodes never become systems themselves.
  */
 export function clusterSystems(
   elements: OverpassElement[],
   clusterRadiusM: number = CONFIG.CLUSTER_RADIUS_M,
 ): System[] {
+  const areas = buildNamedAreas(elements);
+  const places = collectPlaces(elements);
   const systemsByKey = new Map<string, System>();
   const memberOwners = new Map<number, System[]>();
 
   for (const el of elements) {
     if (el.type !== "relation") continue;
     if (el.tags?.["boundary"] === "administrative") continue; // the county boundary itself
+    if (isNamedAreaTags(el.tags)) continue; // park/reserve polygons are not trail systems
     const rawName = el.tags?.["name"];
     const name = rawName ?? `relation/${el.id}`;
     const key = normalizeName(name);
@@ -198,6 +379,7 @@ export function clusterSystems(
       sys = {
         name,
         source: "relation",
+        nameSource: "osm",
         relationIds: [],
         wayIds: [],
         names: [],
@@ -220,10 +402,11 @@ export function clusterSystems(
   }
 
   type LooseWay = { id: number; name?: string; mtb: boolean; points: LatLon[]; ends: LatLon[] };
-  const loose: LooseWay[] = [];
+  const allLoose: LooseWay[] = [];
 
   for (const el of elements) {
     if (el.type !== "way") continue;
+    if (isNamedAreaTags(el.tags)) continue; // park/reserve polygons are not trail ways
     const owners = memberOwners.get(el.id);
     if (owners) {
       // a relation member seen standalone: contribute its name/tags to its system(s)
@@ -237,7 +420,42 @@ export function clusterSystems(
     if (points.length === 0) continue;
     const first = points[0] as LatLon;
     const last = points[points.length - 1] as LatLon;
-    loose.push({ id: el.id, name: el.tags?.["name"], mtb: hasMtbTag(el.tags), points, ends: [first, last] });
+    allLoose.push({ id: el.id, name: el.tags?.["name"], mtb: hasMtbTag(el.tags), points, ends: [first, last] });
+  }
+
+  // Named-area grouping: a loose way belongs to the smallest area containing
+  // its midpoint. Same-named areas (e.g. a park mapped twice) merge.
+  const areaGroups = new Map<string, { name: string; members: LooseWay[] }>();
+  const loose: LooseWay[] = [];
+  for (const way of allLoose) {
+    const area = smallestContainingArea(areas, way.points[Math.floor(way.points.length / 2)] as LatLon);
+    if (!area) {
+      loose.push(way);
+      continue;
+    }
+    const key = normalizeName(area.name);
+    const group = areaGroups.get(key) ?? { name: area.name, members: [] };
+    group.members.push(way);
+    areaGroups.set(key, group);
+  }
+  const systems = [...systemsByKey.values()];
+  for (const { name, members } of areaGroups.values()) {
+    if (members.length < CONFIG.AREA_MIN_WAYS) {
+      loose.push(...members); // too thin to stand alone — back to distance clustering
+      continue;
+    }
+    const names: string[] = [];
+    for (const w of members) if (w.name && !names.includes(w.name)) names.push(w.name);
+    systems.push({
+      name,
+      source: "area",
+      nameSource: "area",
+      relationIds: [],
+      wayIds: members.map((w) => w.id),
+      names,
+      points: members.flatMap((w) => w.points),
+      hasMtbTag: members.some((w) => w.mtb),
+    });
   }
 
   // Union-find over loose ways by endpoint proximity.
@@ -286,7 +504,6 @@ export function clusterSystems(
     clusters.set(root, members);
   }
 
-  const systems = [...systemsByKey.values()];
   for (const members of clusters.values()) {
     const nameCounts = new Map<string, number>();
     for (const w of members) {
@@ -294,17 +511,31 @@ export function clusterSystems(
     }
     const points = members.flatMap((w) => w.points);
     let name: string;
+    let nameSource: NameSource = "osm";
     if (nameCounts.size > 0) {
-      name = [...nameCounts.entries()].sort(
+      const [topName, topCount] = [...nameCounts.entries()].sort(
         (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
-      )[0]![0];
+      )[0] as [string, number];
+      const isMergedNetwork =
+        members.length >= CONFIG.NETWORK_MIN_WAYS &&
+        topCount / members.length < CONFIG.NETWORK_MAX_TOP_NAME_SHARE;
+      const place = isMergedNetwork ? nearestPlace(places, centroid(points)) : undefined;
+      if (place) {
+        name = `${place.name} trail network`;
+        nameSource = "place";
+      } else {
+        name = topName;
+      }
     } else {
       const c = centroid(points);
-      name = `Unnamed cluster @ ${c.lat.toFixed(3)},${c.lon.toFixed(3)}`;
+      const place = nearestPlace(places, c);
+      name = place ? `${place.name} trails` : `Trails near ${c.lat.toFixed(3)},${c.lon.toFixed(3)}`;
+      nameSource = "place";
     }
     systems.push({
       name,
       source: "cluster",
+      nameSource,
       relationIds: [],
       wayIds: members.map((w) => w.id),
       names: [...nameCounts.keys()],
@@ -321,7 +552,7 @@ export function shouldKeepSystem(
   system: System,
   minUnnamedClusterWays: number = CONFIG.MIN_UNNAMED_CLUSTER_WAYS,
 ): boolean {
-  if (system.source === "relation") return true;
+  if (system.source === "relation" || system.source === "area") return true;
   if (system.names.length > 0) return true;
   if (system.hasMtbTag) return true;
   return system.wayIds.length >= minUnnamedClusterWays;
@@ -365,7 +596,7 @@ export function pickExtremes<T extends LatLon & { elev: number }>(points: T[]): 
 }
 
 export const CSV_HEADER =
-  "system,county,trailhead_lat,trailhead_lon,trailhead_elev_m,top_lat,top_lon,top_elev_m,n_ways,n_relations,osm_refs,notes";
+  "system,county,trailhead_lat,trailhead_lon,trailhead_elev_m,top_lat,top_lon,top_elev_m,n_ways,n_relations,osm_refs,notes,name_source";
 
 function csvEscape(value: string): string {
   if (/[",\n]/.test(value)) return `"${value.replaceAll('"', '""')}"`;
@@ -389,6 +620,7 @@ export function toCsv(rows: CandidateRow[]): string {
         String(r.n_relations),
         csvEscape(r.osm_refs),
         csvEscape(r.notes),
+        r.name_source,
       ].join(","),
     );
   }
@@ -456,6 +688,11 @@ out tags;
   way["highway"~"^(path|track)$"]["mtb:scale"](area.county);
   way["highway"~"^(path|track)$"]["mtb:scale:imba"](area.county);
   way["highway"~"^(path|track)$"]["bicycle"~"^(designated|yes)$"](area.county);
+  way["leisure"~"^(park|nature_reserve)$"]["name"](area.county);
+  relation["leisure"~"^(park|nature_reserve)$"]["name"](area.county);
+  way["boundary"="protected_area"]["name"](area.county);
+  relation["boundary"="protected_area"]["name"](area.county);
+  node["place"]["name"](area.county);
 );
 out geom;`;
 }
@@ -670,8 +907,15 @@ async function main(): Promise<void> {
     const withElev = points.map((p, i) => ({ ...p, elev: elevations[cursor + i] as number }));
     cursor += points.length;
     const { trailhead, top } = pickExtremes(withElev);
+    const sourceNote =
+      system.source === "relation"
+        ? "from mtb route relation(s)"
+        : system.source === "area"
+          ? "ways grouped by the named park/reserve containing them"
+          : "distance cluster of loose ways";
     const notes = [
-      system.source === "relation" ? "from mtb route relation(s)" : "distance cluster of loose ways",
+      sourceNote,
+      system.nameSource === "place" ? "name derived from the nearest place node" : "",
       system.names.length > 1 ? `${system.names.length} distinct names` : "",
       `extremes from ${points.length} sampled points`,
     ]
@@ -690,6 +934,7 @@ async function main(): Promise<void> {
       n_relations: system.relationIds.length,
       osm_refs: osmRefs(system),
       notes,
+      name_source: system.nameSource,
     });
   }
 
