@@ -72,14 +72,14 @@ describe("scoreTrail — merged axis", () => {
     // Open-Meteo says dry; Stage IV (rain_hourly) recorded 1.0 in for the
     // trailhead's cell. The now-level must reflect the Stage IV value.
     const rain = new Map([["264:462", new Map([[wetHour, 1.0]])]]);
-    const score = scoreTrail(TRAIL, POINTS, rain, omBoth(), NOW);
+    const score = scoreTrail(TRAIL, POINTS, rain, omBoth(), NOW, []);
     expect(score).not.toBeNull();
     const now = score!.days.find((d) => d.offset === 0)!;
     expect(now.level).toBe("muddy"); // 1.0 in two hours ago, tau 24 h
     expect(now.worst_point).toBe("Trailhead");
 
     // Same inputs without the Stage IV row: bone dry.
-    const dry = scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW);
+    const dry = scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW, []);
     expect(dry!.days.find((d) => d.offset === 0)!.level).toBe("dry");
   });
 
@@ -89,7 +89,7 @@ describe("scoreTrail — merged axis", () => {
       ["264:462", new Map([[wetHour, 0]])],
       ["267:458", new Map([[wetHour, 0]])],
     ]);
-    const score = scoreTrail(TRAIL, POINTS, rain, omBoth({ [wetHour]: 1.0 }), NOW);
+    const score = scoreTrail(TRAIL, POINTS, rain, omBoth({ [wetHour]: 1.0 }), NOW, []);
     expect(score!.days.find((d) => d.offset === 0)!.level).toBe("dry");
   });
 });
@@ -104,6 +104,7 @@ describe("scoreTrail — now / tomorrow / day-after", () => {
       new Map(),
       omBoth({ [stamp(NOW + 20 * HOUR_MS)]: 1.0 }),
       NOW,
+      [],
     )!;
     const dayAt = (o: number) => score.days.find((d) => d.offset === o)!;
     const [now, tomorrow, dayAfter] = [dayAt(0), dayAt(1), dayAt(2)] as const;
@@ -124,7 +125,7 @@ describe("scoreTrail — now / tomorrow / day-after", () => {
     // Rain only in the Top point's cell.
     const wetHour = stamp(NOW - 2 * HOUR_MS);
     const rain = new Map([["267:458", new Map([[wetHour, 1.0]])]]);
-    const now = scoreTrail(TRAIL, POINTS, rain, omBoth(), NOW)!.days.find(
+    const now = scoreTrail(TRAIL, POINTS, rain, omBoth(), NOW, [])!.days.find(
       (d) => d.offset === 0,
     )!;
     expect(now.level).toBe("muddy");
@@ -133,15 +134,76 @@ describe("scoreTrail — now / tomorrow / day-after", () => {
 
   it("returns null when a point has no Open-Meteo axis (keep the previous score)", () => {
     const omOnlyFirst = new Map([["demo-trail#trailhead", omHours()]]);
-    expect(scoreTrail(TRAIL, POINTS, new Map(), omOnlyFirst, NOW)).toBeNull();
+    expect(scoreTrail(TRAIL, POINTS, new Map(), omOnlyFirst, NOW, [])).toBeNull();
   });
 
   it("carries the trail's county into the score, and omits it when NULL", () => {
-    const scored = scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW)!;
+    const scored = scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW, [])!;
     expect(scored.county).toBe("Salt Lake County");
 
-    const noCounty = scoreTrail({ ...TRAIL, county: null }, POINTS, new Map(), omBoth(), NOW)!;
+    const noCounty = scoreTrail({ ...TRAIL, county: null }, POINTS, new Map(), omBoth(), NOW, [])!;
     expect("county" in noCounty).toBe(false);
+  });
+});
+
+describe("scoreTrail — rider reports feed confidence (M5)", () => {
+  const report = (
+    verdict: "yes" | "wetter" | "drier",
+    ageH: number,
+  ): { verdict: "yes" | "wetter" | "drier"; createdMs: number } => ({
+    verdict,
+    createdMs: NOW - ageH * HOUR_MS,
+  });
+  const nowFactors = (reports: Parameters<typeof scoreTrail>[5]) =>
+    scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW, reports)!.days.find(
+      (d) => d.offset === 0,
+    )!.confidence.factors;
+
+  it("an agreeing report within 24 h adds the full riders_agree factor", () => {
+    expect(nowFactors([report("yes", 2)])).toContainEqual({
+      id: "riders_agree",
+      delta: 20,
+    });
+  });
+
+  it("a 24–48 h-old agreeing report counts at half weight", () => {
+    expect(nowFactors([report("yes", 30)])).toContainEqual({
+      id: "riders_agree",
+      delta: 10,
+    });
+  });
+
+  it("an expired report (>48 h) no longer moves confidence", () => {
+    const ids = nowFactors([report("yes", 50)]).map((f) => f.id);
+    expect(ids).not.toContain("riders_agree");
+  });
+
+  it("a disagreeing (wetter) report subtracts", () => {
+    expect(nowFactors([report("wetter", 2)])).toContainEqual({
+      id: "rider_disagrees",
+      delta: -20,
+    });
+  });
+
+  it("wetter and drier together add the reports_conflict penalty", () => {
+    expect(nowFactors([report("wetter", 2), report("drier", 3)])).toContainEqual({
+      id: "reports_conflict",
+      delta: -15,
+    });
+  });
+
+  it("a rain event after the report resets it (worst point's cell rain)", () => {
+    // Reported 10 h ago; 0.5 in fell 5 h ago in both cells: the report
+    // stops counting, so riders_agree must not appear.
+    const wetHour = stamp(NOW - 5 * HOUR_MS);
+    const rain = new Map([
+      ["264:462", new Map([[wetHour, 0.5]])],
+      ["267:458", new Map([[wetHour, 0.5]])],
+    ]);
+    const factors = scoreTrail(TRAIL, POINTS, rain, omBoth(), NOW, [
+      report("yes", 10),
+    ])!.days.find((d) => d.offset === 0)!.confidence.factors;
+    expect(factors.map((f) => f.id)).not.toContain("riders_agree");
   });
 });
 
@@ -174,7 +236,7 @@ describe("mergeSnapshot — the single scores_latest row", () => {
   });
 
   it("produces the full snapshot shape for a scored trail", () => {
-    const real = scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW)!;
+    const real = scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW, [])!;
     const snapshot = mergeSnapshot(null, [real], NOW);
     const entry = snapshot.trails["demo-trail"]!;
     expect(entry.name).toBe("Demo Trail");
@@ -196,7 +258,7 @@ describe("mergeSnapshot — the single scores_latest row", () => {
 
 describe("historyRows", () => {
   it("emits one hourly 'now' row per trail, keyed on the hour-ending stamp", () => {
-    const score = scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW + 25 * 60_000)!;
+    const score = scoreTrail(TRAIL, POINTS, new Map(), omBoth(), NOW + 25 * 60_000, [])!;
     const rows = historyRows([score], NOW + 25 * 60_000); // 15:25 -> hour 15:00
     expect(rows).toHaveLength(1);
     expect(rows[0]).toMatchObject({

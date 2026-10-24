@@ -159,6 +159,17 @@ describe("ridersConfirmed", () => {
     expect(ridersConfirmed(conf([{ id: "long_dry", delta: 10 }]))).toBe(0);
   });
 
+  it("floors a half-weight delta so yesterday's report can't claim 'today' (M5 decision 4)", () => {
+    // A lone 24–48 h-old agreeing report contributes delta 10 (half weight):
+    // not a rider confirmed *today*, so the count must floor to 0.
+    expect(
+      ridersConfirmed(conf([{ id: "riders_agree", delta: CONFIDENCE.agreePerReport / 2 }])),
+    ).toBe(0);
+    expect(
+      ridersConfirmed(conf([{ id: "riders_agree", delta: CONFIDENCE.agreePerReport * 1.5 }])),
+    ).toBe(1);
+  });
+
   it("a capped delta reads as the capped rider count", () => {
     expect(
       ridersConfirmed(conf([{ id: "riders_agree", delta: CONFIDENCE.agreeMaxBonus }])),

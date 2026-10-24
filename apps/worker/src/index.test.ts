@@ -6,6 +6,8 @@ import type { Env } from "./score-job";
 function fakeEnv(row: { json: string } | null): Env {
   return {
     ADMIN_SECRET: "test-secret",
+    TURNSTILE_SECRET: "test-turnstile-secret",
+    REPORT_IP_SALT_SECRET: "test-salt-secret",
     DB: {
       prepare: () => ({ first: async () => row }),
     } as unknown as D1Database,

@@ -41,11 +41,21 @@ import {
   type TrailScore,
 } from "./snapshot";
 import { HOUR_MS, stamp } from "./time";
-import { WETNESS } from "@trail-conditions/model";
+import {
+  REPORTS,
+  WETNESS,
+  type ActiveReport,
+  type ReportVerdict,
+} from "@trail-conditions/model";
 
 export interface Env {
   DB: D1Database;
   ADMIN_SECRET: string;
+  /** Turnstile siteverify secret (TEST always-pass key locally; the real
+   *  key is created manually at M7, never by a ship run). */
+  TURNSTILE_SECRET: string;
+  /** Secret behind the daily rotating IP-hash salt (§6.2). */
+  REPORT_IP_SALT_SECRET: string;
 }
 
 export interface SubrequestCounter {
@@ -110,21 +120,63 @@ export async function runScoreJob(
     for (const p of byTrail.get(id) ?? []) neededCells.add(p.cell_id);
   }
 
-  // 3. Cached rain for every needed cell, as far back as the walk looks.
+  // 3. Cached rain for every needed cell (as far back as the walk looks),
+  //    plus the chunk trails' live reports (§6.3: nothing older than 48 h can
+  //    count) — one batch, so the subrequest budget gains one statement and
+  //    zero D1 calls.
   const sinceTs = stamp(nowMs - WETNESS.windowHours * HOUR_MS);
   const cellList = [...neededCells].sort();
   const rainByCell = new Map<string, Map<string, number>>();
-  if (cellList.length > 0) {
-    const [cachedRes] = await countBatch<RainRow>([
-      env.DB.prepare(
-        "SELECT cell_id, ts_utc, precip_in FROM rain_hourly WHERE ts_utc >= ?" +
-          ` AND cell_id IN (${cellList.map(() => "?").join(", ")})`,
-      ).bind(sinceTs, ...cellList),
-    ]);
-    for (const row of cachedRes!.results) {
-      let cell = rainByCell.get(row.cell_id);
-      if (!cell) rainByCell.set(row.cell_id, (cell = new Map()));
-      cell.set(row.ts_utc, row.precip_in);
+  const reportsByTrail = new Map<string, ActiveReport[]>();
+  {
+    const statements: D1PreparedStatement[] = [];
+    let rainIdx = -1;
+    let reportsIdx = -1;
+    if (cellList.length > 0) {
+      rainIdx = statements.length;
+      statements.push(
+        env.DB.prepare(
+          "SELECT cell_id, ts_utc, precip_in FROM rain_hourly WHERE ts_utc >= ?" +
+            ` AND cell_id IN (${cellList.map(() => "?").join(", ")})`,
+        ).bind(sinceTs, ...cellList),
+      );
+    }
+    if (trailIds.length > 0) {
+      reportsIdx = statements.length;
+      const reportsSince = new Date(
+        nowMs - REPORTS.expiryAgeHours * HOUR_MS,
+      ).toISOString();
+      statements.push(
+        env.DB.prepare(
+          "SELECT trail_id, created_utc, verdict FROM reports WHERE created_utc >= ?" +
+            ` AND trail_id IN (${trailIds.map(() => "?").join(", ")})`,
+        ).bind(reportsSince, ...trailIds),
+      );
+    }
+    if (statements.length > 0) {
+      const results = await countBatch<Record<string, unknown>>(statements);
+      if (rainIdx >= 0) {
+        for (const row of (results[rainIdx]?.results ?? []) as unknown as RainRow[]) {
+          let cell = rainByCell.get(row.cell_id);
+          if (!cell) rainByCell.set(row.cell_id, (cell = new Map()));
+          cell.set(row.ts_utc, row.precip_in);
+        }
+      }
+      if (reportsIdx >= 0) {
+        const rows = (results[reportsIdx]?.results ?? []) as unknown as {
+          trail_id: string;
+          created_utc: string;
+          verdict: ReportVerdict;
+        }[];
+        for (const row of rows) {
+          const createdMs = Date.parse(row.created_utc);
+          if (Number.isNaN(createdMs)) continue;
+          const list = reportsByTrail.get(row.trail_id);
+          const report = { verdict: row.verdict, createdMs };
+          if (list) list.push(report);
+          else reportsByTrail.set(row.trail_id, [report]);
+        }
+      }
     }
   }
   const latestCachedTs = (cellId: string): string | null => {
@@ -226,7 +278,14 @@ export async function runScoreJob(
     const trailPoints = byTrail.get(id);
     const score =
       trail && trailPoints
-        ? scoreTrail(trail, trailPoints, rainByCell, omByPoint, nowMs)
+        ? scoreTrail(
+            trail,
+            trailPoints,
+            rainByCell,
+            omByPoint,
+            nowMs,
+            reportsByTrail.get(id) ?? [],
+          )
         : null;
     if (score) scores.push(score);
     else skipped.push(id);

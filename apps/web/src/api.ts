@@ -6,7 +6,7 @@
 // @cloudflare/workers-types); level and confidence types come from the
 // shared model package.
 
-import type { Confidence, ConditionLevel } from "@trail-conditions/model";
+import type { Confidence, ConditionLevel, ReportVerdict } from "@trail-conditions/model";
 
 export interface ScoredDay {
   /** 0 = now, 1 = tomorrow, 2 = day after. */
@@ -60,13 +60,52 @@ export class ApiError extends Error {
   }
 }
 
-async function getJson<T>(path: string): Promise<T> {
-  const res = await fetch(path, { headers: { Accept: "application/json" } });
+async function getJson<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(path, { headers: { Accept: "application/json" }, ...init });
   if (!res.ok) throw new ApiError(res.status, `GET ${path}: HTTP ${res.status}`);
   return (await res.json()) as T;
 }
 
 export const fetchScores = (): Promise<Snapshot> => getJson<Snapshot>("/api/scores");
 
-export const fetchTrail = (id: string): Promise<TrailDetail> =>
-  getJson<TrailDetail>(`/api/trails/${encodeURIComponent(id)}`);
+/** `fresh: true` bypasses the browser's HTTP cache (the API sends
+ *  max-age=300) — the post-submit refetch must show the new report count. */
+export const fetchTrail = (
+  id: string,
+  opts: { fresh?: boolean } = {},
+): Promise<TrailDetail> =>
+  getJson<TrailDetail>(
+    `/api/trails/${encodeURIComponent(id)}`,
+    opts.fresh ? { cache: "no-store" } : undefined,
+  );
+
+/** POST /api/reports body (spec §9). */
+export interface ReportPayload {
+  trailId: string;
+  verdict: ReportVerdict;
+  tags: string[];
+  deviceId: string;
+  turnstileToken: string;
+}
+
+/** Submit a rider report. Throws ApiError carrying the server's polite
+ *  message (409 daily duplicate, 429 network limit, 403 verification). */
+export async function postReport(payload: ReportPayload): Promise<void> {
+  const res = await fetch("/api/reports", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    let message = `POST /api/reports: HTTP ${res.status}`;
+    try {
+      const body = (await res.json()) as { message?: string };
+      if (typeof body.message === "string" && body.message.length > 0) {
+        message = body.message;
+      }
+    } catch {
+      // no JSON body; keep the generic message
+    }
+    throw new ApiError(res.status, message);
+  }
+}

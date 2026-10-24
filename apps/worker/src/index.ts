@@ -1,5 +1,6 @@
 // Worker entry: /api/* routes + the 10-minute score cron (spec §7.3 cron 1).
 
+import { postReport } from "./reports";
 import { runScoreJob, type Env } from "./score-job";
 import { EMPTY_SNAPSHOT } from "./snapshot";
 import { getTrailDetail } from "./trail-detail";
@@ -66,6 +67,9 @@ export default {
         return Response.json({ error: "not found" }, { status: 404 });
       }
       return getTrailDetail(env, id, Date.now());
+    }
+    if (url.pathname === "/api/reports" && request.method === "POST") {
+      return postReport(request, env, Date.now());
     }
     if (url.pathname === "/api/admin/scores" && request.method === "POST") {
       return postAdminScores(request, env);
