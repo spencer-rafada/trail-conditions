@@ -270,3 +270,22 @@ describe("historyRows", () => {
     });
   });
 });
+
+describe("scoreTrail — a tuned tau_mult changes the recompute (M6 AC3)", () => {
+  it("gives different wetness and level for tau_mult 1.0 vs 3.0 on identical rain", () => {
+    // 1.0 in of rain 60 h ago, then dry at 60 °F (no cold slowdown):
+    // w = e^(-60 / (24 × mult)) — prime at mult 1, muddy at mult 3.
+    const rainHour = stamp(NOW - 60 * HOUR_MS);
+    const rain = new Map([
+      ["264:462", new Map([[rainHour, 1.0]])],
+      ["267:458", new Map([[rainHour, 1.0]])],
+    ]);
+    const slow = { ...TRAIL, tau_mult: 3.0 };
+    const base = scoreTrail(TRAIL, POINTS, rain, omBoth(), NOW, [])!;
+    const tuned = scoreTrail(slow, POINTS, rain, omBoth(), NOW, [])!;
+    const nowDay = (s: TrailScore) => s.days.find((d) => d.offset === 0)!;
+    expect(nowDay(tuned).wetness).toBeGreaterThan(nowDay(base).wetness);
+    expect(nowDay(base).level).toBe("prime");
+    expect(nowDay(tuned).level).toBe("muddy");
+  });
+});

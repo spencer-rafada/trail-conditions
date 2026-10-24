@@ -75,6 +75,26 @@ export const CONFIDENCE = {
   bands: { high: 70, medium: 40 }, // High >= 70, Medium 40–69, Low < 40
 } as const;
 
+// §6.4 Nightly tau tuning (ticket C-20261023-M6, decisions 1 and 5–6 of its
+// Decisions list). "Many" is structural, not a tunable number: a strict
+// majority of the window's reports in one direction (wetter*2 > n or
+// drier*2 > n) — defined in tuning.ts, pinned by tuning.test.ts.
+export const TUNING = {
+  windowDays: 30, // §6.4: reports in the last 30 days
+  minReports: 3, // §6.4: at least 3 reports before any change
+  raiseStep: 1.1, // many Wetter -> tau_mult × 1.1 per night
+  lowerStep: 0.9, // many Drier -> tau_mult × 0.9 per night
+  multMin: 0.5, // §6.4: keep tau_mult between 0.5 ...
+  multMax: 3.0, // ... and 3.0
+} as const;
+
+// Nightly deletion (§6.3/§7.3 cron 2, ticket C-20261023-M6 decision 6).
+// Report deletion reuses REPORTS.expiryAgeHours (48 h — an expired report
+// never counts again); score_history keeps 30 days (nothing reads it yet).
+export const RETENTION = {
+  scoreHistoryDays: 30,
+} as const;
+
 // §6 Rider reports: §6.2 spam limits and §6.3 report lifetime.
 export const REPORTS = {
   fullWeightMaxAgeHours: 24, // full weight for 0–24 h ...

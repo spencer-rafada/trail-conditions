@@ -11,7 +11,10 @@ export {
   LEVEL_SEVERITY,
   CONFIDENCE,
   REPORTS,
+  TUNING,
+  RETENTION,
 } from "./config";
+export { tuneTauMult, type TuningReport, type TuneResult } from "./tuning";
 export {
   aggregateReports,
   deviceLimitExceeded,
