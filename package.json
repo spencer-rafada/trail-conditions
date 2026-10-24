@@ -7,6 +7,7 @@
     "build": "pnpm --filter @trail-conditions/web build",
     "discover-trails": "tsx scripts/discover-trails.ts",
     "enrich-trails": "tsx scripts/enrich-trails.ts",
+    "trail-names": "tsx scripts/trail-names.ts",
     "backtest": "tsx scripts/backtest.ts"
   },
   "devDependencies": {
