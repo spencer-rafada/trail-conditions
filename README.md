@@ -12,7 +12,7 @@ The full build plan lives in [docs/projects/trail-conditions/spec.md](docs/proje
 apps/web          React + TS (Vite), Cloudflare Pages
 apps/worker       Cloudflare Worker: /api/* + cron, D1 migrations
 packages/model    Pure model + confidence functions (shared)
-scripts           discover-trails.ts, enrich-trails.ts, backtest.ts
+scripts           discover-trails.ts, enrich-trails.ts, trail-names.ts, backtest.ts
 data              trails.json, trail-candidates.csv
 fixtures          Saved API responses for the backtest
 ```
@@ -28,6 +28,7 @@ pnpm backtest                                # offline spec §4.4 backtest from 
 pnpm --filter @trail-conditions/web dev      # web dev server
 pnpm --filter @trail-conditions/worker dev   # wrangler dev
 pnpm discover-trails   # hand-run only (Overpass + Open-Meteo): writes data/trail-candidates.csv
+pnpm trail-names       # hand-run only (Overpass): writes data/trail-names.json (member trail names for search)
 
 # local D1 (wrangler commands run inside apps/worker; never pass --remote)
 pnpm tsx scripts/seed-d1.ts                  # writes apps/worker/.wrangler/seed.sql from data/trails.json

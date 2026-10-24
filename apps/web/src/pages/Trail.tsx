@@ -2,10 +2,11 @@
 // soil, drying speed, worst section), reports since the last rain, and the
 // "Is this right?" button, which opens the §6.1 report modal (M5).
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
 import { WETNESS } from "@trail-conditions/model";
 import { ApiError, fetchTrail, type TrailDetail } from "../api";
 import { ReportModal } from "../components/ReportModal";
+import { directionsUrl } from "../geo";
 import { BAND_LABELS, levelColor, levelLabel, updatedAgo } from "../helpers";
 import { Link } from "../router";
 
@@ -16,6 +17,8 @@ type FetchState =
   | { status: "ready"; detail: TrailDetail };
 
 const DAY_NAMES = ["Today", "Tomorrow", "Day after"] as const;
+
+const TrailMap = lazy(() => import("../components/TrailMap"));
 
 const SOIL_COPY = {
   sandy: "Sandy — drains fast",
@@ -137,6 +140,24 @@ function Detail({ detail, onReport }: { detail: TrailDetail; onReport: () => voi
         </section>
       ) : (
         <p className="status-screen">Not scored yet — check back after the next run.</p>
+      )}
+
+      {detail.points && detail.points.length > 0 && (
+        <section>
+          <h2>Where</h2>
+          <Suspense fallback={<div className="trail-map map-loading">Loading map…</div>}>
+            <TrailMap points={detail.points} level={day?.level ?? null} />
+          </Suspense>
+          <a
+            className="directions-btn"
+            href={directionsUrl(detail.points[0]!)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Directions to {detail.points[0]!.label.toLowerCase() === "trailhead" ? "the trailhead" : detail.points[0]!.label}
+            <span className="sr-only"> (opens Google Maps)</span>
+          </a>
+        </section>
       )}
 
       <section>

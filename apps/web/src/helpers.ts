@@ -72,6 +72,19 @@ export function levelLabel(level: ConditionLevel): string {
   return LEVEL_LABELS[level];
 }
 
+// One-character marks for map pins, so a pin never relies on color alone.
+const LEVEL_SYMBOLS: Record<ConditionLevel, string> = {
+  dry: "D",
+  prime: "P",
+  soft: "S",
+  muddy: "M",
+  snow: "❄",
+};
+
+export function levelSymbol(level: ConditionLevel): string {
+  return LEVEL_SYMBOLS[level];
+}
+
 /** Display casing for the model's confidence bands. */
 export const BAND_LABELS: Record<ConfidenceBand, string> = {
   high: "High",
