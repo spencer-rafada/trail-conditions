@@ -8,7 +8,7 @@
 //   "days": ScoredDay[],                      // [] until the trail is scored
 //   "scored_utc": string | null,
 //   "last_rain": { "ts_utc": "...", "precip_in": n } | null,
-//     // most recent cached rain_hourly hour >= CONFIDENCE.rainEventMinIn
+//     // most recent cached rain_hourly hour > CONFIDENCE.rainEventMinIn
 //     // across the trail's cells; null = no recent rain in the cache
 //   "reports_since_rain": number              // 0 until M5 ships reports
 // }
@@ -52,13 +52,14 @@ export function soilLabel(rows: readonly SoilRow[]): SoilLabel | null {
   return "loam";
 }
 
-/** Most recent hour at or above CONFIDENCE.rainEventMinIn across the trail's
- *  cells; the heavier cell wins a same-hour tie. Null = no recent rain in
- *  the cache (the normal dry-spell state, not an error). */
+/** Most recent hour strictly above CONFIDENCE.rainEventMinIn (spec §6.3's
+ *  "> 0.1 in"; decision 5a) across the trail's cells; the heavier cell wins a
+ *  same-hour tie. Null = no recent rain in the cache (the normal dry-spell
+ *  state, not an error). */
 export function lastRainEvent(rows: readonly RainEventRow[]): RainEventRow | null {
   let last: RainEventRow | null = null;
   for (const row of rows) {
-    if (row.precip_in < CONFIDENCE.rainEventMinIn) continue;
+    if (row.precip_in <= CONFIDENCE.rainEventMinIn) continue;
     if (
       !last ||
       row.ts_utc > last.ts_utc ||

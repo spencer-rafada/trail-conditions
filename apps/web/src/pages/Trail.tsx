@@ -1,11 +1,11 @@
 // Trail page (spec §10): level, confidence, the "why" factors (last rain,
 // soil, drying speed, worst section), reports since the last rain, and the
-// "Is this right?" button — present but disabled; the report modal and
-// POST /api/reports ship with M5.
+// "Is this right?" button, which opens the §6.1 report modal (M5).
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { WETNESS } from "@trail-conditions/model";
 import { ApiError, fetchTrail, type TrailDetail } from "../api";
+import { ReportModal } from "../components/ReportModal";
 import { BAND_LABELS, levelColor, levelLabel, updatedAgo } from "../helpers";
 import { Link } from "../router";
 
@@ -25,6 +25,24 @@ const SOIL_COPY = {
 
 export function Trail({ id }: { id: string }) {
   const [state, setState] = useState<FetchState>({ status: "loading" });
+  const [reporting, setReporting] = useState(false);
+  // The element that opened the modal; focus returns to it on close
+  // (ARIA dialog pattern — otherwise Tab lands in the footer).
+  const openerRef = useRef<HTMLElement | null>(null);
+
+  const openReport = () => {
+    openerRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setReporting(true);
+  };
+
+  // Stable identity: the modal's keydown effect depends on onClose, so a
+  // fresh function every render would re-run it on each re-render (e.g. the
+  // post-submit refetch resolving).
+  const closeReport = useCallback(() => {
+    setReporting(false);
+    openerRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -45,6 +63,16 @@ export function Trail({ id }: { id: string }) {
     };
   }, [id]);
 
+  // After a submit: refetch past the 5-minute HTTP cache so the new report
+  // count shows. On a refetch error keep the current view — the modal
+  // already confirmed the save.
+  const refresh = () => {
+    fetchTrail(id, { fresh: true }).then(
+      (detail) => setState({ status: "ready", detail }),
+      () => {},
+    );
+  };
+
   return (
     <main className="trail">
       <Link to="/" className="back">
@@ -63,12 +91,17 @@ export function Trail({ id }: { id: string }) {
       {state.status === "notfound" && (
         <p className="status-screen">No trail with this address.</p>
       )}
-      {state.status === "ready" && <Detail detail={state.detail} />}
+      {state.status === "ready" && (
+        <Detail detail={state.detail} onReport={openReport} />
+      )}
+      {reporting && (
+        <ReportModal trailId={id} onClose={closeReport} onSubmitted={refresh} />
+      )}
     </main>
   );
 }
 
-function Detail({ detail }: { detail: TrailDetail }) {
+function Detail({ detail, onReport }: { detail: TrailDetail; onReport: () => void }) {
   const nowMs = Date.now();
   const day = detail.days.find((d) => d.offset === 0);
   return (
@@ -137,10 +170,9 @@ function Detail({ detail }: { detail: TrailDetail }) {
                 detail.reports_since_rain === 1 ? "" : "s"
               } since the last rain.`}
         </p>
-        <button type="button" className="report-btn" disabled>
+        <button type="button" className="report-btn" onClick={onReport}>
           Is this right?
         </button>
-        <p className="tagline">Rider reports are coming soon.</p>
       </section>
     </>
   );

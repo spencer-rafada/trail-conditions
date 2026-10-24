@@ -99,8 +99,10 @@ export function tabForCounty(county: string | undefined): Tab | null {
 }
 
 /** Rider count behind "✔ N riders confirmed today", from the riders_agree
- *  confidence factor (delta = count * agreePerReport, capped upstream). */
+ *  confidence factor (delta = weighted count * agreePerReport, capped
+ *  upstream). Floored, not rounded (M5 decision 4): a lone half-weight
+ *  (24–48 h old) report must not read as a rider confirmed *today*. */
 export function ridersConfirmed(conf: Confidence): number {
   const factor = conf.factors.find((f) => f.id === "riders_agree");
-  return factor ? Math.round(factor.delta / CONFIDENCE.agreePerReport) : 0;
+  return factor ? Math.floor(factor.delta / CONFIDENCE.agreePerReport) : 0;
 }

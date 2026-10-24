@@ -62,7 +62,9 @@ export const CONFIDENCE = {
   sourceDivergencePenalty: -15,
   highElevationMinMeters: 2400, // radar beam is blocked more in the mountains
   highElevationPenalty: -15,
-  rainEventMinIn: 0.1, // "rain" for the since-rain factors means > 0.1 in in an hour
+  // "Rain" means strictly > 0.1 in in an hour (§5 since-rain factors, §6.3
+  // report reset, the trail page's last-rain row — one definition, decision 5a).
+  rainEventMinIn: 0.1,
   recentRainMaxHours: 12, // less than 12 h since rain -> penalty
   recentRainPenalty: -10,
   longDryMinHours: 72, // more than 72 h since rain -> bonus
@@ -71,4 +73,26 @@ export const CONFIDENCE = {
   tunedBonus: 10,
   forecastDayPenalty: -10, // per forecast day (tomorrow / day after)
   bands: { high: 70, medium: 40 }, // High >= 70, Medium 40–69, Low < 40
+} as const;
+
+// §6 Rider reports: §6.2 spam limits and §6.3 report lifetime.
+export const REPORTS = {
+  fullWeightMaxAgeHours: 24, // full weight for 0–24 h ...
+  expiryAgeHours: 48, // ... half weight for 24–48 h, then it expires
+  halfWeight: 0.5,
+  // "New rain resets reports" (§6.3) reuses CONFIDENCE.rainEventMinIn: one
+  // rain-event definition everywhere (decision 5a) — no second tunable here.
+  maxPerTrailPerDevicePerDay: 1, // §6.2: 1 report per trail per device per day
+  maxPerIpHashPerDay: 20, // §6.2: 20 reports per IP hash per day
+  // §6.1 optional tags — the full allowed set; no free text in v1.
+  tags: [
+    "Hero",
+    "Tacky",
+    "Dusty",
+    "Muddy",
+    "Snow",
+    "Ice",
+    "Closed",
+    "Downed tree",
+  ],
 } as const;
