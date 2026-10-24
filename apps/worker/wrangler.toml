@@ -12,8 +12,8 @@ database_name = "trail-conditions"
 database_id = "00000000-0000-0000-0000-000000000000" # local-only placeholder
 
 [triggers]
-# Both strings must match SCORE_CRON / TUNE_CRON in src/index.ts, where the
-# scheduled handler dispatches on event.cron. 2 of the account's 5 triggers.
+# Both strings must match SCORE_CRON / TUNE_CRON in src/crons.ts; the
+# scheduled handler in src/index.ts dispatches on event.cron. 2 of the account's 5 triggers.
 # 1. Score job: one chunk of Stage IV cells per run (spec §7.2/§7.3 cron 1).
 # 2. Tune job (§7.3 cron 2), "nightly 03:00 MT": cron triggers are UTC, so
 #    10:00 UTC = 03:00 MST; during daylight saving it runs at 04:00 MDT.
