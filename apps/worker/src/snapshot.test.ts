@@ -6,6 +6,7 @@ import {
   historyRows,
   mergeSnapshot,
   scoreTrail,
+  trailPins,
   EMPTY_SNAPSHOT,
   type TrailRow,
   type TrailScore,
@@ -143,6 +144,28 @@ describe("scoreTrail — now / tomorrow / day-after", () => {
 
     const noCounty = scoreTrail({ ...TRAIL, county: null }, POINTS, new Map(), omBoth(), NOW, [])!;
     expect("county" in noCounty).toBe(false);
+  });
+
+  it("carries map pins, Trailhead first, whatever the row order", () => {
+    const scored = scoreTrail(TRAIL, [...POINTS].reverse(), new Map(), omBoth(), NOW, [])!;
+    expect(scored.points).toEqual([
+      { label: "Trailhead", lat: 40.5, lon: -111.6 },
+      { label: "Top", lat: 40.6, lon: -111.7 },
+    ]);
+  });
+});
+
+describe("trailPins", () => {
+  it("rounds to 5 decimals and falls back to the point id for a missing label", () => {
+    expect(
+      trailPins([
+        { id: "t#b", label: null, lat: 40.123456789, lon: -111.987654321 },
+        { id: "t#a", label: "Top", lat: 40, lon: -111 },
+      ]),
+    ).toEqual([
+      { label: "Top", lat: 40, lon: -111 },
+      { label: "t#b", lat: 40.12346, lon: -111.98765 },
+    ]);
   });
 });
 
