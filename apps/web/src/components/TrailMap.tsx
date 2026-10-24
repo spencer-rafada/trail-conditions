@@ -26,11 +26,17 @@ export default function TrailMap({
       dragging: !touch,
     });
     addBaseLayer(map);
-    for (const p of points) {
+    // Trailhead label below its pin, the others above, so labels of two
+    // close points don't sit on top of each other.
+    points.forEach((p, i) => {
       L.marker([p.lat, p.lon], { icon: levelIcon(level), keyboard: false, title: p.label })
         .addTo(map)
-        .bindTooltip(p.label, { permanent: true, direction: "top", offset: [0, -16] });
-    }
+        .bindTooltip(p.label, {
+          permanent: true,
+          direction: i === 0 ? "bottom" : "top",
+          offset: i === 0 ? [0, 16] : [0, -16],
+        });
+    });
     const bounds = L.latLngBounds(points.map((p) => [p.lat, p.lon] as [number, number]));
     if (points.length > 1) map.fitBounds(bounds, { padding: [56, 56], maxZoom: 15 });
     else map.setView(bounds.getCenter(), 13);

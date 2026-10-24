@@ -2,15 +2,8 @@
 // the answer without opening the trail page.
 
 import type { TrailScore } from "../api";
-import {
-  BAND_LABELS,
-  levelColor,
-  levelLabel,
-  ridersConfirmed,
-  tabForCounty,
-  today,
-  updatedAgo,
-} from "../helpers";
+import { levelColor, levelLabel, tabForCounty, today, updatedAgo } from "../helpers";
+import { ConfidenceMeter, Reasons, VerdictLine } from "./Confidence";
 import { Link } from "../router";
 
 const DAY_NAMES = ["Today", "Tomorrow", "Day after"] as const;
@@ -37,13 +30,8 @@ export function TrailCard({
   onHover?: (id: string | null) => void;
 }) {
   const day = today(trail);
-  const riders = day ? ridersConfirmed(day.confidence) : 0;
   const county = showCounty ? tabForCounty(trail.county) : null;
-  const meta = [
-    day ? `${BAND_LABELS[day.confidence.band]} confidence` : null,
-    county,
-    distance,
-  ].filter((x): x is string => Boolean(x));
+  const meta = [county, distance].filter((x): x is string => Boolean(x));
 
   return (
     <li
@@ -57,18 +45,17 @@ export function TrailCard({
       <Link to={`/trails/${encodeURIComponent(trail.id)}`} className="card">
         <div className="card-head">
           <h3>{trail.name}</h3>
-          {day && (
-            <span className="chip" style={{ backgroundColor: levelColor(day.level) }}>
-              {levelLabel(day.level)}
-            </span>
-          )}
+          {meta.length > 0 && <span className="card-meta">{meta.join(" · ")}</span>}
         </div>
         {matchedName && <p className="card-match">Includes {matchedName}</p>}
-        {meta.length > 0 && <p className="card-meta">{meta.join(" · ")}</p>}
-        {riders > 0 && (
-          <p className="riders">
-            ✔ {riders} rider{riders === 1 ? "" : "s"} confirmed today
-          </p>
+        {day ? (
+          <>
+            <VerdictLine level={day.level} />
+            <ConfidenceMeter conf={day.confidence} />
+            <Reasons conf={day.confidence} />
+          </>
+        ) : (
+          <p className="card-meta">Not scored yet</p>
         )}
         {day?.note && <p className="note">{day.note}</p>}
         <ol className="strip">

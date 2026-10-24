@@ -111,6 +111,103 @@ export function tabForCounty(county: string | undefined): Tab | null {
   return county === undefined ? null : (TAB_BY_COUNTY[county] ?? null);
 }
 
+// --- Verdict: the plain answer to "can I ride it?" ---------------------
+// Follows "Rideable now": dry/prime ride, soft is marginal, muddy and snow
+// are off (the disclaimer asks riders to stay off muddy trails).
+
+export type Verdict = "ride" | "care" | "off";
+
+export function verdictFor(level: ConditionLevel): Verdict {
+  if (level === "dry" || level === "prime") return "ride";
+  if (level === "soft") return "care";
+  return "off";
+}
+
+export const VERDICT_LABELS: Record<Verdict, string> = {
+  ride: "Rideable",
+  care: "Ride with care",
+  off: "Stay off",
+};
+
+export const VERDICT_ICONS: Record<Verdict, string> = { ride: "✓", care: "!", off: "✕" };
+
+/** Short ground description after the level name, only where it adds
+ *  something: "Prime (tacky)", but plain "Muddy". */
+export const LEVEL_DETAILS: Partial<Record<ConditionLevel, string>> = {
+  dry: "firm, can be dusty",
+  prime: "tacky",
+  soft: "soft spots",
+};
+
+// --- Confidence: a score out of 100 with words, never a bare percent ----
+// It is how sure the estimate is, not a chance of being dry, so it reads
+// "72/100" (a % next to a forecast reads as a probability).
+
+export const BAND_WORDS: Record<ConfidenceBand, string> = {
+  high: "likely right",
+  medium: "could be off",
+  low: "rough estimate",
+};
+
+/** What each factor means to a rider, from the model's own numbers. */
+export function factorText(factor: Confidence["factors"][number]): string {
+  switch (factor.id) {
+    case "riders_agree": {
+      const n = Math.floor(factor.delta / CONFIDENCE.agreePerReport);
+      return n > 0 ? `${n} rider${n === 1 ? "" : "s"} confirmed today` : "A rider confirmed recently";
+    }
+    case "rider_disagrees": {
+      const n = Math.max(1, Math.round(factor.delta / CONFIDENCE.disagreePenalty));
+      return `${n} rider${n === 1 ? "" : "s"} reported different conditions`;
+    }
+    case "reports_conflict":
+      return "Rider reports disagree";
+    case "sources_diverge":
+      return "Radar and forecast disagree on recent rain";
+    case "high_elevation":
+      return "High elevation: radar sees less here";
+    case "recent_rain":
+      return `Rain in the last ${CONFIDENCE.recentRainMaxHours} h: still changing`;
+    case "long_dry":
+      return `No real rain in ${CONFIDENCE.longDryMinHours / 24}+ days`;
+    case "trail_tuned":
+      return "Drying speed tuned by rider reports";
+    case "forecast_day":
+      return "Forecast day: less certain";
+  }
+}
+
+/** The two facts that move the score most (riders first), for a card. */
+export function topReasons(conf: Confidence, n = 2): { text: string; good: boolean }[] {
+  return [...conf.factors]
+    .filter((f) => f.id !== "forecast_day")
+    .sort(
+      (a, b) =>
+        Number(b.id === "riders_agree") - Number(a.id === "riders_agree") ||
+        Math.abs(b.delta) - Math.abs(a.delta),
+    )
+    .slice(0, n)
+    .map((f) => ({ text: factorText(f), good: f.delta > 0 }));
+}
+
+export interface BreakdownRow {
+  text: string;
+  delta: number;
+}
+
+/** Start + each factor = score, for the trail page. `capped` says the sum
+ *  went past 0–100 and the score was clamped. */
+export function confidenceBreakdown(conf: Confidence): {
+  start: number;
+  rows: BreakdownRow[];
+  score: number;
+  capped: boolean;
+} {
+  const rows = conf.factors.map((f) => ({ text: factorText(f), delta: f.delta }));
+  const sum = rows.reduce<number>((t, r) => t + r.delta, CONFIDENCE.start);
+  return { start: CONFIDENCE.start, rows, score: conf.score, capped: sum !== conf.score };
+}
+
 /** Rider count behind "✔ N riders confirmed today", from the riders_agree
  *  confidence factor (delta = weighted count * agreePerReport, capped
  *  upstream). Floored, not rounded (M5 decision 4): a lone half-weight

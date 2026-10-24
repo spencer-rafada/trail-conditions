@@ -286,9 +286,10 @@ Add indexes on `reports(trail_id, created_utc)`, `reports(device_id, trail_id, c
 - **Phone:** the map fills the screen; search and chips float on top; results sit in a bottom sheet (peek / half / full). **Desktop (>= 900 px):** sidebar (search, chips, list) and the map on the right.
 - **Map:** USGS Topo tiles (public domain, no key). One pin per trail at its trailhead, colored **and lettered** by today's level (D · P · S · M · ❄). Tapping a pin highlights its card; on desktop, hovering a card highlights its pin. The map code loads only when the map is shown.
 - **List:** when not searching, the trails in the map area, best conditions first (closest first after Near me). Each card shows:
-  - Name and level color (Dry · Prime · Soft · Muddy · Snow)
-  - Confidence: High / Medium / Low (plus county when searching, distance after Near me)
-  - "✔ 2 riders confirmed today," if any
+  - Name (plus county when searching, distance after Near me)
+  - **Verdict:** ✓ Rideable (Dry, Prime) · ! Ride with care (Soft) · ✕ Stay off (Muddy, Snow), with the level, e.g. "✓ Rideable · Prime (tacky)"
+  - **Confidence as a score:** "72/100" with a bar and words (High: likely right · Medium: could be off · Low: rough estimate). Never a bare %, because it is how sure the estimate is, not a chance of being dry (a % next to a forecast reads as a probability)
+  - **Top 2 reasons** from the confidence factors, riders first: "✔ 2 riders confirmed today", "⚠ Rain in the last 12 h: still changing"
   - A 3-day strip: Today · Tomorrow · Day after
   - "Updated 12 min ago"
 - **Chips:** "Rideable now" (filter), "Near me" (asks for location only when tapped; never sent to the server), and Salt Lake · Utah · Wasatch (move the map to that county; they replace the old tabs, and old `?tab=` links still work).
@@ -299,6 +300,7 @@ Add indexes on `reports(trail_id, created_utc)`, `reports(device_id, trail_id, c
 - Level, confidence, and **why**: last rain (amount and time), soil type, drying speed, worst section
 - Reports since the last rain
 - **"Is this right?"** button → report modal
+- **How sure is this?** every confidence factor with its points (starting point 60, +/− each factor = the score), and a note that confidence is not the chance the trail is dry
 - **Where:** a small map with the Trailhead and Top pins, and a **Directions to the trailhead** button (Google Maps link; nothing goes through our server)
 
 **Footer (required)**

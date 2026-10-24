@@ -5,9 +5,10 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
 import { WETNESS } from "@trail-conditions/model";
 import { ApiError, fetchTrail, type TrailDetail } from "../api";
+import { ConfidenceBreakdown, ConfidenceMeter, Reasons, VerdictLine } from "../components/Confidence";
 import { ReportModal } from "../components/ReportModal";
 import { directionsUrl } from "../geo";
-import { BAND_LABELS, levelColor, levelLabel, updatedAgo } from "../helpers";
+import { levelColor, levelLabel, updatedAgo } from "../helpers";
 import { Link } from "../router";
 
 type FetchState =
@@ -116,10 +117,9 @@ function Detail({ detail, onReport }: { detail: TrailDetail; onReport: () => voi
 
       {day ? (
         <section className="trail-now">
-          <span className="chip chip-lg" style={{ backgroundColor: levelColor(day.level) }}>
-            {levelLabel(day.level)}
-          </span>
-          <span className="card-meta">{BAND_LABELS[day.confidence.band]} confidence</span>
+          <VerdictLine level={day.level} large />
+          <ConfidenceMeter conf={day.confidence} />
+          <Reasons conf={day.confidence} max={3} />
           {day.note && <p className="note">{day.note}</p>}
           <ol className="strip">
             {detail.days.map((d) => (
@@ -181,6 +181,13 @@ function Detail({ detail, onReport }: { detail: TrailDetail; onReport: () => voi
           <dd>{day?.worst_point ?? "—"}</dd>
         </dl>
       </section>
+
+      {day && (
+        <section>
+          <h2>How sure is this?</h2>
+          <ConfidenceBreakdown conf={day.confidence} />
+        </section>
+      )}
 
       <section>
         <h2>Rider reports</h2>

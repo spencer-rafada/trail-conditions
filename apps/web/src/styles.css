@@ -451,6 +451,169 @@ h2 {
   padding: 12px 0;
 }
 
+/* --- verdict + confidence --- */
+
+.verdict {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 0;
+  font-size: 0.98rem;
+}
+
+.verdict-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.verdict-level {
+  color: var(--subtle);
+}
+
+.verdict-lg {
+  font-size: 1.25rem;
+  margin-top: 0;
+}
+
+.verdict-lg .verdict-level {
+  flex-basis: 100%;
+  font-size: 0.95rem;
+}
+
+.verdict-lg .verdict-dot {
+  display: none;
+}
+
+.verdict-lg .verdict-icon {
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+}
+
+.conf {
+  display: grid;
+  grid-template-columns: auto auto minmax(60px, 1fr);
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 2px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
+.conf-label {
+  color: var(--subtle);
+}
+
+.conf-num {
+  font-variant-numeric: tabular-nums;
+  color: var(--subtle);
+}
+
+.conf-num strong {
+  color: var(--ink);
+  font-size: 1.05rem;
+}
+
+.conf-bar {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.conf-bar span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--ink);
+  border-radius: 999px;
+}
+
+.conf-band {
+  grid-column: 1 / -1;
+  font-size: 0.8rem;
+  color: var(--subtle);
+}
+
+.reasons {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.84rem;
+}
+
+.reasons .is-good {
+  color: #2e7d32;
+}
+
+.reasons .is-bad {
+  color: #8a5a00;
+}
+
+.card-head .card-meta {
+  margin: 0;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+}
+
+.breakdown {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.breakdown th {
+  text-align: left;
+  font-weight: 400;
+  padding: 8px 14px;
+}
+
+.breakdown td {
+  text-align: right;
+  padding: 8px 14px;
+  white-space: nowrap;
+}
+
+.breakdown tbody tr + tr th,
+.breakdown tbody tr + tr td {
+  border-top: 1px solid var(--line);
+}
+
+.breakdown .is-good td {
+  color: #2e7d32;
+}
+
+.breakdown .is-bad td {
+  color: #b3261e;
+}
+
+.breakdown tfoot th,
+.breakdown tfoot td {
+  border-top: 2px solid var(--ink);
+  font-weight: 700;
+}
+
+.fine {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  color: var(--subtle);
+}
+
 /* --- trail page map --- */
 
 .trail-map {
