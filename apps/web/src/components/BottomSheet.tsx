@@ -79,7 +79,11 @@ export function BottomSheet({
         onPointerUp={() => {
           const d = drag.current;
           drag.current = null;
-          if (d?.moved && dragPx !== null) onSnapChange(nearestSnap(dragPx, heights));
+          if (!d) return;
+          // The grip holds pointer capture, so the handle button never gets
+          // the click from a mouse or finger: a tap is handled right here.
+          if (d.moved && dragPx !== null) onSnapChange(nearestSnap(dragPx, heights));
+          else if (!d.moved) onSnapChange(nextOnTap[snap]);
           setDragPx(null);
         }}
         onPointerCancel={() => {
@@ -91,8 +95,10 @@ export function BottomSheet({
           type="button"
           className="sheet-handle"
           aria-label={snap === "full" ? "Show more map" : "Show more of the list"}
-          onClick={() => {
-            if (!drag.current?.moved) onSnapChange(nextOnTap[snap]);
+          onClick={(e) => {
+            // Keyboard only (Enter/Space report detail 0); pointer taps are
+            // handled in the grip's onPointerUp.
+            if (e.detail === 0) onSnapChange(nextOnTap[snap]);
           }}
         >
           <span aria-hidden="true" />
