@@ -282,7 +282,7 @@ Add indexes on `reports(trail_id, created_utc)`, `reports(device_id, trail_id, c
 ## 10. UI (mobile first)
 
 **Home (explore: search first, map and list to go deeper)**
-- **Search** at the top: one box, typed or by voice (mic only where the browser supports it). Searches all three counties. Forgiving: typos, plurals, possessives ("lamberts park"). Also matches the names of trails inside a system (`data/trail-names.json`, from the hand-run `pnpm trail-names`), and the card says which one ("Includes Clark's Trail").
+- **Search** at the top: one box, typed or by voice (mic only where the browser supports it). Searches all three counties. Forgiving: typos, plurals, possessives ("lamberts park"). Also matches the names of trails inside a system (`data/trail-names.json`, from the hand-run `pnpm trail-names`), and the card says which one ("Ghost Falls" → Corner Canyon Regional Park, "Includes Ghost Falls").
 - **Phone:** the map fills the screen; search and chips float on top; results sit in a bottom sheet (peek / half / full). **Desktop (>= 900 px):** sidebar (search, chips, list) and the map on the right.
 - **Map:** USGS Topo tiles (public domain, no key). One pin per trail at its trailhead, colored **and lettered** by today's level (D · P · S · M · ❄). Tapping a pin highlights its card; on desktop, hovering a card highlights its pin. The map code loads only when the map is shown.
 - **List:** when not searching, the trails in the map area, best conditions first (closest first after Near me). Each card shows:

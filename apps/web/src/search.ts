@@ -6,7 +6,8 @@
 // Every query word must match something, or the trail is not a result.
 //
 // Systems also carry the names of the trails inside them (from OSM, via the
-// hand-run scripts/trail-names.ts), so "Clark's" finds Corner Canyon.
+// hand-run scripts/trail-names.ts), so "Ghost Falls" finds Corner Canyon
+// Regional Park.
 
 import type { TrailScore } from "./api";
 
@@ -158,7 +159,7 @@ export function searchTrails(
     .map((r) => r.trail);
 }
 
-/** The member trail that explains a result ("Includes Clark's Trail"):
+/** The member trail that explains a result ("Includes Ghost Falls"):
  *  the one that matches the query better than the system name does. Null
  *  when the system name alone explains it. */
 export function memberMatch(

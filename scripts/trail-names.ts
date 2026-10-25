@@ -7,7 +7,8 @@
  * functions as scripts/discover-trails.ts — no elevation, soil, or radar
  * calls), matches each clustered system to its data/trails.json entry, and
  * writes data/trail-names.json: trail id -> the names of the OSM trails
- * inside that system. Search uses these so "Clark's" finds Corner Canyon.
+ * inside that system. Search uses these so "Ghost Falls" finds Corner
+ * Canyon Regional Park.
  *
  * It reads data/trails.json but never writes it (the human-reviewed list).
  * A trail whose system can't be matched just gets no member names; the
