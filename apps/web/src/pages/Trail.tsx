@@ -6,9 +6,11 @@ import { Suspense, lazy, useCallback, useEffect, useRef, useState } from "react"
 import { WETNESS } from "@trail-conditions/model";
 import { ApiError, fetchTrail, type TrailDetail } from "../api";
 import { ConfidenceBreakdown, ConfidenceMeter, Reasons, VerdictLine } from "../components/Confidence";
+import { DayStrip } from "../components/DayStrip";
 import { ReportModal } from "../components/ReportModal";
+import { exploreReturnUrl } from "../exploreReturn";
 import { directionsUrl } from "../geo";
-import { levelColor, levelLabel, updatedAgo } from "../helpers";
+import { countyExploreHref, updatedAgo } from "../helpers";
 import { Link } from "../router";
 
 type FetchState =
@@ -16,8 +18,6 @@ type FetchState =
   | { status: "error" }
   | { status: "notfound" }
   | { status: "ready"; detail: TrailDetail };
-
-const DAY_NAMES = ["Today", "Tomorrow", "Day after"] as const;
 
 const TrailMap = lazy(() => import("../components/TrailMap"));
 
@@ -79,9 +79,7 @@ export function Trail({ id }: { id: string }) {
 
   return (
     <main className="trail">
-      <Link to="/" className="back">
-        ← All trails
-      </Link>
+      <Breadcrumb detail={state.status === "ready" ? state.detail : null} />
       {state.status === "loading" && (
         <p className="status-screen" role="status">
           Loading trail…
@@ -105,6 +103,37 @@ export function Trail({ id }: { id: string }) {
   );
 }
 
+/** Trails › County › Trail. "Trails" returns to the map view the rider came
+ *  from; the county opens the map framed on that county. */
+function Breadcrumb({ detail }: { detail: TrailDetail | null }) {
+  const countyHref = countyExploreHref(detail?.county);
+  return (
+    <nav className="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li>
+          <Link to={exploreReturnUrl()}>Trails</Link>
+        </li>
+        {detail?.county && countyHref && (
+          <li>
+            <span className="breadcrumb-sep" aria-hidden="true">
+              ›
+            </span>
+            <Link to={countyHref}>{detail.county}</Link>
+          </li>
+        )}
+        {detail && (
+          <li aria-current="page">
+            <span className="breadcrumb-sep" aria-hidden="true">
+              ›
+            </span>
+            {detail.name}
+          </li>
+        )}
+      </ol>
+    </nav>
+  );
+}
+
 function Detail({ detail, onReport }: { detail: TrailDetail; onReport: () => void }) {
   const nowMs = Date.now();
   const day = detail.days.find((d) => d.offset === 0);
@@ -112,7 +141,6 @@ function Detail({ detail, onReport }: { detail: TrailDetail; onReport: () => voi
     <>
       <header className="page-header">
         <h1>{detail.name}</h1>
-        {detail.county && <p className="tagline">{detail.county}</p>}
       </header>
 
       {day ? (
@@ -121,19 +149,7 @@ function Detail({ detail, onReport }: { detail: TrailDetail; onReport: () => voi
           <ConfidenceMeter conf={day.confidence} />
           <Reasons conf={day.confidence} max={3} />
           {day.note && <p className="note">{day.note}</p>}
-          <ol className="strip">
-            {detail.days.map((d) => (
-              <li key={d.offset}>
-                <span className="strip-day">{DAY_NAMES[d.offset]}</span>
-                <span
-                  className="strip-chip"
-                  style={{ backgroundColor: levelColor(d.level) }}
-                >
-                  {levelLabel(d.level)}
-                </span>
-              </li>
-            ))}
-          </ol>
+          <DayStrip days={detail.days} />
           {detail.scored_utc && (
             <p className="updated">Updated {updatedAgo(detail.scored_utc, nowMs)}</p>
           )}

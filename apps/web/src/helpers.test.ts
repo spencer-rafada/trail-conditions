@@ -7,6 +7,7 @@ import {
 import type { TrailScore } from "./api";
 import {
   confidenceBreakdown,
+  countyExploreHref,
   factorText,
   isRideable,
   topReasons,
@@ -145,6 +146,18 @@ describe("tabForCounty", () => {
     expect(tabForCounty("Wasatch County")).toBe("Wasatch");
     expect(tabForCounty(undefined)).toBeNull();
     expect(tabForCounty("Summit County")).toBeNull();
+  });
+});
+
+describe("countyExploreHref", () => {
+  it("links a seeded county to the map framed on it (the ?tab= jump)", () => {
+    expect(countyExploreHref("Salt Lake County")).toBe("/?tab=Salt+Lake");
+    expect(countyExploreHref("Wasatch County")).toBe("/?tab=Wasatch");
+  });
+
+  it("has no link for a missing or out-of-area county", () => {
+    expect(countyExploreHref(null)).toBeNull();
+    expect(countyExploreHref("Summit County")).toBeNull();
   });
 });
 

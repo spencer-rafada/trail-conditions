@@ -9,7 +9,7 @@
 // remembers scrollY per id, and after a traversal the saved offset is
 // re-applied once the document has grown tall enough to hold it.
 
-import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useState, type MouseEvent, type ReactNode, type Ref } from "react";
 
 export interface AppLocation {
   pathname: string;
@@ -133,10 +133,12 @@ export function Link({
   to,
   className,
   children,
+  ref,
 }: {
   to: string;
   className?: string;
   children: ReactNode;
+  ref?: Ref<HTMLAnchorElement>;
 }) {
   const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
     // Keep cmd/ctrl-click (new tab) and middle-click native.
@@ -146,7 +148,7 @@ export function Link({
     navigate(to);
   };
   return (
-    <a href={to} className={className} onClick={onClick}>
+    <a ref={ref} href={to} className={className} onClick={onClick}>
       {children}
     </a>
   );

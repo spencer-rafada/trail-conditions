@@ -3,8 +3,11 @@
 // Phone: floating search + chips over a full-screen map, results in a
 //   bottom sheet (peek / half / full).
 // Desktop (>= 900px): sidebar with search, chips, and the list; map on the
-//   right. Hovering a card highlights its pin; clicking a pin highlights the
-//   card.
+//   right. Hovering a card highlights its pin.
+// Clicking a pin opens a preview card, as Airbnb does: floated over the pin
+//   on desktop, docked above the sheet on phones (the sheet drops to peek).
+//   The list doesn't move. The card opens the trail page; a map click, its
+//   close button, or Esc dismisses it.
 // No pins in the snapshot yet (worker not redeployed): list-only layout.
 //
 // URL query (replaceState, so back from a trail page restores it):
@@ -17,8 +20,10 @@ import { BottomSheet, type Snap } from "../components/BottomSheet";
 import type { CameraMove, CameraRequest } from "../components/ExploreMap";
 import { Footer } from "../components/Footer";
 import { SearchBar } from "../components/SearchBar";
-import { TrailCard, cardDomId } from "../components/TrailCard";
+import { TrailCard } from "../components/TrailCard";
+import { TrailPreview } from "../components/TrailPreview";
 import { exploreList } from "../explore";
+import { rememberExploreUrl } from "../exploreReturn";
 import {
   boundsOfTrails,
   formatMiles,
@@ -125,7 +130,7 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
   const [origin, setOrigin] = useState<LatLon | null>(savedOrigin);
   const [locating, setLocating] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [previewId, setPreviewId] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [snap, setSnapState] = useState<Snap>(savedSnap);
   const [sheetPx, setSheetPx] = useState(0);
@@ -146,7 +151,9 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
     const view = next.view === undefined ? viewRef.current : next.view;
     if (view) p.set("at", formatView(view));
     const qs = p.toString();
-    navigate(qs ? `/?${qs}` : "/", { replace: true });
+    const url = qs ? `/?${qs}` : "/";
+    rememberExploreUrl(url);
+    navigate(url, { replace: true });
   };
 
   useEffect(() => {
@@ -188,10 +195,15 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
     return new Set(ids);
   }, [result.mode, result.trails, mapTrails, rideableOnly]);
 
-  // Fit the map to search results once typing settles.
+  // Fit the map to search results once typing settles. Coming back to a
+  // saved view (?at=, e.g. from a trail page), the view wins until the rider
+  // changes the search; member names loading late must not refit it either.
   const resultKey = result.mode === "search" ? result.trails.map((t) => t.id).join(",") : "";
+  const restoredQuery = useRef(viewRef.current ? query : null);
   useEffect(() => {
     if (!showMap || !resultKey) return;
+    if (restoredQuery.current !== null && query === restoredQuery.current) return;
+    restoredQuery.current = null;
     const t = setTimeout(() => {
       const box = boundsOfTrails(result.trails);
       if (box) moveCamera({ kind: "bounds", bounds: box, maxZoom: 13 });
@@ -199,23 +211,36 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
     return () => clearTimeout(t);
   }, [resultKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // A tapped pin: highlight its card and bring it into view.
+  const openPreview = (id: string) => {
+    setPreviewId(id);
+    // Phones: get the sheet out of the way so the card and map show.
+    if (!isDesktop) setSnap("peek");
+  };
+  const closePreview = () => setPreviewId(null);
+
+  // A preview whose pin a search or filter just hid has nothing to point at.
+  const previewTrail =
+    previewId !== null && visibleIds.has(previewId) ? (snapshot.trails[previewId] ?? null) : null;
+
   useEffect(() => {
-    if (!selectedId) return;
-    if (!isDesktop && snap === "peek") setSnap("half");
-    const t = setTimeout(() => {
-      document
-        .getElementById(cardDomId(selectedId))
-        ?.scrollIntoView({ block: "nearest", behavior: "smooth" });
-    }, 60);
-    return () => clearTimeout(t);
-  }, [selectedId]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (!previewTrail) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closePreview();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [previewTrail]);
+
+  const changeQuery = (q: string) => {
+    closePreview();
+    setQuery(q);
+  };
 
   const jumpToCounty = (tab: Tab) => {
     const box = boundsOfTrails(mapTrails.filter((t) => tabForCounty(t.county) === tab));
     if (!box) return;
+    closePreview();
     setQuery("");
-    setSelectedId(null);
     moveCamera({ kind: "bounds", bounds: box, maxZoom: 13 });
   };
 
@@ -237,6 +262,7 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
         const here = { lat: pos.coords.latitude, lon: pos.coords.longitude };
         savedOrigin = here;
         setOrigin(here);
+        closePreview();
         setQuery("");
         if (showMap) moveCamera({ kind: "view", view: { ...here, zoom: 11 } });
       },
@@ -298,7 +324,6 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
                 distance={miles === null ? undefined : formatMiles(miles)}
                 showCounty={searching}
                 matchedName={searching ? memberMatch(t, query, trailNames) : null}
-                selected={t.id === selectedId}
                 {...(isDesktop && showMap && { onHover: setHoveredId })}
               />
             );
@@ -319,13 +344,16 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
     <div className="explore-top">
       {(isDesktop || !showMap) && <Brand />}
       {!isDesktop && showMap && <h1 className="sr-only">Trail Conditions</h1>}
-      <SearchBar value={query} onChange={setQuery} />
+      <SearchBar value={query} onChange={changeQuery} />
       <div className="chips" role="group" aria-label="Filters">
         <button
           type="button"
           className="chip-btn"
           aria-pressed={rideableOnly}
-          onClick={() => writeUrl({ rideable: !rideableOnly })}
+          onClick={() => {
+            closePreview();
+            writeUrl({ rideable: !rideableOnly });
+          }}
         >
           Rideable now
         </button>
@@ -373,6 +401,16 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
 
   const insets = isDesktop ? { top: 0, bottom: 0 } : { top: 120, bottom: sheetPx };
 
+  const previewMiles = previewTrail && origin ? milesTo(previewTrail, origin) : null;
+  const preview = previewTrail && (
+    <TrailPreview
+      trail={previewTrail}
+      nowMs={nowMs}
+      distance={previewMiles === null ? undefined : formatMiles(previewMiles)}
+      onClose={closePreview}
+    />
+  );
+
   return (
     <main className={`explore has-map ${isDesktop ? "is-desktop" : "is-phone"}`}>
       {top}
@@ -381,13 +419,15 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
           <ExploreMap
             trails={mapTrails}
             visibleIds={visibleIds}
-            selectedId={selectedId}
+            selectedId={previewTrail?.id ?? null}
             hoveredId={hoveredId}
             origin={origin}
             initial={initialCamera}
             camera={camera}
             insets={insets}
-            onSelect={setSelectedId}
+            onSelect={openPreview}
+            onMapClick={closePreview}
+            popup={isDesktop ? preview : undefined}
             onViewChange={(b, view) => {
               setBounds(b);
               viewRef.current = view;
@@ -396,6 +436,11 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
           />
         </Suspense>
       </div>
+      {!isDesktop && preview && (
+        <div className="preview-dock" style={{ bottom: sheetPx + 12 }}>
+          {preview}
+        </div>
+      )}
       {isDesktop ? (
         <section className="explore-panel" aria-label="Trail list">
           {summaryLine}

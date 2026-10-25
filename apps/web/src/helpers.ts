@@ -111,6 +111,13 @@ export function tabForCounty(county: string | undefined): Tab | null {
   return county === undefined ? null : (TAB_BY_COUNTY[county] ?? null);
 }
 
+/** The explore view framed on this county (Home's ?tab= jump); null when
+ *  the county isn't one of the three. */
+export function countyExploreHref(county: string | null | undefined): string | null {
+  const tab = tabForCounty(county ?? undefined);
+  return tab ? `/?${new URLSearchParams({ tab }).toString()}` : null;
+}
+
 // --- Verdict: the plain answer to "can I ride it?" ---------------------
 // Follows "Rideable now": dry/prime ride, soft is marginal, muddy and snow
 // are off (the disclaimer asks riders to stay off muddy trails).

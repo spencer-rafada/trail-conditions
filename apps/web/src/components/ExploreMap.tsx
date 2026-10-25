@@ -1,14 +1,16 @@
 // The explore map (lazy chunk, so search results never wait for Leaflet).
 // One pin per trail at its trailhead, colored and lettered by today's level.
 // The parent owns all state; this component mirrors it onto Leaflet and
-// reports the visible area back.
+// reports the visible area back. On desktop it also floats the selected
+// pin's preview card over that pin and keeps it there as the map moves.
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { TrailScore } from "../api";
 import { trailhead, type Bounds, type LatLon, type MapView } from "../geo";
 import { today } from "../helpers";
+import { POPUP_WIDTH, popupPlacement, type PopupPlacement } from "../mapPopup";
 import { addBaseLayer, levelIcon, pinLabel } from "./mapTiles";
 
 export type CameraMove =
@@ -22,6 +24,7 @@ export interface ExploreMapProps {
   trails: readonly TrailScore[];
   /** Pins to show; others are hidden (search results, Rideable now). */
   visibleIds: ReadonlySet<string>;
+  /** The pin whose preview is open; stays highlighted. */
   selectedId: string | null;
   hoveredId: string | null;
   origin: LatLon | null;
@@ -29,8 +32,13 @@ export interface ExploreMapProps {
   camera: CameraRequest | null;
   /** Map pixels covered by the floating search (top) and sheet (bottom). */
   insets: { top: number; bottom: number };
+  /** A pin was clicked (the parent opens its preview). */
   onSelect: (id: string) => void;
+  /** The map itself (not a pin) was clicked; the parent closes the preview. */
+  onMapClick: () => void;
   onViewChange: (bounds: Bounds, view: MapView) => void;
+  /** Desktop: the preview card, floated over the selected pin. */
+  popup?: ReactNode;
 }
 
 /** Below this zoom pins are small dots without letters. */
@@ -72,6 +80,8 @@ export default function ExploreMap(props: ExploreMapProps) {
       );
     };
     map.on("moveend", report);
+    // Marker clicks don't bubble to the map, so this is a click on the map.
+    map.on("click", () => latest.current.onMapClick());
     // Far out, 188 lettered pins pile up; show small dots until zoom 11.
     const markZoom = () =>
       elRef.current?.classList.toggle("is-far", map.getZoom() < FAR_ZOOM);
@@ -132,13 +142,39 @@ export default function ExploreMap(props: ExploreMapProps) {
       const el = marker.getElement();
       if (!el) continue;
       const visible = props.visibleIds.has(id);
-      const active = id === props.selectedId || id === props.hoveredId;
+      const selected = id === props.selectedId;
+      const active = selected || id === props.hoveredId;
       el.classList.toggle("is-hidden", !visible);
       el.classList.toggle("is-active", active);
+      el.classList.toggle("is-selected", selected);
       el.tabIndex = visible ? 0 : -1;
-      marker.setZIndexOffset(active ? 1000 : 0);
+      marker.setZIndexOffset(selected ? 2000 : active ? 1000 : 0);
     }
   }, [props.visibleIds, props.selectedId, props.hoveredId, props.trails]);
+
+  // Keep the desktop preview over its pin while the map pans and zooms.
+  const [placement, setPlacement] = useState<PopupPlacement | null>(null);
+  const hasPopup = props.popup != null;
+  useEffect(() => {
+    const map = mapRef.current;
+    const id = props.selectedId;
+    if (!map || !id || !hasPopup) {
+      setPlacement(null);
+      return;
+    }
+    const update = () => {
+      const marker = markersRef.current.get(id);
+      if (!marker) return setPlacement(null);
+      const pin = map.latLngToContainerPoint(marker.getLatLng());
+      const size = map.getSize();
+      setPlacement(popupPlacement(pin, { width: size.x, height: size.y }));
+    };
+    update();
+    map.on("move zoom resize", update);
+    return () => {
+      map.off("move zoom resize", update);
+    };
+  }, [props.selectedId, hasPopup]);
 
   // Camera requests (county jump, search results, Near me).
   const cameraKey = props.camera?.key;
@@ -166,5 +202,22 @@ export default function ExploreMap(props: ExploreMapProps) {
     }
   }, [props.origin]);
 
-  return <div ref={elRef} className="map" role="region" aria-label="Map of trails" />;
+  return (
+    <>
+      <div ref={elRef} className="map" role="region" aria-label="Map of trails" />
+      {placement && hasPopup && (
+        <div
+          className="map-popup"
+          style={{
+            left: placement.left,
+            top: placement.top,
+            width: POPUP_WIDTH,
+            transform: placement.above ? "translateY(-100%)" : undefined,
+          }}
+        >
+          {props.popup}
+        </div>
+      )}
+    </>
+  );
 }

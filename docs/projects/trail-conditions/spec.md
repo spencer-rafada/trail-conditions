@@ -284,7 +284,7 @@ Add indexes on `reports(trail_id, created_utc)`, `reports(device_id, trail_id, c
 **Home (explore: search first, map and list to go deeper)**
 - **Search** at the top: one box, typed or by voice (mic only where the browser supports it). Searches all three counties. Forgiving: typos, plurals, possessives ("lamberts park"). Also matches the names of trails inside a system (`data/trail-names.json`, from the hand-run `pnpm trail-names`), and the card says which one ("Ghost Falls" → Corner Canyon Regional Park, "Includes Ghost Falls").
 - **Phone:** the map fills the screen; search and chips float on top; results sit in a bottom sheet (peek / half / full). **Desktop (>= 900 px):** sidebar (search, chips, list) and the map on the right.
-- **Map:** USGS Topo tiles (public domain, no key). One pin per trail at its trailhead, colored **and lettered** by today's level (D · P · S · M · ❄). Tapping a pin highlights its card; on desktop, hovering a card highlights its pin. The map code loads only when the map is shown.
+- **Map:** USGS Topo tiles (public domain, no key). One pin per trail at its trailhead, colored **and lettered** by today's level (D · P · S · M · ❄). Tapping a pin opens a preview card, as Airbnb does: over the pin on desktop, above the sheet on phones (the sheet drops to peek); the list doesn't move. The card opens the trail page; a map tap, its ✕, or Esc closes it. On desktop, hovering a list card highlights its pin. The map code loads only when the map is shown.
 - **List:** when not searching, the trails in the map area, best conditions first (closest first after Near me). Each card shows:
   - Name (plus county when searching, distance after Near me)
   - **Verdict:** ✓ Rideable (Dry, Prime) · ! Ride with care (Soft) · ✕ Stay off (Muddy, Snow), with the level, e.g. "✓ Rideable · Prime (tacky)"
@@ -297,6 +297,7 @@ Add indexes on `reports(trail_id, created_utc)`, `reports(device_id, trail_id, c
 - If the snapshot has no pins yet (worker not redeployed), Home falls back to search + list with no map.
 
 **Trail page**
+- **Breadcrumb:** Trails › County › Trail name. "Trails" returns to the map view the rider came from (search, filter, position); the county opens the map framed on that county
 - Level, confidence, and **why**: last rain (amount and time), soil type, drying speed, worst section
 - Reports since the last rain
 - **"Is this right?"** button → report modal
