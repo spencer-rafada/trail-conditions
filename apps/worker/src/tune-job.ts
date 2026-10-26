@@ -1,8 +1,8 @@
 // Nightly tune cron (spec §7.3 cron 2, ticket C-20261023-M6): apply the §6.4
 // tuning rule per trail, log every actual change to tau_history, bump
-// trails.reports_used, then delete expired data — reports older than 48 h
-// (§6.3: an expired report never counts again) and score_history past its
-// retention. Pure D1 work: no fetches (ticket decision 4 — §6.3's rain-reset
+// trails.reports_used, then delete old data — reports past the 30-day tuning
+// window (RETENTION.reportsDays; they stop counting toward confidence after
+// 48 h, which the readers enforce) and score_history past its retention. Pure D1 work: no fetches (ticket decision 4 — §6.3's rain-reset
 // governs confidence weighting, not tuning). Order inside the run (ticket
 // decision 2): tune first, then delete, all in one transactional D1 batch,
 // so tonight's rule still sees everything tonight's deletion removes.
@@ -14,7 +14,6 @@
 import {
   tuneTauMult,
   RETENTION,
-  REPORTS,
   TUNING,
   type ReportVerdict,
   type TuningReport,
@@ -102,7 +101,7 @@ export async function runTuneJob(env: Env, nowMs: number): Promise<TuneJobResult
   //    own format.
   statements.push(
     env.DB.prepare("DELETE FROM reports WHERE created_utc < ?").bind(
-      new Date(nowMs - REPORTS.expiryAgeHours * HOUR_MS).toISOString(),
+      new Date(nowMs - RETENTION.reportsDays * 24 * HOUR_MS).toISOString(),
     ),
     env.DB.prepare("DELETE FROM score_history WHERE ts_utc < ?").bind(
       stamp(nowMs - RETENTION.scoreHistoryDays * 24 * HOUR_MS),

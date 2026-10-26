@@ -2,6 +2,7 @@
 // 10-minute score job and the nightly tune job.
 
 import { TUNE_CRON } from "./crons";
+import { getCalibration } from "./calibration";
 import { postReport } from "./reports";
 import { runScoreJob, type Env } from "./score-job";
 import { runTuneJob } from "./tune-job";
@@ -95,6 +96,9 @@ export default {
     }
     if (url.pathname === "/api/admin/tune" && request.method === "POST") {
       return postAdminTune(request, env);
+    }
+    if (url.pathname === "/api/admin/calibration" && request.method === "GET") {
+      return adminUnauthorized(request, env) ?? getCalibration(env, Date.now());
     }
     return new Response("Not found", { status: 404 });
   },

@@ -165,6 +165,17 @@ describe("POST /api/admin/tune", () => {
   });
 });
 
+describe("GET /api/admin/calibration", () => {
+  it("rejects a missing or wrong secret with 401", async () => {
+    const env = fakeEnv(null);
+    expect((await call(env, "/api/admin/calibration")).status).toBe(401);
+    const wrong = await call(env, "/api/admin/calibration", {
+      headers: { "x-admin-secret": "test-secret2" },
+    });
+    expect(wrong.status).toBe(401);
+  });
+});
+
 describe("secretsEqual", () => {
   it("compares full strings regardless of where they differ", () => {
     expect(secretsEqual("abc123", "abc123")).toBe(true);
