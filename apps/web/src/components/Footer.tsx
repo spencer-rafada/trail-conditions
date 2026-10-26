@@ -1,5 +1,6 @@
 // Required on every page and state (spec §10): data credits + disclaimer.
-// Rendered from the App shell so no route or state can drop it.
+// The App shell renders it on every route except Home, which places it at
+// the end of its list (every Home state renders it).
 
 export function Footer() {
   return (
@@ -11,7 +12,11 @@ export function Footer() {
         Weather by <a href="https://open-meteo.com/">Open-Meteo</a> (CC-BY 4.0) and
         the <a href="https://mesonet.agron.iastate.edu/">Iowa Environmental Mesonet</a> ·
         Soil by USDA NRCS · ©{" "}
-        <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
+        <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ·
+        Map by{" "}
+        <a href="https://www.usgs.gov/programs/national-geospatial-program/national-map">
+          USGS The National Map
+        </a>
       </p>
     </footer>
   );

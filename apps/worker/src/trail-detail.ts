@@ -10,12 +10,13 @@
 //   "last_rain": { "ts_utc": "...", "precip_in": n } | null,
 //     // most recent cached rain_hourly hour > CONFIDENCE.rainEventMinIn
 //     // across the trail's cells; null = no recent rain in the cache
-//   "reports_since_rain": number              // 0 until M5 ships reports
+//   "reports_since_rain": number,             // 0 until M5 ships reports
+//   "points": { "label", "lat", "lon" }[]     // map pins, Trailhead first
 // }
 
 import { CONFIDENCE, TAU, WETNESS } from "@trail-conditions/model";
 import type { Env } from "./score-job";
-import type { ScoredDay, Snapshot } from "./snapshot";
+import { trailPins, type ScoredDay, type Snapshot, type TrailPin } from "./snapshot";
 import { HOUR_MS, stamp } from "./time";
 
 export type SoilLabel = "sandy" | "clay" | "loam";
@@ -40,6 +41,7 @@ export interface TrailDetail {
   scored_utc: string | null;
   last_rain: RainEventRow | null;
   reports_since_rain: number;
+  points: TrailPin[];
 }
 
 /** Display label from the first point that has soil data, classified with
@@ -71,6 +73,14 @@ export function lastRainEvent(rows: readonly RainEventRow[]): RainEventRow | nul
   return last;
 }
 
+interface PointDetailRow extends SoilRow {
+  id: string;
+  label: string | null;
+  lat: number;
+  lon: number;
+  cell_id: string;
+}
+
 interface TrailDetailRow {
   id: string;
   name: string | null;
@@ -98,10 +108,10 @@ export async function getTrailDetail(
 
   const points = (
     await env.DB.prepare(
-      "SELECT sand, clay, cell_id FROM trail_points WHERE trail_id = ? ORDER BY id",
+      "SELECT id, label, lat, lon, sand, clay, cell_id FROM trail_points WHERE trail_id = ? ORDER BY id",
     )
       .bind(id)
-      .all<SoilRow & { cell_id: string }>()
+      .all<PointDetailRow>()
   ).results;
 
   const snapshotRow = await env.DB.prepare(
@@ -151,6 +161,7 @@ export async function getTrailDetail(
     scored_utc: score?.scored_utc ?? null,
     last_rain: lastRain,
     reports_since_rain: countRow?.n ?? 0,
+    points: trailPins(points),
   };
   return Response.json(detail, {
     headers: { "Cache-Control": DETAIL_CACHE_CONTROL },

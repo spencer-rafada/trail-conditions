@@ -6,7 +6,12 @@ import {
 } from "@trail-conditions/model";
 import type { TrailScore } from "./api";
 import {
+  confidenceBreakdown,
+  countyExploreHref,
+  factorText,
   isRideable,
+  topReasons,
+  verdictFor,
   levelColor,
   levelLabel,
   ridersConfirmed,
@@ -144,6 +149,18 @@ describe("tabForCounty", () => {
   });
 });
 
+describe("countyExploreHref", () => {
+  it("links a seeded county to the map framed on it (the ?tab= jump)", () => {
+    expect(countyExploreHref("Salt Lake County")).toBe("/?tab=Salt+Lake");
+    expect(countyExploreHref("Wasatch County")).toBe("/?tab=Wasatch");
+  });
+
+  it("has no link for a missing or out-of-area county", () => {
+    expect(countyExploreHref(null)).toBeNull();
+    expect(countyExploreHref("Summit County")).toBeNull();
+  });
+});
+
 describe("ridersConfirmed", () => {
   const conf = (factors: Confidence["factors"]): Confidence => ({
     score: 60,
@@ -174,5 +191,62 @@ describe("ridersConfirmed", () => {
     expect(
       ridersConfirmed(conf([{ id: "riders_agree", delta: CONFIDENCE.agreeMaxBonus }])),
     ).toBe(CONFIDENCE.agreeMaxBonus / CONFIDENCE.agreePerReport);
+  });
+});
+
+describe("verdict and confidence copy", () => {
+  const conf = (score: number, factors: Confidence["factors"]): Confidence => ({
+    score,
+    band: score >= 70 ? "high" : score >= 40 ? "medium" : "low",
+    factors,
+  });
+
+  it("maps levels to a plain verdict", () => {
+    expect(verdictFor("dry")).toBe("ride");
+    expect(verdictFor("prime")).toBe("ride");
+    expect(verdictFor("soft")).toBe("care");
+    expect(verdictFor("muddy")).toBe("off");
+    expect(verdictFor("snow")).toBe("off");
+  });
+
+  it("explains factors with the model's own numbers", () => {
+    expect(factorText({ id: "riders_agree", delta: 2 * CONFIDENCE.agreePerReport })).toBe(
+      "2 riders confirmed today",
+    );
+    expect(factorText({ id: "rider_disagrees", delta: CONFIDENCE.disagreePenalty })).toBe(
+      "1 rider reported different conditions",
+    );
+    expect(factorText({ id: "long_dry", delta: 10 })).toBe(
+      `No real rain in ${CONFIDENCE.longDryMinHours / 24}+ days`,
+    );
+  });
+
+  it("puts riders first, then the biggest effects, and skips the forecast-day factor", () => {
+    const reasons = topReasons(
+      conf(65, [
+        { id: "high_elevation", delta: -15 },
+        { id: "long_dry", delta: 10 },
+        { id: "riders_agree", delta: 20 },
+        { id: "forecast_day", delta: -10 },
+      ]),
+    );
+    expect(reasons).toEqual([
+      { text: "1 rider confirmed today", good: true },
+      { text: "High elevation: radar sees less here", good: false },
+    ]);
+  });
+
+  it("adds up to the score and flags a clamped total", () => {
+    const b = confidenceBreakdown(
+      conf(85, [
+        { id: "riders_agree", delta: 40 },
+        { id: "high_elevation", delta: -15 },
+      ]),
+    );
+    expect(b.start).toBe(CONFIDENCE.start);
+    expect(b.start + b.rows.reduce((t, r) => t + r.delta, 0)).toBe(85);
+    expect(b.capped).toBe(false);
+    expect(confidenceBreakdown(conf(100, [{ id: "riders_agree", delta: 40 }, { id: "long_dry", delta: 10 }, { id: "trail_tuned", delta: 10 }])).capped).toBe(true);
+    expect(confidenceBreakdown(conf(0, [{ id: "rider_disagrees", delta: -60 }, { id: "reports_conflict", delta: -15 }])).capped).toBe(true);
   });
 });
