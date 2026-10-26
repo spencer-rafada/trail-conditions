@@ -48,6 +48,14 @@ export interface ScoredDay {
   confidence: Confidence;
 }
 
+/** A map pin for one sample point. Coordinates are rounded to 5 decimals
+ *  (~1 m), which is plenty for a pin and keeps the snapshot small. */
+export interface TrailPin {
+  label: string;
+  lat: number;
+  lon: number;
+}
+
 export interface TrailScore {
   id: string;
   name: string;
@@ -56,6 +64,10 @@ export interface TrailScore {
   county?: string;
   days: ScoredDay[];
   scored_utc: string;
+  /** Sample points, Trailhead first. Optional for the same reason as
+   *  county: entries scored before the field existed survive mergeSnapshot
+   *  without it until the next run rescores them. */
+  points?: TrailPin[];
 }
 
 export interface Snapshot {
@@ -70,6 +82,22 @@ export type RainByCell = ReadonlyMap<string, ReadonlyMap<string, number>>;
 export type OmByPoint = ReadonlyMap<string, ReadonlyMap<string, OmHour>>;
 
 const DAY_OFFSETS = [0, 1, 2] as const;
+
+const round5 = (n: number): number => Math.round(n * 1e5) / 1e5;
+
+/** Map pins for a trail's points: the Trailhead first, then by point id,
+ *  so the first pin is always the one a rider drives to. */
+export function trailPins(
+  points: readonly Pick<PointRow, "id" | "label" | "lat" | "lon">[],
+): TrailPin[] {
+  return [...points]
+    .sort(
+      (a, b) =>
+        Number(b.label === "Trailhead") - Number(a.label === "Trailhead") ||
+        a.id.localeCompare(b.id),
+    )
+    .map((p) => ({ label: p.label ?? p.id, lat: round5(p.lat), lon: round5(p.lon) }));
+}
 
 interface PointDay {
   condition: NamedPointCondition;
@@ -254,6 +282,7 @@ export function scoreTrail(
     ...(trail.county !== null && { county: trail.county }),
     days,
     scored_utc: new Date(nowMs).toISOString(),
+    points: trailPins(points),
   };
 }
 

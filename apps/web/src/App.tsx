@@ -1,5 +1,6 @@
 // App shell: route dispatch plus the footer that must be on every page and
-// state (spec §10).
+// state (spec §10). Home renders the footer itself, at the end of its trail
+// list, because its map layout fills the screen.
 
 import { Footer } from "./components/Footer";
 import { Home } from "./pages/Home";
@@ -9,6 +10,8 @@ import { Link, useAppLocation } from "./router";
 export function App() {
   const location = useAppLocation();
   const trailMatch = location.pathname.match(/^\/trails\/([^/]+)$/);
+
+  const isHome = !trailMatch && location.pathname === "/";
 
   let page;
   if (trailMatch) {
@@ -29,7 +32,7 @@ export function App() {
   return (
     <div className="app">
       {page}
-      <Footer />
+      {!isHome && <Footer />}
     </div>
   );
 }
