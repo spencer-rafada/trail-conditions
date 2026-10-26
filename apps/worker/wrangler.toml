@@ -1,8 +1,8 @@
-# Cloudflare Worker: /api/* routes + cron triggers.
-# Deploys are manual, never from a ship run. The database_id below is a
-# placeholder for local development (wrangler dev / miniflare keep D1 state
-# under .wrangler/state); the real id is filled in at manual deploy time.
-name = "trail-conditions-worker"
+# Cloudflare Worker: the site, /api/* routes, and cron triggers.
+# Deploys are manual (`pnpm prod:deploy`), never from a ship run. Renaming the
+# Worker (`name`) deploys a NEW Worker: it needs its own secrets, and the old
+# one must be deleted (`wrangler delete --name <old>`) or both run the crons.
+name = "rideable" # served at rideable.srafada.workers.dev
 main = "src/index.ts"
 compatibility_date = "2026-10-01"
 

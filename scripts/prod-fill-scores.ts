@@ -2,7 +2,7 @@
  * Score every trail right away instead of waiting up to 3 hours for the
  * 10-minute cron to walk all chunks. Hand-run after a deploy:
  *
- *   pnpm prod:fill-scores https://trail-conditions-worker.<you>.workers.dev
+ *   pnpm prod:fill-scores https://rideable.srafada.workers.dev
  *
  * Uses ADMIN_SECRET from the environment, else the file pnpm prod:secrets
  * saved (apps/worker/.prod-admin-secret).

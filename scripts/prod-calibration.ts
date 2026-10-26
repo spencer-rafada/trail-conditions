@@ -2,7 +2,7 @@
  * How often each confidence band matched what riders reported (last 30
  * days). Hand-run, any time:
  *
- *   pnpm prod:calibration https://trail-conditions-worker.<you>.workers.dev
+ *   pnpm prod:calibration https://rideable.srafada.workers.dev
  *
  * A trustworthy marker shows High matching riders more often than Medium,
  * and Medium more than Low. Small counts mean little: wait for dozens of
