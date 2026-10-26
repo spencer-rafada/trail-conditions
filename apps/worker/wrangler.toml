@@ -6,6 +6,16 @@ name = "trail-conditions-worker"
 main = "src/index.ts"
 compatibility_date = "2026-10-01"
 
+# The Worker also serves the built site (apps/web/dist), so the site and
+# /api/* share one address: the web app calls /api relative to itself.
+# /api/* runs the Worker code; every other path is a static file, and
+# unknown paths get index.html so /trails/<id> loads the app. Static file
+# requests are free and don't count toward the Workers request limit.
+[assets]
+directory = "../web/dist"
+not_found_handling = "single-page-application"
+run_worker_first = ["/api/*"]
+
 [[d1_databases]]
 binding = "DB"
 database_name = "trail-conditions"
