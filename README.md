@@ -118,6 +118,9 @@ Optional:
 - `VITE_CARTO_KEY`: a free key from https://carto.com/basemaps/apikey makes the default
   "simple" map CARTO Voyager (Google-style). Without it, the simple map uses
   OpenStreetMap's own tiles.
+- `VITE_SUPPORT_URL`: an https donation link (e.g. your Ko-fi page) shown in the footer
+  and after a rider sends a report. Unset hides it. Voluntary donations keep the site
+  within Open-Meteo's non-commercial free tier; ads or subscriptions would not.
 - `VITE_CF_ANALYTICS_TOKEN`: from Cloudflare dashboard → Web Analytics → Add a site
   (your `*.workers.dev` hostname). Turns on free, cookieless visit counts. Without
   it, no analytics script loads.

@@ -2,12 +2,22 @@
 // The App shell renders it on every route except Home, which places it at
 // the end of its list (every Home state renders it).
 
+import { SUPPORT_URL } from "../support";
+
 export function Footer() {
   return (
     <footer className="site-footer">
       <p className="disclaimer">
         Estimates only. Check land manager closures. Please stay off muddy trails.
       </p>
+      {SUPPORT_URL && (
+        <p className="support">
+          Free, no ads.{" "}
+          <a href={SUPPORT_URL} target="_blank" rel="noopener noreferrer">
+            ☕ Support this site
+          </a>
+        </p>
+      )}
       <p className="credits">
         Weather by <a href="https://open-meteo.com/">Open-Meteo</a> (CC-BY 4.0) and
         the <a href="https://mesonet.agron.iastate.edu/">Iowa Environmental Mesonet</a> ·

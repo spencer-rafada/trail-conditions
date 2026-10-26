@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { REPORTS, type ReportVerdict } from "@trail-conditions/model";
 import { ApiError, postReport } from "../api";
 import { getDeviceId } from "../device";
+import { SUPPORT_URL } from "../support";
 
 interface TurnstileApi {
   render: (
@@ -215,6 +216,15 @@ export function ReportModal({
               The reports count updates now; the confidence marker picks it up
               at the next score update.
             </p>
+            {SUPPORT_URL && (
+              <p className="modal-support">
+                If this site saved you a muddy ride,{" "}
+                <a href={SUPPORT_URL} target="_blank" rel="noopener noreferrer">
+                  you can buy me a coffee ☕
+                </a>
+                .
+              </p>
+            )}
             <button
               type="button"
               className="report-btn"

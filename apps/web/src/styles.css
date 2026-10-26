@@ -1211,3 +1211,22 @@ h2 {
 .maptype-option[aria-pressed="true"] .maptype-option-img {
   border-color: #1a73e8;
 }
+
+/* "Support this site" (Ko-fi), only when VITE_SUPPORT_URL is set */
+.site-footer .support {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  color: var(--subtle);
+}
+
+.site-footer .support a,
+.modal-support a {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.modal-support {
+  margin: 4px 0 14px;
+  font-size: 0.9rem;
+  color: var(--subtle);
+}
