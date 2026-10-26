@@ -1,6 +1,6 @@
 // Cloudflare Web Analytics: free, cookieless visit counts (pages, referrers,
 // countries, devices) — no cookies or personal data, so no consent banner.
-// Loads only when VITE_CF_ANALYTICS_TOKEN is set (apps/web/.env.production);
+// Loads only when VITE_CF_ANALYTICS_TOKEN is set (apps/web/.env.production.local);
 // the token comes from Cloudflare dashboard → Web Analytics → Add a site.
 
 export function startAnalytics(
