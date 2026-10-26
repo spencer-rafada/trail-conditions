@@ -33,8 +33,9 @@ declare global {
 const TURNSTILE_SRC =
   "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 
+// `||`, not `??`: an empty VITE_TURNSTILE_SITEKEY= line must not become "".
 const SITEKEY =
-  (import.meta.env.VITE_TURNSTILE_SITEKEY as string | undefined) ??
+  (import.meta.env.VITE_TURNSTILE_SITEKEY as string | undefined) ||
   "1x00000000000000000000AA"; // Cloudflare's always-pass TEST sitekey
 
 function loadTurnstile(): Promise<TurnstileApi> {
