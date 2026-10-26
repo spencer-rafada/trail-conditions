@@ -12,7 +12,8 @@
     "prod:db-setup": "tsx scripts/prod-db-setup.ts",
     "prod:secrets": "tsx scripts/prod-secrets.ts",
     "prod:deploy": "tsx scripts/prod-deploy.ts",
-    "prod:fill-scores": "tsx scripts/prod-fill-scores.ts"
+    "prod:fill-scores": "tsx scripts/prod-fill-scores.ts",
+    "prod:calibration": "tsx scripts/prod-calibration.ts"
   },
   "devDependencies": {
     "@trail-conditions/model": "workspace:*",

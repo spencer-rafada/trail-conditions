@@ -11,6 +11,9 @@ function input(overrides: Partial<ConfidenceInput> = {}): ConfidenceInput {
     hoursSinceRain: 24, // between 12 and 72: neither rain factor applies
     tunedReportCount: 0,
     forecastDayOffset: 0,
+    // Mid-Prime: 1.74x from both boundaries, so no line-distance factor.
+    level: "prime",
+    wetness: 0.087,
     ...overrides,
   };
 }
@@ -124,5 +127,62 @@ describe("confidence", () => {
     expect(
       confidence(input({ disagreeingReports: 1, reportsConflict: true })).band,
     ).toBe("low"); // 25
+  });
+
+  describe("distance from the line between two levels", () => {
+    it("subtracts 20 when wetness is within 15% of a level boundary", () => {
+      for (const [level, wetness] of [
+        ["prime", 0.052], // just above Dry/Prime (0.05)
+        ["prime", 0.14], // just below Prime/Soft (0.15)
+        ["soft", 0.16],
+        ["muddy", 0.37], // just above Soft/Muddy (0.35)
+      ] as const) {
+        const c = confidence(input({ level, wetness }));
+        expect(c.factors).toContainEqual({ id: "near_line", delta: -20 });
+        expect(c.score).toBe(40);
+      }
+    });
+
+    it("subtracts 10 when it is 15-40% from a boundary", () => {
+      const c = confidence(input({ level: "prime", wetness: 0.065 })); // 1.3x
+      expect(c.factors).toContainEqual({ id: "close_to_line", delta: -10 });
+      expect(c.score).toBe(50);
+    });
+
+    it("adds 10 for a call more than 2x from any boundary", () => {
+      for (const [level, wetness] of [
+        ["dry", 0.01],
+        ["dry", 0],
+        ["muddy", 0.9],
+      ] as const) {
+        const c = confidence(input({ level, wetness }));
+        expect(c.factors).toContainEqual({ id: "clear_call", delta: 10 });
+        expect(c.score).toBe(70);
+      }
+    });
+
+    it("adds nothing in between", () => {
+      expect(confidence(input({ level: "soft", wetness: 0.23 })).factors).toEqual([]);
+    });
+  });
+
+  it("gives the dry-spell bonus only to Dry and Prime calls", () => {
+    expect(confidence(input({ level: "prime", hoursSinceRain: 100 })).factors).toContainEqual({
+      id: "long_dry",
+      delta: 10,
+    });
+    for (const [level, wetness] of [
+      ["soft", 0.23],
+      ["muddy", 0.5],
+    ] as const) {
+      const c = confidence(input({ level, wetness, hoursSinceRain: 100 }));
+      expect(c.factors.map((f) => f.id)).not.toContain("long_dry");
+    }
+  });
+
+  it("marks snow as an estimate and skips the line-distance factors", () => {
+    const c = confidence(input({ level: "snow", wetness: 0.36 }));
+    expect(c.factors).toEqual([{ id: "snow_estimate", delta: -10 }]);
+    expect(c.score).toBe(50);
   });
 });

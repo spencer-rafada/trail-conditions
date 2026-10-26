@@ -67,8 +67,19 @@ export const CONFIDENCE = {
   rainEventMinIn: 0.1,
   recentRainMaxHours: 12, // less than 12 h since rain -> penalty
   recentRainPenalty: -10,
-  longDryMinHours: 72, // more than 72 h since rain -> bonus
-  longDryBonus: 10,
+  longDryMinHours: 72, // more than 72 h since rain -> bonus (Dry/Prime calls only:
+  longDryBonus: 10, //    a trail still Soft/Muddy days after rain is a slow-drying bet)
+  // Distance from the line between two levels — the main reason a call is
+  // wrong. Ratio of wetness to the nearest LEVEL_THRESHOLDS boundary (either
+  // side, so 0.044 and 0.057 are both 1.14x from 0.05). Prime and Soft are
+  // narrow bands (3x and 2.3x wide), so they can never be "clear".
+  nearLineMaxRatio: 1.15, // within 15% -> could flip either way
+  nearLinePenalty: -20,
+  closeToLineMaxRatio: 1.4, // within 40%
+  closeToLinePenalty: -10,
+  clearCallMinRatio: 2.0, // more than 2x from every boundary
+  clearCallBonus: 10,
+  snowEstimatePenalty: -10, // snow comes from forecast snow depth/snowfall, not observed
   tunedMinReports: 5, // trail is tuned: 5+ reports used in tau_mult
   tunedBonus: 10,
   forecastDayPenalty: -10, // per forecast day (tomorrow / day after)
@@ -88,10 +99,13 @@ export const TUNING = {
   multMax: 3.0, // ... and 3.0
 } as const;
 
-// Nightly deletion (§6.3/§7.3 cron 2, ticket C-20261023-M6 decision 6).
-// Report deletion reuses REPORTS.expiryAgeHours (48 h — an expired report
-// never counts again); score_history keeps 30 days (nothing reads it yet).
+// Nightly deletion (§7.3 cron 2). Reports are kept for the tuning window
+// (§6.4 reads 30 days of them), not just the 48 h they count toward
+// confidence (§6.3) — deleting at 48 h starved the tuning rule. Every reader
+// that wants only "live" reports filters by REPORTS.expiryAgeHours itself.
+// score_history keeps 30 days; confidence calibration reads it.
 export const RETENTION = {
+  reportsDays: 30,
   scoreHistoryDays: 30,
 } as const;
 

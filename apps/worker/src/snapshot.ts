@@ -264,6 +264,8 @@ export function scoreTrail(
       ),
       tunedReportCount: trail.reports_used,
       forecastDayOffset: offset,
+      level: worst.condition.level,
+      wetness: worstEntry.wetness,
     });
 
     days.push({

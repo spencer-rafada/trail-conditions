@@ -14,7 +14,7 @@
 //   "points": { "label", "lat", "lon" }[]     // map pins, Trailhead first
 // }
 
-import { CONFIDENCE, TAU, WETNESS } from "@trail-conditions/model";
+import { CONFIDENCE, REPORTS, TAU, WETNESS } from "@trail-conditions/model";
 import type { Env } from "./score-job";
 import { trailPins, type ScoredDay, type Snapshot, type TrailPin } from "./snapshot";
 import { HOUR_MS, stamp } from "./time";
@@ -139,15 +139,20 @@ export async function getTrailDetail(
   }
   const lastRain = lastRainEvent(rainRows);
 
-  // "Since the last rain": every report when no rain event is in the cache.
+  // "Since the last rain", and only reports that still count (§6.3: expired
+  // after REPORTS.expiryAgeHours). Reports are kept longer for tuning, so the
+  // age limit has to be explicit here.
+  const stillCounts = new Date(nowMs - REPORTS.expiryAgeHours * HOUR_MS).toISOString();
   const countRow = lastRain
     ? await env.DB.prepare(
+        "SELECT COUNT(*) AS n FROM reports WHERE trail_id = ? AND created_utc >= ? AND created_utc >= ?",
+      )
+        .bind(id, lastRain.ts_utc, stillCounts)
+        .first<{ n: number }>()
+    : await env.DB.prepare(
         "SELECT COUNT(*) AS n FROM reports WHERE trail_id = ? AND created_utc >= ?",
       )
-        .bind(id, lastRain.ts_utc)
-        .first<{ n: number }>()
-    : await env.DB.prepare("SELECT COUNT(*) AS n FROM reports WHERE trail_id = ?")
-        .bind(id)
+        .bind(id, stillCounts)
         .first<{ n: number }>();
 
   const detail: TrailDetail = {
