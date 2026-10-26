@@ -9,7 +9,7 @@ The full build plan lives in [docs/projects/trail-conditions/spec.md](docs/proje
 ## Layout
 
 ```
-apps/web          React + TS (Vite), Cloudflare Pages
+apps/web          React + TS (Vite); built into the Worker's static assets
 apps/worker       Cloudflare Worker: /api/* + cron, D1 migrations
 packages/model    Pure model + confidence functions (shared)
 scripts           discover-trails.ts, enrich-trails.ts, trail-names.ts, backtest.ts
@@ -77,6 +77,36 @@ The real Turnstile key pair is created manually in the Cloudflare dashboard
 at M7, never by a ship run. Reports store only `sha256(ip + daily salt)`
 (salt = HMAC of `REPORT_IP_SALT_SECRET` and the UTC date); the raw IP is
 never stored or logged.
+
+## Deploy (production)
+
+One Worker serves the built site and `/api/*` from the same address (the
+`[assets]` block in `apps/worker/wrangler.toml`), on Cloudflare's free plan.
+All steps are hand-run; never from CI or a ship run. Run `wrangler` commands
+inside `apps/worker`, and the `pnpm prod:*` scripts from the repo root.
+
+One-time setup:
+
+1. `pnpm exec wrangler login` (opens the browser).
+2. `pnpm exec wrangler d1 create trail-conditions`, then paste the printed
+   `database_id` into `wrangler.toml` and commit it.
+3. `pnpm prod:db-setup`: applies migrations and loads `data/trails.json`. It
+   refuses to re-seed once trails exist, because re-seeding resets their
+   tuning from rider reports (`--force` overrides).
+4. `pnpm prod:deploy --first`: the first deploy, which prints your
+   `*.workers.dev` URL. `--first` skips the site key check (the Turnstile
+   widget needs this URL), so rider reports don't work until step 7.
+5. Cloudflare dashboard → Turnstile → add a widget for that hostname. Put
+   its **site key** in `apps/web/.env.production` (public; commit it).
+6. `pnpm prod:secrets`: generates `ADMIN_SECRET` and
+   `REPORT_IP_SALT_SECRET` (saved locally to the gitignored
+   `apps/worker/.prod-admin-secret`) and asks you to paste the Turnstile
+   **secret key**.
+7. `pnpm prod:deploy` again, now with the real site key.
+8. `pnpm prod:fill-scores https://<your URL>` scores every trail now
+   instead of over the next 3 hours.
+
+Every later release: `pnpm prod:deploy`.
 
 ## Data credits
 

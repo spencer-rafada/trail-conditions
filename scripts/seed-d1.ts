@@ -5,7 +5,9 @@
 //   cd apps/worker && pnpm exec wrangler d1 execute trail-conditions --local \
 //     --file .wrangler/seed.sql
 //
-// Local only — never pass --remote. The generated SQL lands under
+// Never pass --remote by hand: production loads it once through
+// `pnpm prod:db-setup`, which refuses to re-seed a database that already
+// has trails (re-seeding resets their tuning). The generated SQL lands under
 // apps/worker/.wrangler/ (gitignored) and reseeds idempotently (deletes the
 // two tables first).
 //

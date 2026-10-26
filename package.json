@@ -8,7 +8,11 @@
     "discover-trails": "tsx scripts/discover-trails.ts",
     "enrich-trails": "tsx scripts/enrich-trails.ts",
     "trail-names": "tsx scripts/trail-names.ts",
-    "backtest": "tsx scripts/backtest.ts"
+    "backtest": "tsx scripts/backtest.ts",
+    "prod:db-setup": "tsx scripts/prod-db-setup.ts",
+    "prod:secrets": "tsx scripts/prod-secrets.ts",
+    "prod:deploy": "tsx scripts/prod-deploy.ts",
+    "prod:fill-scores": "tsx scripts/prod-fill-scores.ts"
   },
   "devDependencies": {
     "@trail-conditions/model": "workspace:*",

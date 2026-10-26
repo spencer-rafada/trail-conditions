@@ -206,11 +206,18 @@ For each trail, compare reports to the model's level at report time:
 ## 7. Architecture ($0)
 
 ```
-Cloudflare Pages      React + TypeScript (Vite) site
-Cloudflare Worker     /api/* routes + Cron Triggers
+Cloudflare Worker     /api/* routes + Cron Triggers, and serves the built
+                      React + TypeScript (Vite) site as static assets
 Cloudflare D1         trails, rain cache, scores, reports
 Cloudflare Turnstile  bot check on reports
 ```
+
+Decision (2026-10-26, at launch): the site ships as the Worker's static
+assets instead of on Cloudflare Pages. The web app calls `/api` on its own
+address, and a separate `*.pages.dev` site could not reach a
+`*.workers.dev` API without a custom domain or a proxy. One Worker gives one
+URL and one deploy, still $0 (static asset requests are free and don't
+count toward the Workers request limit).
 
 ### 7.1 Free-tier limits to design around (Workers Free)
 - 100,000 requests/day
@@ -315,7 +322,7 @@ Map view: shipped (see Home). Snapshot entries and `/api/trails/:id` carry `poin
 ## 11. Repo layout
 
 ```
-/apps/web          React + TS (Vite), Cloudflare Pages
+/apps/web          React + TS (Vite); served as the Worker's static assets
 /apps/worker       Worker: API + cron, wrangler.toml, D1 migrations
 /packages/model    Pure model + confidence functions (shared)
 /scripts           discover-trails.ts, enrich-trails.ts, backtest.ts
@@ -337,7 +344,7 @@ Tools: pnpm workspaces, TypeScript strict, Vitest, Wrangler.
 | M4 | Web UI | Home and trail page work on a phone, with real data |
 | M5 | Reports + Turnstile + confidence | Reports are saved, limited, and change confidence |
 | M6 | Nightly tuning | `tau_mult` changes from reports; `tau_history` logs it |
-| M7 | Launch | Deployed on Pages; credits shown; soft launch in 1–2 Facebook groups (ask the admins first) |
+| M7 | Launch | Deployed (Worker serves the site); credits shown; soft launch in 1–2 Facebook groups (ask the admins first) |
 
 ---
 
