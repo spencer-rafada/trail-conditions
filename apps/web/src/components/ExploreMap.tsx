@@ -12,6 +12,7 @@ import { trailhead, type Bounds, type LatLon, type MapView } from "../geo";
 import { levelColor, today } from "../helpers";
 import { POPUP_WIDTH, popupPlacement, type PopupPlacement } from "../mapPopup";
 import type { MapStyle } from "../mapStyle";
+import { MapTypeControl } from "./MapTypeControl";
 import { addBaseLayer, levelIcon, pinLabel, swapBaseLayer } from "./mapTiles";
 
 export type CameraMove =
@@ -42,6 +43,10 @@ export interface ExploreMapProps {
   popup?: ReactNode;
   /** Base map: Google-style street map or USGS topo. */
   mapStyle: MapStyle;
+  /** The map-type control (Google-style) switched the base map. */
+  onMapStyleChange: (style: MapStyle) => void;
+  /** Desktop: map-type thumbnail bottom-left; phone: layers button top-right. */
+  layout: "desktop" | "phone";
 }
 
 /** Below this zoom pins are small dots without letters, and trail lines
@@ -76,6 +81,7 @@ export default function ExploreMap(props: ExploreMapProps) {
   /** Where the open preview points: its pin, or the spot a line was tapped. */
   const anchorRef = useRef<{ id: string; at: L.LatLng } | null>(null);
   const [zoom, setZoom] = useState(0);
+  const [center, setCenter] = useState<LatLon | null>(null);
   const [lineData, setLineData] = useState<((id: string) => LatLon[][]) | null>(null);
   const latest = useRef(props);
   latest.current = props;
@@ -102,6 +108,7 @@ export default function ExploreMap(props: ExploreMapProps) {
     const report = () => {
       const b = map.getBounds();
       const c = map.getCenter();
+      setCenter({ lat: c.lat, lon: c.lng });
       latest.current.onViewChange(
         { south: b.getSouth(), west: b.getWest(), north: b.getNorth(), east: b.getEast() },
         { lat: c.lat, lon: c.lng, zoom: map.getZoom() },
@@ -291,6 +298,16 @@ export default function ExploreMap(props: ExploreMapProps) {
   return (
     <>
       <div ref={elRef} className="map" role="region" aria-label="Map of trails" />
+      {center && (
+        <MapTypeControl
+          style={props.mapStyle}
+          onChange={props.onMapStyleChange}
+          layout={props.layout}
+          center={center}
+          zoom={zoom}
+          top={props.insets.top + 8}
+        />
+      )}
       {placement && hasPopup && (
         <div
           className="map-popup"

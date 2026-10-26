@@ -1086,3 +1086,128 @@ h2 {
 .site-footer p {
   margin: 0 0 6px;
 }
+
+/* map type switch, as Google Maps does it */
+.maptype-thumb {
+  position: absolute;
+  left: 12px;
+  bottom: 24px;
+  z-index: 1000;
+  width: 72px;
+  height: 72px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background-color: #e8e4da;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 2px 8px rgba(43, 38, 32, 0.35);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.maptype-thumb:hover,
+.maptype-thumb:focus-visible {
+  border-color: var(--ink);
+  outline: none;
+}
+
+.maptype-thumb-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 14px 4px 4px;
+  color: #fff;
+  font: 600 12px/1 system-ui, sans-serif;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+}
+
+.maptype-thumb-label svg {
+  width: 12px;
+  height: 12px;
+}
+
+.maptype-phone {
+  position: absolute;
+  right: 12px;
+  z-index: 1000;
+}
+
+.maptype-btn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(43, 38, 32, 0.3);
+  cursor: pointer;
+}
+
+.maptype-btn[aria-expanded="true"] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.maptype-menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 208px;
+  padding: 12px;
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(43, 38, 32, 0.28);
+}
+
+.maptype-menu-title {
+  margin: 0 0 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.maptype-options {
+  display: flex;
+  gap: 12px;
+}
+
+.maptype-option {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.maptype-option-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-color: #e8e4da;
+  background-size: cover;
+  background-position: center;
+}
+
+.maptype-option[aria-pressed="true"] {
+  font-weight: 600;
+}
+
+.maptype-option[aria-pressed="true"] .maptype-option-img {
+  border-color: #1a73e8;
+}

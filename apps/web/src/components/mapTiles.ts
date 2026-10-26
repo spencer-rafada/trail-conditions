@@ -5,39 +5,39 @@ import L from "leaflet";
 import type { ConditionLevel } from "@trail-conditions/model";
 import { levelColor, levelLabel, levelSymbol } from "../helpers";
 import type { MapStyle } from "../mapStyle";
-
-const USGS_TOPO =
-  "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}";
+import {
+  OSM_TEMPLATE,
+  USGS_MAX_NATIVE_ZOOM,
+  USGS_TOPO_TEMPLATE,
+  cartoTemplate,
+} from "../tileSources";
 
 // CARTO Voyager, the Google-style map, needs a free key (5M tiles/month
 // non-commercial; https://carto.com/basemaps/apikey). Without one, "simple"
 // falls back to OpenStreetMap's own tiles (no key; light use with
 // attribution, per the OSM tile usage policy).
-const CARTO_KEY = (import.meta.env.VITE_CARTO_KEY as string | undefined) || "";
+export const CARTO_KEY = (import.meta.env.VITE_CARTO_KEY as string | undefined) || "";
 
 const OSM_CREDIT =
   '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 function tileLayer(style: MapStyle): L.TileLayer {
   if (style === "topo") {
-    return L.tileLayer(USGS_TOPO, {
-      maxNativeZoom: 16,
+    return L.tileLayer(USGS_TOPO_TEMPLATE, {
+      maxNativeZoom: USGS_MAX_NATIVE_ZOOM,
       maxZoom: 18,
       attribution:
         'Map: <a href="https://www.usgs.gov/programs/national-geospatial-program/national-map">USGS The National Map</a>',
     });
   }
   if (CARTO_KEY) {
-    return L.tileLayer(
-      `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_KEY)}`,
-      {
-        subdomains: "abcd",
-        maxZoom: 19,
-        attribution: `${OSM_CREDIT} © <a href="https://carto.com/attributions">CARTO</a>`,
-      },
-    );
+    return L.tileLayer(cartoTemplate(CARTO_KEY), {
+      subdomains: "abcd",
+      maxZoom: 19,
+      attribution: `${OSM_CREDIT} © <a href="https://carto.com/attributions">CARTO</a>`,
+    });
   }
-  return L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  return L.tileLayer(OSM_TEMPLATE, {
     maxZoom: 19,
     attribution: OSM_CREDIT,
   });

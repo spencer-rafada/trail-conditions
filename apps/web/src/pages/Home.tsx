@@ -372,16 +372,6 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
         >
           {locating ? "Locating…" : "Near me"}
         </button>
-        {showMap && (
-          <button
-            type="button"
-            className="chip-btn"
-            aria-pressed={mapStyle === "topo"}
-            onClick={() => changeMapStyle(mapStyle === "topo" ? "simple" : "topo")}
-          >
-            Topo map
-          </button>
-        )}
         {showMap &&
           TABS.map((tab) => (
             <button
@@ -445,6 +435,8 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
             onMapClick={closePreview}
             popup={isDesktop ? preview : undefined}
             mapStyle={mapStyle}
+            onMapStyleChange={changeMapStyle}
+            layout={isDesktop ? "desktop" : "phone"}
             onViewChange={(b, view) => {
               setBounds(b);
               viewRef.current = view;
