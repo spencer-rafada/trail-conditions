@@ -4,13 +4,13 @@ import { databaseIdIsPlaceholder, productionSiteKey } from "./launch-checks";
 const TEST_KEY = "1x00000000000000000000AA";
 
 describe("productionSiteKey", () => {
-  it("prefers the environment variable over .env.production", () => {
+  it("prefers the environment variable over the env file", () => {
     expect(
       productionSiteKey("VITE_TURNSTILE_SITEKEY=0x4AAAfile\n", { VITE_TURNSTILE_SITEKEY: "0x4AAAenv" }),
     ).toEqual({ ok: true, key: "0x4AAAenv" });
   });
 
-  it("reads an uncommented line from .env.production", () => {
+  it("reads an uncommented line from the env file", () => {
     expect(productionSiteKey("# comment\nVITE_TURNSTILE_SITEKEY=0x4AAAreal\n", {})).toEqual({
       ok: true,
       key: "0x4AAAreal",

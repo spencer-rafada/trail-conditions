@@ -36,7 +36,9 @@ function main(): void {
     );
   }
   const first = process.argv.includes("--first");
-  const site = productionSiteKey(read("apps/web/.env.production"), process.env);
+  // Vite reads .env.production.local over .env.production; so do we (first match wins).
+  const envText = `${read("apps/web/.env.production.local")}\n${read("apps/web/.env.production")}`;
+  const site = productionSiteKey(envText, process.env);
   if (!site.ok && !first) problems.push(site.reason);
   if (problems.length > 0) {
     console.error(`Not deploying:\n${problems.map((p) => `  - ${p}`).join("\n")}`);
@@ -46,7 +48,7 @@ function main(): void {
   if (!site.ok) {
     console.warn(
       "⚠ --first: deploying without the real Turnstile site key. Rider reports won't work\n" +
-        "  until you add the key to apps/web/.env.production and run pnpm prod:deploy again.",
+        "  until you add the key to apps/web/.env.production.local and run pnpm prod:deploy again.",
     );
   }
 

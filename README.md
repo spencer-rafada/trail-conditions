@@ -98,7 +98,7 @@ One-time setup:
    `*.workers.dev` URL. `--first` skips the site key check (the Turnstile
    widget needs this URL), so rider reports don't work until step 7.
 5. Cloudflare dashboard → Turnstile → add a widget for that hostname. Put
-   its **site key** in `apps/web/.env.production` (public; commit it).
+   its **site key** in `apps/web/.env.production.local` (gitignored, see below).
 6. `pnpm prod:secrets`: generates `ADMIN_SECRET` and
    `REPORT_IP_SALT_SECRET` (saved locally to the gitignored
    `apps/worker/.prod-admin-secret`) and asks you to paste the Turnstile
@@ -109,7 +109,11 @@ One-time setup:
 
 Every later release: `pnpm prod:deploy`.
 
-Optional, in `apps/web/.env.production` (both are public values, so commit them):
+Build settings live in `apps/web/.env.production.local`, which is gitignored (`*.local`)
+and read by `vite build`. They're public values (anything named `VITE_` ships to every
+visitor's browser), kept out of the repo by choice. Never put a secret in a `VITE_`
+variable; secrets go in `pnpm prod:secrets`. Required: `VITE_TURNSTILE_SITEKEY`.
+Optional:
 
 - `VITE_CARTO_KEY`: a free key from https://carto.com/basemaps/apikey makes the default
   "simple" map CARTO Voyager (Google-style). Without it, the simple map uses

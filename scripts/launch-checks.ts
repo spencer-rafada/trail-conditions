@@ -13,7 +13,8 @@ const SITE_KEY_VAR = "VITE_TURNSTILE_SITEKEY";
 export type SiteKeyCheck = { ok: true; key: string } | { ok: false; reason: string };
 
 /** The site key a production build will use: the environment variable if
- *  set, else the first uncommented line in apps/web/.env.production. */
+ *  set, else the first uncommented line of the env file text (deploy passes
+ *  apps/web/.env.production.local first, matching Vite's precedence). */
 export function productionSiteKey(
   envFile: string,
   env: Readonly<Record<string, string | undefined>>,
@@ -31,7 +32,7 @@ export function productionSiteKey(
   if (!key) {
     return {
       ok: false,
-      reason: `No Turnstile site key. Set ${SITE_KEY_VAR} in apps/web/.env.production (it's public; commit it).`,
+      reason: `No Turnstile site key. Set ${SITE_KEY_VAR} in apps/web/.env.production.local (gitignored; it's a public value, just kept out of the repo).`,
     };
   }
   if (key === TEST_SITE_KEY) {
