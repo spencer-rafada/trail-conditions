@@ -181,6 +181,14 @@ export function factorText(factor: Confidence["factors"][number]): string {
       return "Drying speed tuned by rider reports";
     case "forecast_day":
       return "Forecast day: less certain";
+    case "near_line":
+      return "Right on the edge of the next level: could go either way";
+    case "close_to_line":
+      return "Close to the next level";
+    case "clear_call":
+      return "Clearly this level, not close to another";
+    case "snow_estimate":
+      return "Snow is estimated from the forecast";
   }
 }
 

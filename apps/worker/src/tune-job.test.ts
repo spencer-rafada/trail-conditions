@@ -132,7 +132,7 @@ describe("runTuneJob — seeded three-trail scenario (AC1)", () => {
 });
 
 describe("runTuneJob — nightly deletion (decisions 2 and 6)", () => {
-  it("deletes 48 h-old reports and 30-day-old score_history after tuning, same batch", async () => {
+  it("keeps reports for the 30-day tuning window, deletes older ones and 30-day-old score_history, same batch", async () => {
     const { env, batches } = fakeEnv(seeded());
     await runTuneJob(env, NOW);
     const writes = batches[1]!;
@@ -142,7 +142,9 @@ describe("runTuneJob — nightly deletion (decisions 2 and 6)", () => {
       FakeStatement,
     ];
     expect(reportsDelete.sql).toBe("DELETE FROM reports WHERE created_utc < ?");
-    expect(reportsDelete.binds).toEqual([iso(48)]);
+    // Not 48 h: the rule reads 30 days of reports (§6.4), so deleting at 48 h
+    // left it at most two days to find its 3 reports.
+    expect(reportsDelete.binds).toEqual([iso(30 * 24)]);
     expect(historyDelete.sql).toBe("DELETE FROM score_history WHERE ts_utc < ?");
     expect(historyDelete.binds).toEqual([stamp(NOW - 30 * 24 * HOUR_MS)]);
   });

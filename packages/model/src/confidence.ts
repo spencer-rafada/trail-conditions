@@ -2,7 +2,8 @@
 // already aggregated as plain inputs. The factor list is returned with the
 // score so the UI can show why ("2 riders confirmed today").
 
-import { CONFIDENCE } from "./config";
+import { CONFIDENCE, LEVEL_THRESHOLDS } from "./config";
+import type { ConditionLevel } from "./level";
 
 export type ConfidenceBand = "high" | "medium" | "low";
 
@@ -17,7 +18,11 @@ export interface ConfidenceFactor {
     | "recent_rain"
     | "long_dry"
     | "trail_tuned"
-    | "forecast_day";
+    | "forecast_day"
+    | "near_line"
+    | "close_to_line"
+    | "clear_call"
+    | "snow_estimate";
   delta: number;
 }
 
@@ -40,6 +45,19 @@ export interface ConfidenceInput {
   tunedReportCount: number;
   /** 0 = today, 1 = tomorrow, 2 = day after. */
   forecastDayOffset: number;
+  /** The call being scored (the trail's worst point that day). */
+  level: ConditionLevel;
+  /** That point's wetness, for how close the call sits to another level. */
+  wetness: number;
+}
+
+/** How far wetness sits from the nearest level boundary, as a ratio >= 1
+ *  (1 = exactly on a boundary). Zero wetness is infinitely far from all. */
+export function lineDistanceRatio(wetness: number): number {
+  if (wetness <= 0) return Number.POSITIVE_INFINITY;
+  return Math.min(
+    ...Object.values(LEVEL_THRESHOLDS).map((t) => Math.max(wetness / t, t / wetness)),
+  );
 }
 
 export interface Confidence {
@@ -77,8 +95,24 @@ export function confidence(input: ConfidenceInput): Confidence {
   if (input.hoursSinceRain !== null && input.hoursSinceRain < c.recentRainMaxHours) {
     factors.push({ id: "recent_rain", delta: c.recentRainPenalty });
   }
-  if (input.hoursSinceRain === null || input.hoursSinceRain > c.longDryMinHours) {
+  const rideableCall = input.level === "dry" || input.level === "prime";
+  if (
+    rideableCall &&
+    (input.hoursSinceRain === null || input.hoursSinceRain > c.longDryMinHours)
+  ) {
     factors.push({ id: "long_dry", delta: c.longDryBonus });
+  }
+  if (input.level === "snow") {
+    factors.push({ id: "snow_estimate", delta: c.snowEstimatePenalty });
+  } else {
+    const ratio = lineDistanceRatio(input.wetness);
+    if (ratio < c.nearLineMaxRatio) {
+      factors.push({ id: "near_line", delta: c.nearLinePenalty });
+    } else if (ratio < c.closeToLineMaxRatio) {
+      factors.push({ id: "close_to_line", delta: c.closeToLinePenalty });
+    } else if (ratio > c.clearCallMinRatio) {
+      factors.push({ id: "clear_call", delta: c.clearCallBonus });
+    }
   }
   if (input.tunedReportCount >= c.tunedMinReports) {
     factors.push({ id: "trail_tuned", delta: c.tunedBonus });

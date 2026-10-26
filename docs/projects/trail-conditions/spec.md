@@ -163,11 +163,19 @@ Score 0–100, then group it: **High >= 70, Medium 40–69, Low < 40.** Start at
 | Stage IV and Open-Meteo differ by > 0.25 in over the last 72 h | −15 |
 | Sample point above 2,400 m (radar beam is blocked more in the mountains) | −15 |
 | Less than 12 h since rain > 0.1 in | −10 |
-| More than 72 h since rain > 0.1 in | +10 |
+| More than 72 h since rain > 0.1 in (Dry or Prime calls only) | +10 |
 | Trail is tuned (5 or more reports used in `tau_mult`) | +10 |
 | Forecast day (tomorrow / day after) | −10 per day |
+| Wetness within 15% of a level boundary (could flip either way) | −20 |
+| Wetness 15–40% from a level boundary | −10 |
+| Wetness more than 2× from every boundary (clearly that level) | +10 |
+| Snow call (estimated from forecast snow, not observed) | −10 |
 
 Store the factors with each score, so the UI can show **why** ("2 riders confirmed today," "radar and forecast disagree").
+
+Decision (2026-10-26): the launch scores were 70 or 55 for nearly every trail, because only the dry-spell and elevation factors ever fired and neither says anything about the call itself. The line-distance rows score the call: a trail barely past a level boundary is the one most likely to be wrong. The dry-spell bonus no longer applies to Soft or Muddy calls, where a trail still wet days after rain is a slow-drying bet.
+
+**Calibration:** `GET /api/admin/calibration` (and `pnpm prod:calibration <url>`) shows, per band, how many rider reports said the call was right over the last 30 days. Reports are kept 30 days for this and for §6.4 tuning; they still stop counting toward confidence after 48 h (§6.3). Tune these numbers only once each band has dozens of reports.
 
 All numbers are starting values. Keep them in one config file.
 
