@@ -9,9 +9,10 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { TrailScore } from "../api";
 import { trailhead, type Bounds, type LatLon, type MapView } from "../geo";
-import { today } from "../helpers";
+import { levelColor, today } from "../helpers";
 import { POPUP_WIDTH, popupPlacement, type PopupPlacement } from "../mapPopup";
-import { addBaseLayer, levelIcon, pinLabel } from "./mapTiles";
+import type { MapStyle } from "../mapStyle";
+import { addBaseLayer, levelIcon, pinLabel, swapBaseLayer } from "./mapTiles";
 
 export type CameraMove =
   | { kind: "bounds"; bounds: Bounds; maxZoom: number }
@@ -39,10 +40,16 @@ export interface ExploreMapProps {
   onViewChange: (bounds: Bounds, view: MapView) => void;
   /** Desktop: the preview card, floated over the selected pin. */
   popup?: ReactNode;
+  /** Base map: Google-style street map or USGS topo. */
+  mapStyle: MapStyle;
 }
 
-/** Below this zoom pins are small dots without letters. */
+/** Below this zoom pins are small dots without letters, and trail lines
+ *  are hidden (hundreds of them would bury the map). */
 const FAR_ZOOM = 11;
+
+const LINE_WEIGHT = 3;
+const LINE_WEIGHT_ACTIVE = 6;
 
 const toLatLngBounds = (b: Bounds) => L.latLngBounds([b.south, b.west], [b.north, b.east]);
 
@@ -63,13 +70,34 @@ export default function ExploreMap(props: ExploreMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef(new Map<string, L.Marker>());
   const originRef = useRef<L.CircleMarker | null>(null);
+  const baseRef = useRef<L.TileLayer | null>(null);
+  const linesRef = useRef(new Map<string, L.Polyline>());
+  const rendererRef = useRef<L.Canvas | null>(null);
+  /** Where the open preview points: its pin, or the spot a line was tapped. */
+  const anchorRef = useRef<{ id: string; at: L.LatLng } | null>(null);
+  const [zoom, setZoom] = useState(0);
+  const [lineData, setLineData] = useState<((id: string) => LatLon[][]) | null>(null);
   const latest = useRef(props);
   latest.current = props;
+
+  // Trail lines load after the map so pins and tiles never wait for them.
+  useEffect(() => {
+    let cancelled = false;
+    import("../trailLines").then(
+      (m) => {
+        if (!cancelled) setLineData(() => m.trailLines);
+      },
+      () => {},
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Create the map once.
   useEffect(() => {
     const map = L.map(elRef.current!, { zoomControl: true, worldCopyJump: false });
-    addBaseLayer(map);
+    baseRef.current = addBaseLayer(map, latest.current.mapStyle);
     map.zoomControl.setPosition("bottomright");
     const report = () => {
       const b = map.getBounds();
@@ -83,8 +111,10 @@ export default function ExploreMap(props: ExploreMapProps) {
     // Marker clicks don't bubble to the map, so this is a click on the map.
     map.on("click", () => latest.current.onMapClick());
     // Far out, 188 lettered pins pile up; show small dots until zoom 11.
-    const markZoom = () =>
+    const markZoom = () => {
       elRef.current?.classList.toggle("is-far", map.getZoom() < FAR_ZOOM);
+      setZoom(map.getZoom());
+    };
     map.on("zoomend", markZoom);
     applyCamera(map, latest.current.initial, latest.current.insets);
     mapRef.current = map;
@@ -98,8 +128,16 @@ export default function ExploreMap(props: ExploreMapProps) {
       map.remove();
       mapRef.current = null;
       markersRef.current.clear();
+      linesRef.current.clear();
+      rendererRef.current = null;
     };
   }, []);
+
+  // Simple / Topo base map.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (map && baseRef.current) baseRef.current = swapBaseLayer(map, baseRef.current, props.mapStyle);
+  }, [props.mapStyle]);
 
   // One marker per trail with pins.
   useEffect(() => {
@@ -116,7 +154,10 @@ export default function ExploreMap(props: ExploreMapProps) {
       let marker = markers.get(trail.id);
       if (!marker) {
         marker = L.marker([head.lat, head.lon], { keyboard: true, title: label, alt: label });
-        marker.on("click", () => latest.current.onSelect(trail.id));
+        marker.on("click", () => {
+          anchorRef.current = null; // anchor on the pin itself
+          latest.current.onSelect(trail.id);
+        });
         marker.addTo(map);
         markers.set(trail.id, marker);
       } else {
@@ -152,6 +193,50 @@ export default function ExploreMap(props: ExploreMapProps) {
     }
   }, [props.visibleIds, props.selectedId, props.hoveredId, props.trails]);
 
+  // One canvas-drawn line set per trail (canvas: hundreds of lines stay fast),
+  // colored by today's level. Tapping a line opens the same preview as its pin.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !lineData) return;
+    rendererRef.current ??= L.canvas({ padding: 0.5, tolerance: 8 });
+    const renderer = rendererRef.current;
+    const lines = linesRef.current;
+    for (const trail of props.trails) {
+      const coords = lineData(trail.id);
+      if (coords.length === 0) continue;
+      const color = levelColor(today(trail)?.level ?? "dry");
+      let line = lines.get(trail.id);
+      if (!line) {
+        line = L.polyline(
+          coords.map((l) => l.map((p) => [p.lat, p.lon] as [number, number])),
+          { renderer, color, weight: LINE_WEIGHT, opacity: 0.9, bubblingMouseEvents: false },
+        );
+        line.on("click", (e: L.LeafletMouseEvent) => {
+          anchorRef.current = { id: trail.id, at: e.latlng };
+          latest.current.onSelect(trail.id);
+        });
+        lines.set(trail.id, line);
+      } else {
+        line.setStyle({ color });
+      }
+    }
+  }, [lineData, props.trails]);
+
+  // Lines follow the pins (search, Rideable now) and hide when zoomed far out.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const near = zoom >= FAR_ZOOM;
+    for (const [id, line] of linesRef.current) {
+      const show = near && props.visibleIds.has(id);
+      if (show && !map.hasLayer(line)) line.addTo(map);
+      if (!show && map.hasLayer(line)) line.remove();
+      const active = id === props.selectedId || id === props.hoveredId;
+      line.setStyle({ weight: active ? LINE_WEIGHT_ACTIVE : LINE_WEIGHT });
+      if (active && show) line.bringToFront();
+    }
+  }, [zoom, lineData, props.visibleIds, props.selectedId, props.hoveredId, props.trails]);
+
   // Keep the desktop preview over its pin while the map pans and zooms.
   const [placement, setPlacement] = useState<PopupPlacement | null>(null);
   const hasPopup = props.popup != null;
@@ -163,9 +248,10 @@ export default function ExploreMap(props: ExploreMapProps) {
       return;
     }
     const update = () => {
-      const marker = markersRef.current.get(id);
-      if (!marker) return setPlacement(null);
-      const pin = map.latLngToContainerPoint(marker.getLatLng());
+      const anchor = anchorRef.current?.id === id ? anchorRef.current.at : null;
+      const at = anchor ?? markersRef.current.get(id)?.getLatLng();
+      if (!at) return setPlacement(null);
+      const pin = map.latLngToContainerPoint(at);
       const size = map.getSize();
       setPlacement(popupPlacement(pin, { width: size.x, height: size.y }));
     };

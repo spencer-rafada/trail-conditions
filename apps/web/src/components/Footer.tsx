@@ -13,7 +13,7 @@ export function Footer() {
         the <a href="https://mesonet.agron.iastate.edu/">Iowa Environmental Mesonet</a> ·
         Soil by USDA NRCS · ©{" "}
         <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ·
-        Map by{" "}
+        Maps by <a href="https://carto.com/attributions">CARTO</a> and{" "}
         <a href="https://www.usgs.gov/programs/national-geospatial-program/national-map">
           USGS The National Map
         </a>
