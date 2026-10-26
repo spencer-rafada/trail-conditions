@@ -36,6 +36,7 @@ import {
   type MapView,
 } from "../geo";
 import { TABS, isRideable, tabForCounty, type Tab } from "../helpers";
+import { readMapStyle, saveMapStyle, type MapStyle } from "../mapStyle";
 import { navigate } from "../router";
 import { memberMatch, type TrailNames } from "../search";
 import { useMediaQuery } from "../useMediaQuery";
@@ -132,6 +133,11 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
   const [geoError, setGeoError] = useState<string | null>(null);
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [mapStyle, setMapStyle] = useState<MapStyle>(readMapStyle);
+  const changeMapStyle = (style: MapStyle) => {
+    saveMapStyle(style);
+    setMapStyle(style);
+  };
   const [snap, setSnapState] = useState<Snap>(savedSnap);
   const [sheetPx, setSheetPx] = useState(0);
   const [camera, setCamera] = useState<CameraRequest | null>(null);
@@ -428,6 +434,9 @@ function Explore({ snapshot, search }: { snapshot: Snapshot; search: string }) {
             onSelect={openPreview}
             onMapClick={closePreview}
             popup={isDesktop ? preview : undefined}
+            mapStyle={mapStyle}
+            onMapStyleChange={changeMapStyle}
+            layout={isDesktop ? "desktop" : "phone"}
             onViewChange={(b, view) => {
               setBounds(b);
               viewRef.current = view;

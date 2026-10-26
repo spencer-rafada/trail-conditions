@@ -12,7 +12,7 @@ The full build plan lives in [docs/projects/trail-conditions/spec.md](docs/proje
 apps/web          React + TS (Vite); built into the Worker's static assets
 apps/worker       Cloudflare Worker: /api/* + cron, D1 migrations
 packages/model    Pure model + confidence functions (shared)
-scripts           discover-trails.ts, enrich-trails.ts, trail-names.ts, backtest.ts
+scripts           discover-trails.ts, enrich-trails.ts, trail-names.ts, trail-lines.ts, backtest.ts
 data              trails.json, trail-candidates.csv
 fixtures          Saved API responses for the backtest
 ```
@@ -29,6 +29,7 @@ pnpm --filter @trail-conditions/web dev      # web dev server
 pnpm --filter @trail-conditions/worker dev   # wrangler dev
 pnpm discover-trails   # hand-run only (Overpass + Open-Meteo): writes data/trail-candidates.csv
 pnpm trail-names       # hand-run only (Overpass): writes data/trail-names.json (member trail names for search)
+pnpm trail-lines       # hand-run only (Overpass): writes data/trail-lines.json (trail lines drawn on the maps)
 
 # local D1 (wrangler commands run inside apps/worker; never pass --remote)
 pnpm tsx scripts/seed-d1.ts                  # writes apps/worker/.wrangler/seed.sql from data/trails.json
@@ -107,6 +108,15 @@ One-time setup:
    instead of over the next 3 hours.
 
 Every later release: `pnpm prod:deploy`.
+
+Optional, in `apps/web/.env.production` (both are public values, so commit them):
+
+- `VITE_CARTO_KEY`: a free key from https://carto.com/basemaps/apikey makes the default
+  "simple" map CARTO Voyager (Google-style). Without it, the simple map uses
+  OpenStreetMap's own tiles.
+- `VITE_CF_ANALYTICS_TOKEN`: from Cloudflare dashboard → Web Analytics → Add a site
+  (your `*.workers.dev` hostname). Turns on free, cookieless visit counts. Without
+  it, no analytics script loads.
 
 ## Data credits
 
