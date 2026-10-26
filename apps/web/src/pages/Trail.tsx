@@ -162,7 +162,7 @@ function Detail({ detail, onReport }: { detail: TrailDetail; onReport: () => voi
         <section>
           <h2>Where</h2>
           <Suspense fallback={<div className="trail-map map-loading">Loading map…</div>}>
-            <TrailMap points={detail.points} level={day?.level ?? null} />
+            <TrailMap trailId={detail.id} points={detail.points} level={day?.level ?? null} />
           </Suspense>
           <a
             className="directions-btn"
