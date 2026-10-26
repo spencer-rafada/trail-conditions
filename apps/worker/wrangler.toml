@@ -19,7 +19,7 @@ run_worker_first = ["/api/*"]
 [[d1_databases]]
 binding = "DB"
 database_name = "trail-conditions"
-database_id = "00000000-0000-0000-0000-000000000000" # local-only placeholder
+database_id = "fc0e387c-8d9f-4dff-bea1-44fe01577d45" # production D1 database (not a secret)
 
 [triggers]
 # Both strings must match SCORE_CRON / TUNE_CRON in src/crons.ts; the
